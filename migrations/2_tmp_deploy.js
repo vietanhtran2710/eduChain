@@ -1,5 +1,6 @@
 var Reward = artifacts.require("LearningReward");
 var ContestFactory = artifacts.require("ContestFactory");
+var Certificate = artifacts.require("Certificate");
 
 module.exports = async function (deployer) {
   deployer.deploy(Reward)
@@ -9,5 +10,9 @@ module.exports = async function (deployer) {
   .then(async function() {
     rewardContractInstance = await Reward.deployed();
     rewardContractInstance.setContract(ContestFactory.address);
+    return deployer.deploy(Certificate, "Certificate", "CERT");
+  })
+  .then(() => {
+    console.log("Contracts deployed sucessfully");
   })
 };
