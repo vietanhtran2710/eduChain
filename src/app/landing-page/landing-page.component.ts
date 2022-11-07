@@ -20,7 +20,27 @@ export class LandingPageComponent implements OnInit {
   constructor(private fb: FormBuilder,
               private userService: UserService,
               private authService: AuthService,
-              private router: Router) {
+              private router: Router) 
+  {
+    if (Object.keys(this.authService.currentUserValue).length !== 0) {
+      let that = this;
+      this.authService.verifyToken().subscribe({
+        next: (data: any) => {
+          if (data.role != "ADMIN") {
+            this.router.navigate([`/home`])
+          }
+          else {
+            this.router.navigate([`/admin`])
+          }
+        },
+        error: (err) => {
+
+        },
+        complete: () => {
+
+        }
+      })
+    }
     this.registerModel = this.fb.group({
       walletAddress: '',
       role: '',
@@ -84,8 +104,13 @@ export class LandingPageComponent implements OnInit {
           this.handleSignMessage({publicAddress: coinbase, nonce: (result as any).nonce})
           .then((data) => {
             that.authService.authenticate(data).subscribe({
-              next: (result) => {
-                this.router.navigate([`/home`])
+              next: (result: any) => {
+                if (result.role != "ADMIN") {
+                  this.router.navigate([`/home`])
+                }
+                else {
+                  this.router.navigate([`/admin`])
+                }
               },
               error: (err) => {
                 Swal.fire({

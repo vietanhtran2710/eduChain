@@ -17,6 +17,10 @@ export class AuthService {
     this.currentAccountSubject = new BehaviorSubject<Account>(JSON.parse(localStorage.getItem('currentAccount') || '{}'));
   }
 
+  public get currentUserValue(): Account {
+    return this.currentAccountSubject.value;
+  }
+
   authenticate(data: any) {
     return this.http.post(`${baseUrl}/login`, data).pipe(map(user => {
       // login successful if there's a jwt token in the response
