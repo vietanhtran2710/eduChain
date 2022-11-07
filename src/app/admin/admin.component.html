@@ -1,1 +1,104 @@
-<p>admin works!</p>
+<!-- <link href="//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.no-icons.min.css" rel="stylesheet"> -->
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+<div *ngIf="loaded" class="container-fluid">
+    <div class="row bg-title">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <h4 class="page-title">Admin Dashboard: 0x7AD4114ad3c2eBa605fADb704742D627c0b9B770</h4>
+        </div>
+        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+            <a (click)="logOut()" href="javascript:void(0);" class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Log out</a>
+        </div>
+    </div>
+
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-4 col-sm-6 ">
+            <div class="white-box">
+                <h3 class="box-title">ETH Balance</h3>
+                <ul class="list-inline two-part">
+                    <li><i class="icon-user text-info"></i></li>
+                    <li class="text-right"><span class="counter text-info" id="totalUsers">{{balances}} ETH</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 ">
+            <div class="white-box">
+                <h3 class="box-title">Users</h3>
+                <ul class="list-inline two-part">
+                    <li><i class="fa fa-briefcase text-purple"></i></li>
+                    <li class="text-right "><span class="counter text-purple">{{numberOfUsers}} USERS</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 ">
+            <div class="white-box">
+                <h3 class="box-title">Unverified Users</h3>
+                <ul class="list-inline two-part">
+                    <li><i class="fa icon-dropbox text-success"></i></li>
+                    <li class="text-right"><span class="counter text-success" id="totalBatch">{{unverifiedUser.length}} USERS</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>  
+
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <div class="white-box">
+                <h3 class="box-title">Unverified Users</h3> 
+                <div class="table-responsive">
+                    <table class="table product-overview" id="adminCultivationTable">
+                        <thead>
+                            <tr>
+                                <th>Address</th>
+                                <th>Role</th>
+                                <th>Full Name</th>
+                                <th>Work Location</th>
+                                <th>Email</th>
+                                <th>Date of Birth</th>
+                                <th class="text-center">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr *ngFor="let user of unverifiedUser">
+                                    <td>{{user.address}}</td>
+                                    <td>
+                                        <span *ngIf="user.role == 'SPONSOR'" class="white label label-info font-weight-100">SPONSOR</span>
+                                        <span *ngIf="user.role == 'TEACHER'" class="white label label-success font-weight-100">TEACHER</span>
+                                        <span *ngIf="user.role == 'PARENT'" class="white label label-warning font-weight-100">PARENT</span>
+                                        <span *ngIf="user.role == 'STUDENT'" class="white label label-primary font-weight-100">STUDENT</span>
+                                    </td>
+                                    <td>{{user.fullName}}</td>
+                                    <td>{{user.workLocation}}</td>
+                                    <td>{{user.email}}</td>
+                                    <td>{{formatDate(user.dateOfBirth)}}</td>
+                                    <td class="text-center">
+                                        <a (click)="verify(user)" href="javascript:void(0);" class="btn btn-info btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Verify
+                                        </a>
+                                    </td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="row">
+        <div class="col-lg-6 col-sm-6 col-xs-12">
+            <div class="white-box">
+                <h3 class="box-title">Contest Factory Address <i class="fa fa-qrcode fa-2x text-danger"></i></h3>
+                <ul class="list-inline two-part">
+                    <li class="text-right" id="storageContractAddress">{{contestAddress}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-xs-12">
+            <div class="white-box">
+                <h3 class="box-title">Reward Address <i class="fa fa-qrcode fa-2x text-info"></i></h3>
+                <ul class="list-inline two-part">
+                    <li class="text-right" id="coffeeSupplychainContractAddress">{{rewardAddress}}</li>
+                </ul>
+            </div>
+        </div>
+    </div> -->
+</div>

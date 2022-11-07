@@ -10,19 +10,20 @@ module.exports = app => {
     // Retrieve user nonce
     router.get("/nonce/:address", user.getNonce)
 
-    //Sign in
+    // Sign in
     router.post("/login", auth.signIn)
 
-    //Verify and refresh token
+    // Verify and refresh token
     router.get("/token", auth.verify)
+
+    // Get all unverified users
+    router.get("/unverified", user.getUnverified)
   
     // // // Retrieve all users
     // // router.get("/", user.findAll);
 
     // // // Retrieve a single user
     // // router.get("/address/:address", user.findOne)
-
-    
 
     // // // Edit an user with address
     // // router.put("/:address", user.edit)

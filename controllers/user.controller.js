@@ -36,13 +36,15 @@ exports.create = async (req, res) => {
         if (user.role == "TEACHER" || user.role == "SPONSOR") {
             user.verified = false;
             await User.create(user);
-            res.status(201).send({ message: 'Signup successfully' })
+            res.status(201).send({ message: 'Signup successfully' });
+            return;
         }
         else {
             blockchain.grantStudentRole(user.address)
             .then(async (result) => {
                 await User.create(user);
                 res.status(201).send({ message: 'Signup successfully' })
+                return;
             })
             .catch(err => {
 
@@ -71,6 +73,22 @@ exports.getNonce = (req, res) => {
 				message: "Error retrieving account with address=" + address + ", " + err
 			});
 		});
+};
+
+// Retrieve all unverified users
+exports.getUnverified = (req, res) => {
+	User.findAll({ 
+        where: { verified: false },
+        attributes: ['address', 'fullName', 'email', 'workLocation', 'dateOfBirth', 'role']
+    })
+    .then(data => {
+        res.send(data);
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving accounts."
+        });
+    });
 };
 
 // // Retrieve all users

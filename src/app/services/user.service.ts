@@ -17,4 +17,8 @@ export class UserService {
   getNonce(address: string) {
     return this.http.get(`${baseUrl}/nonce/${address}`)
   }
+
+  getUnverifiedUser() {
+    return this.http.get(`${baseUrl}/unverified/`)
+  }
 }
