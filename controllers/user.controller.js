@@ -32,6 +32,7 @@ exports.create = async (req, res) => {
             dateOfBirth: userData.dateOfBirth,
             verified: true
         }
+        console.log(user);
         if (user.role == "TEACHER" || user.role == "SPONSOR") {
             user.verified = false;
             await User.create(user);
@@ -44,14 +45,13 @@ exports.create = async (req, res) => {
                 res.status(201).send({ message: 'Signup successfully' })
             })
             .catch(err => {
-                res.status(500).send({
-                    error: "Some error occurred while creating the account." + err
-                });
+                
             })
         }
         await User.create(user);
         res.status(201).send({ message: 'Signup successfully' })
     } catch (err) {
+        console.log(err);
         res.status(500).send({
             error: "Some error occurred while creating the account." + err
         });

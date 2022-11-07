@@ -3,7 +3,7 @@
         EduChain
     </a>
     <ul class="nav navbar-nav ml-auto">
-        <a class="nav-link">Register</a>
+        <a class="nav-link" data-bs-toggle="modal" data-bs-target="#registerModal">Register</a>
         <a class="nav-link">Sign In</a>
     </ul>
 </nav>
@@ -14,10 +14,53 @@
             <h1>EDUCHAIN</h1>
             <p>The latest breakthrough in education platform to jumpstart your academic career!</p>
             <button type="button" class="btn btn-primary btn-lg">GET STARTED</button>
-            <button type="button" class="btn btn-secondary btn-lg">REGISTER</button>
+            <button type="button" class="btn btn-secondary btn-lg"
+            data-bs-toggle="modal" data-bs-target="#registerModal">REGISTER</button>
         </div>
         <div class="col-7">
             <img src="../../assets/hero-media-light.jpg">
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" 
+    aria-labelledby="registerModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title" id="extendModalLabel">
+					Register account
+				</h1>
+			</div>
+			<div class="modal-body">
+				<form [formGroup]="registerModel" (ngSubmit)="register()" id="register">
+					<div class="form-group">
+						<label for="walletAddress">Metamask Address</label>
+						<input class="form-control" type="text" class="form-control" name="walletAddress" id="walletAddress" formControlName="walletAddress">
+                        <label for="role">Role (Account Type)</label>
+                        <select class="form-control" name="role" formControlName="role">
+                            <option>STUDENT</option>
+                            <option>PARENT</option>
+                            <option>TEACHER</option>
+                            <option>SPONSOR</option>
+                        </select>
+                        <label for="fullName">Full Name</label>
+						<input class="form-control" type="text" class="form-control" name="fullName" id="fullName" formControlName="fullName">
+                        <label for="email">Email</label>
+						<input class="form-control" type="text" class="form-control" name="email" id="email" formControlName="email">
+                        <label for="workLocation">School or Company</label>
+						<input class="form-control" type="text" class="form-control" name="workLocation" id="workLocation" formControlName="workLocation">
+                        <label for="dateOfBirth">Date Of Birth</label>
+						<input class="form-control" type="date" class="form-control" name="dateOfBirth" id="dateOfBirth" formControlName="dateOfBirth">
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary" form="register" data-dismiss="modal">
+                    Confirm
+                </button>
+			</div>
+		</div>
+	</div>
 </div>
