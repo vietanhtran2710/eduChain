@@ -26,7 +26,7 @@ export class BlockchainService {
   }
 
   async getEthBalance(address: string) {
-    await this.initWeb3();
+    if (!this.initialized) await this.initWeb3();
     const that = this;
     return new Promise((resolve, reject) => {
       that.web3.eth.getBalance(address)
