@@ -21,7 +21,7 @@ exports.signIn = async (req, res) => {
                 });
                 console.log(address);
                 if (address.toLowerCase() === result.address.toLowerCase()) {
-                    let token = jwt.sign({ address: result.address }, authConfig.secret, {
+                    let token = jwt.sign({ address: result.address, role: result.role }, authConfig.secret, {
                         expiresIn: "1d"
                     });
 
@@ -33,6 +33,7 @@ exports.signIn = async (req, res) => {
 
                     res.status(202).send({
                         address: result.address,
+                        role: result.role,
                         token
                     })
                 } else {
@@ -56,13 +57,13 @@ exports.verify = async (req, res) => {
         let token = req.header('Authorization').replace('Bearer ', '')
         const decoded = jwt.verify(token, authConfig.secret)
         let user = await User.findByPk(decoded.address)
-        console.log(user);
         if (user && user.verified) {
-            let token = jwt.sign({ address: decoded.address }, authConfig.secret, {
+            let token = jwt.sign({ address: decoded.address, role: user.role }, authConfig.secret, {
                 expiresIn: "1d"
             })
             res.status(202).send({
                 address: decoded.address,
+                role: user.role,
                 token
             })
         }
