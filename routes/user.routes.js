@@ -18,6 +18,9 @@ module.exports = app => {
 
     // Get all unverified users
     router.get("/unverified", user.getUnverified)
+
+    // Count users
+    router.get("/count", user.count)
   
     // // // Retrieve all users
     // // router.get("/", user.findAll);

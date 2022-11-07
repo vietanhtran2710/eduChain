@@ -91,6 +91,20 @@ exports.getUnverified = (req, res) => {
     });
 };
 
+exports.count = (req, res) => {
+    User.count()
+    .then(data => {
+        console.log(data);
+        res.status(200).send({count: data});
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).send({
+            message: err
+        })
+    })
+}
+
 // // Retrieve all users
 // exports.findAll = (req, res) => {
 // 	condition = req.query

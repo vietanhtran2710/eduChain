@@ -43,6 +43,17 @@ export class AdminComponent implements OnInit {
           })
           .catch((err) => {
 
+          });
+          this.userService.countUser().subscribe({
+            next: (result: any) => {
+              this.numberOfUsers = result.count;
+            },
+            error: (err) => {
+
+            },
+            complete: () => {
+
+            }
           })
           this.contestAddress = this.blockchainService.getContestFactoryAddress();
           this.rewardAddress = this.blockchainService.getRewardAddress();
