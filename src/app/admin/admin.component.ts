@@ -3,6 +3,7 @@ import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { BlockchainService } from '../services/blockchain.service';
 import { RewardService } from '../services/reward.service';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -23,7 +24,8 @@ export class AdminComponent implements OnInit {
   constructor(private userService: UserService,
               private authService: AuthService,
               private blockchainService: BlockchainService,
-              private rewardService: RewardService
+              private rewardService: RewardService,
+              private router: Router
   ) { 
     if (Object.keys(this.authService.currentUserValue).length !== 0) {
       this.authService.verifyToken().subscribe({
@@ -68,6 +70,9 @@ export class AdminComponent implements OnInit {
 
         }
       })
+    }
+    else {
+      this.router.navigate([``])
     }
     
   }
