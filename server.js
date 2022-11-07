@@ -17,16 +17,16 @@ app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// const db = require("./models");
-// db.sequelize.sync().then(() => {
-//   console.log("Drop and re-sync db.");
-// });
+const db = require("./models");
+db.sequelize.sync().then(() => {
+  console.log("Drop and re-sync db.");
+});
 
 app.get("/", (req, res) => {
     res.json({ message: "Server is running" });
 });
 
-// require("./routes/user.routes")(app);
+require("./routes/user.routes")(app);
 // require("./routes/book.routes")(app);
 // require("./routes/token.routes")(app);
 
