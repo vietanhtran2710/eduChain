@@ -21,6 +21,9 @@ module.exports = app => {
 
     // Count users
     router.get("/count", user.count)
+
+    // Verify user
+    router.put("/verify/:address", user.verifyUser)
   
     // // // Retrieve all users
     // // router.get("/", user.findAll);

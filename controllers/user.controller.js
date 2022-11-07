@@ -105,6 +105,31 @@ exports.count = (req, res) => {
     })
 }
 
+exports.verifyUser = (req, res) => {
+    const address = req.params.address;
+	User.update({
+        verified: true
+    }, {
+		where: { address }
+	})
+    .then(num => {
+        if (num == 1) {
+            res.status(200).send({
+                message: "Account was verified successfully."
+            });
+        } else {
+            res.status(400).send({
+                message: `Cannot verify account with address=${address}. Maybe account was not found`
+            });
+        }
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: `Error verifing account with address=${address}, ${err}`
+        });
+    });
+}
+
 // // Retrieve all users
 // exports.findAll = (req, res) => {
 // 	condition = req.query

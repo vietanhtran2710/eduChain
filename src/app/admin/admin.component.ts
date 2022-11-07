@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { UserService } from '../services/user.service';
 import { AuthService } from '../services/auth.service';
 import { BlockchainService } from '../services/blockchain.service';
+import { RewardService } from '../services/reward.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-admin',
@@ -20,7 +22,8 @@ export class AdminComponent implements OnInit {
 
   constructor(private userService: UserService,
               private authService: AuthService,
-              private blockchainService: BlockchainService
+              private blockchainService: BlockchainService,
+              private rewardService: RewardService
   ) { 
     if (Object.keys(this.authService.currentUserValue).length !== 0) {
       this.authService.verifyToken().subscribe({
@@ -78,7 +81,41 @@ export class AdminComponent implements OnInit {
   }
 
   verify(user: any) {
+    Swal.fire({
+      title: 'Are you sure to verify this user?',
+      text: `${user.fullName} at ${user.workLocation}`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.rewardService.grantRole(user.address, user.role, this.currentAccount)
+        .then(result => {
+          this.userService.verifyUser(user.address).subscribe({
+            next: (result) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'Account verified successfully',
+                text: `${user.fullName} at ${user.workLocation}`
+              })
+              .then(result => {
+                window.location.reload();
+              })
+            },
+            error: (err) => {
 
+            },
+            complete: () => {
+
+            }
+          })
+        })
+        .catch(err => {
+
+        })
+      }
+    })
   }
 
   formatDate(date: any) {

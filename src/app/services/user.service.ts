@@ -21,4 +21,12 @@ export class UserService {
   getUnverifiedUser() {
     return this.http.get(`${baseUrl}/unverified/`)
   }
+
+  countUser() {
+    return this.http.get(`${baseUrl}/count`)
+  }
+
+  verifyUser(address: string) {
+    return this.http.put(`${baseUrl}/verify/${address}`, {})
+  }
 }
