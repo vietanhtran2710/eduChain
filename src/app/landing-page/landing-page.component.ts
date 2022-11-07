@@ -23,7 +23,6 @@ export class LandingPageComponent implements OnInit {
               private router: Router) 
   {
     if (Object.keys(this.authService.currentUserValue).length !== 0) {
-      let that = this;
       this.authService.verifyToken().subscribe({
         next: (data: any) => {
           if (data.role != "ADMIN") {
