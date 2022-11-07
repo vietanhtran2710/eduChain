@@ -29,7 +29,6 @@ export class LandingPageComponent implements OnInit {
   }
 
   register() {
-    // if (!userData.address || !userData.role || !userData.fullName || !userData.email || !userData.workLocation || !userData.dateOfBirth) {
     console.log(this.registerModel);
     let registerInfo = {
       address: this.registerModel.get('walletAddress')?.value,
