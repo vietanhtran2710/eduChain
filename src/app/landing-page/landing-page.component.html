@@ -4,7 +4,7 @@
     </a>
     <ul class="nav navbar-nav ml-auto">
         <a class="nav-link" data-bs-toggle="modal" data-bs-target="#registerModal">Register</a>
-        <a class="nav-link">Sign In</a>
+        <a class="nav-link" (click)="login()">Sign In</a>
     </ul>
 </nav>
 
@@ -13,7 +13,7 @@
         <div class="col-5 my-auto">
             <h1>EDUCHAIN</h1>
             <p>The latest breakthrough in education platform to jumpstart your academic career!</p>
-            <button type="button" class="btn btn-primary btn-lg">GET STARTED</button>
+            <button type="button" class="btn btn-primary btn-lg" (click)="login()">GET STARTED</button>
             <button type="button" class="btn btn-secondary btn-lg"
             data-bs-toggle="modal" data-bs-target="#registerModal">REGISTER</button>
         </div>

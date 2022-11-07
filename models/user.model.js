@@ -7,6 +7,11 @@ module.exports = (sequelize, DataTypes) => {
         role: {
             type: DataTypes.STRING(20)
         },
+        nonce: {
+            allowNull: false,
+            type: DataTypes.INTEGER.UNSIGNED,
+            defaultValue: () => Math.floor(Math.random() * 1000000)
+        },
         fullName: {
             type: DataTypes.STRING(40)
         },

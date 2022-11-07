@@ -45,7 +45,7 @@ exports.create = async (req, res) => {
                 res.status(201).send({ message: 'Signup successfully' })
             })
             .catch(err => {
-                
+
             })
         }
         await User.create(user);
@@ -57,6 +57,21 @@ exports.create = async (req, res) => {
         });
     }
 }
+
+// Retrieve single user with address
+exports.getNonce = (req, res) => {
+	const address = req.params.address;
+
+	User.findByPk(address, {attributes: ['nonce']})
+		.then(data => {
+			res.status(200).send(data);
+		})
+		.catch(err => {
+			res.status(500).send({
+				message: "Error retrieving account with address=" + address + ", " + err
+			});
+		});
+};
 
 // // Retrieve all users
 // exports.findAll = (req, res) => {
