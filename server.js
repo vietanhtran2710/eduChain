@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
 require("./routes/user.routes")(app);
 require("./routes/course.routes")(app);
 require("./routes/quiz.routes")(app);
-// require("./routes/token.routes")(app);
+require("./routes/enrollment.routes")(app);
 
 const PORT = 8080;
 app.listen(PORT, () => {
