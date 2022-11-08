@@ -18,6 +18,7 @@ export class CourseComponent implements OnInit {
   courseInfo: any;
   courseImage: any;
   weeks: Array<any> = [];
+  courseStudents: Array<any> = [];
   testModel: FormGroup;
   answer: string = "";
   questions: Array<string> = [];
@@ -67,6 +68,11 @@ export class CourseComponent implements OnInit {
       title: '',
       week: '',
       description: ''
+    })
+    this.enrollmentService.getCourseStudents(this.courseId).subscribe({
+      next: (result: any) => {
+        this.courseStudents = result.student;
+      }
     })
     this.courseService.getOneCourse(this.courseId).subscribe({
       next: (data: any) => {
@@ -132,6 +138,11 @@ export class CourseComponent implements OnInit {
 
   navigateToExercise() {
 
+  }
+
+  formatDate(date: string) {
+    let d = date.split('T')[0].split('-')
+    return d[2] + "-" + d[1] + "-" + d[0]
   }
 
   enroll() {

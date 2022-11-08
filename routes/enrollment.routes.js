@@ -5,7 +5,7 @@ module.exports = app => {
   
     var router = require("express").Router();
   
-    // Create a new User
+    // Enroll
     router.post("/", authJwt.verifyToken, enrollment.enroll);
 
     // Get enrolled course
@@ -17,8 +17,8 @@ module.exports = app => {
     // Check enrollment status
     router.get("/status/:address&:id", enrollment.checkStatus);
 
-    // // Get one course
-    // router.get("/one/:id", course.getOneCourse);
+    // Get course students
+    router.get("/student/:courseID", enrollment.getCourseStudents);
   
     app.use('/api/enrollment', router);
   };

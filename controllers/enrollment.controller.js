@@ -40,20 +40,6 @@ exports.enroll = async (req, res) => {
 // Retrieve enrolled courses
 exports.getEnrolledCourse = (req, res) => {
 	const address = req.params.address;
-
-	// Enrollment.findAll({
-    //     where: { userAddress: address },
-    //     include: Course
-    // })
-    // .then(data => {
-    //     res.status(200).send(data);
-    // })
-    // .catch(err => {
-    //     console.log(err);
-    //     res.status(500).send({
-    //         message: "Error retrieving courses: " + err
-    //     });
-    // });
     User.findByPk(address,{ include: Course })
     .then(data => {
         res.status(200).send(data);
@@ -108,3 +94,14 @@ exports.checkStatus = async (req, res) => {
         res.status(500).send({error: err});
     })
 };
+
+exports.getCourseStudents = (req, res) => {
+    Course.findByPk(req.params.courseID, { include: [{model: User, as: "student"}] })
+    .then((data) => {
+        res.status(200).send(data);
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(500).send({ error: err});
+    })
+}

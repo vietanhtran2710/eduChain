@@ -25,4 +25,8 @@ export class EnrollmentService {
   getUserEnrollmentStatus(address: string, courseID: string) {
     return this.http.get(`${baseUrl}/status/${address}&${courseID}`)
   }
+
+  getCourseStudents(courseID: string) {
+    return this.http.get(`${baseUrl}/student/${courseID}`)
+  }
 }

@@ -35,8 +35,8 @@ quizes.hasMany(questions)
 // tests.hasMany(questions)
 
 
-users.belongsToMany(courses, { through: enrollments})
-courses.belongsToMany(users, { through: enrollments})
+users.belongsToMany(courses, { through: enrollments, as: "enroll"})
+courses.belongsToMany(users, { through: enrollments, as: "student"})
 
 // users.belongsToMany(tests, { through: contestRegistrations})
 // tests.belongsToMany(users, { through: contestRegistrations})
