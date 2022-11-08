@@ -101,6 +101,7 @@
   }
   button {
     text-transform: none;
+    margin-right: 20px;
   }
   [type="submit"],
   button {

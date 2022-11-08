@@ -2,9 +2,7 @@
 <app-main-nav></app-main-nav>
 <div style="height: auto;">
     <div class="wrapper">
-      <!-- Content Wrapper. Contains page content -->
       <div class="content-wrapper" style="min-height: 1416px;">
-        <!-- Content Header (Page header) -->
         <section class="content-header">
           <div class="container-fluid">
             <div class="row mb-2">
@@ -12,16 +10,14 @@
                 <h1>Course: {{courseInfo?.name}}</h1>
               </div>
             </div>
-          </div><!-- /.container-fluid -->
+          </div>
         </section>
   
-        <!-- Main content -->
         <section class="content">
           <div class="container-fluid">
             <div class="row">
               <div class="col-md-3">
   
-                <!-- Profile Image -->
                 <div class="card card-primary card-outline">
                   <div class="card-body box-profile">
                     <div class="text-center">
@@ -38,11 +34,22 @@
                         <b>Teacher: </b> <a class="float-right">{{courseInfo?.user?.fullName}}</a>
                       </li>
                       <li class="list-group-item">
+                        <b>Enroll fee: </b> <a class="float-right">{{courseInfo?.fee}}</a>
+                      </li>
+                      <li class="list-group-item">
+                        <b>Reward: </b> <a class="float-right">{{courseInfo?.reward}}</a>
+                      </li>
+                      <li class="list-group-item">
+                        <b>Required grade to pass: </b> <a class="float-right">{{courseInfo?.requiredAverageGrade}}</a>
+                      </li>
+                      <li class="list-group-item">
                         <b>Created date: </b> <a class="float-right">{{courseInfo?.createdAt}}</a>
                       </li>
                     </ul>
   
-                    <a href="#" class="btn btn-primary btn-block"><b>Enroll</b></a>
+                    <button class="btn btn-primary btn-block"><b>Upload material</b></button>
+                    <button class="btn btn-primary btn-block"
+                    data-bs-toggle="modal" data-bs-target="#testModal"><b>Create test</b></button>
                   </div>
                   <!-- /.card-body -->
                 </div>
@@ -77,31 +84,9 @@
                   <div class="card-body">
                     <div class="tab-content">
                       <div class="active tab-pane" id="activity">
-                        <!-- Post -->
-                        <div class="post">
-                          <div  class="user-block">
-                            <span class="weeknum">
-                              <a href="javascript:void(0);" (click)="navigateToExercise()">Title</a>
-                              <a href="#" class="float-right btn-tool"><i class="fas fa-times"></i></a>
-                            </span>
-                            <div class="button-action">
-                              <div class="btn btn-primary btn-sm">
-                                <i (click)="navigateToExercise()" class="fa fa-eye"></i>
-                              </div>
-                              <div class="btn btn-danger btn-sm">
-                                <i class="fa fa-trash"></i>
-                              </div>
-                              <div class="btn btn-info btn-sm">
-                                <i class="fa fa-pencil"></i>
-                              </div>
-                            </div>
-                          </div>
-                        <!-- /.user-block -->
-                          <p>
-                            Description
-                          </p>
+                        <div *ngFor="let item of weeks" class="row">
+                            <h2>Week {{item}}</h2>
                         </div>
-                        <!-- /.post -->
                       </div>
                       <!-- /.tab-pane -->
                       <div class="tab-pane" id="users">
@@ -195,9 +180,49 @@
               <!-- /.col -->
             </div>
             <!-- /.row -->
-          </div><!-- /.container-fluid -->
+          </div>
         </section>
-        <!-- /.content -->
       </div>
-  </div>
+    </div>
+</div>
   
+<div class="modal fade" id="testModal" tabindex="-1" role="dialog" 
+    aria-labelledby="testModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title" id="extendModalLabel">
+					Create test
+				</h1>
+			</div>
+			<div class="modal-body">
+				<form [formGroup]="testModel" (ngSubmit)="createTest()" id="test">
+					<div class="form-group">
+						<label for="title">Test title</label>
+						<input class="form-control" type="text" class="form-control" name="title" id="title" formControlName="title">
+                        <label for="description">Description</label>
+						<textarea class="form-control" type="text" class="form-control" name="description" id="description" formControlName="description">
+                        </textarea>
+                        <label for="week">Week</label>
+						<input class="form-control" type="number" class="form-control" name="week" id="week" formControlName="week">
+                        <label for="file">Questions file</label>
+						<input class="form-control" type="file" class="form-control" name="file" id="file" (input)="fileChosen($event)">
+					</div>
+				</form>
+                <div *ngFor="let item of questions; let i = index">
+					<h5>{{i + 1}}. {{item}}</h5>
+                    <div *ngFor="let choice of choices[i].split(';'); let j = index">
+                        <p style="display: inline">{{"ABCD"[j]}}. {{choice}}</p>
+                        <p style="display: inline" *ngIf="answer[i] == 'ABCD'[j]"> (Correct answer)</p>
+                    </div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary" form="test" data-dismiss="modal">
+                    Confirm
+                </button>
+			</div>
+		</div>
+	</div>
+</div>

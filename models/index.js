@@ -16,8 +16,8 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 
 users = require("./user.model")(sequelize, DataTypes)
 courses = require("./course.model")(sequelize, DataTypes)
-// questions = require("./question.model")(sequelize, DataTypes)
-// exercises = require("./exercise.model")(sequelize, DataTypes)
+questions = require("./question.model")(sequelize, DataTypes)
+quizes = require("./quiz.model")(sequelize, DataTypes)
 // tests = require("./test.model")(sequelize, DataTypes)
 // questions = require('./question.model')(sequelize, DataTypes)
 // courseEnrollments = require('./courseEnrollment.model')(sequelize, DataTypes)
@@ -27,11 +27,13 @@ courses = require("./course.model")(sequelize, DataTypes)
 
 users.hasMany(courses)
 courses.belongsTo(users)
+courses.hasMany(quizes)
+quizes.hasMany(questions)
 // users.hasMany(tests)
 // courses.hasMany(tests)
-// courses.hasMany(exercises)
+
 // tests.hasMany(questions)
-// exercises.hasMany(questions)
+
 
 // users.belongsToMany(courses, { through: courseEnrollments})
 // courses.belongsToMany(users, { through: courseEnrollments})
@@ -48,6 +50,8 @@ courses.belongsTo(users)
 const db = {
   users,
   courses,
+  quizes,
+  questions
 //   questions,
 //   exercises,
 //   tests,
