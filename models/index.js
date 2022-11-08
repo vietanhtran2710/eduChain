@@ -15,7 +15,7 @@ const sequelize = new Sequelize(dbConfig.DB, dbConfig.USER, dbConfig.PASSWORD, {
 });
 
 users = require("./user.model")(sequelize, DataTypes)
-// courses = require("./course.model")(sequelize, DataTypes)
+courses = require("./course.model")(sequelize, DataTypes)
 // questions = require("./question.model")(sequelize, DataTypes)
 // exercises = require("./exercise.model")(sequelize, DataTypes)
 // tests = require("./test.model")(sequelize, DataTypes)
@@ -25,7 +25,7 @@ users = require("./user.model")(sequelize, DataTypes)
 // parentalControls = require('./parentalControl.model')(sequelize, DataTypes)
 // sponsoredContests = require('./sponsoredContest.model')(sequelize, DataTypes)
 
-// users.hasMany(courses)
+users.hasMany(courses)
 // users.hasMany(tests)
 // courses.hasMany(tests)
 // courses.hasMany(exercises)
@@ -46,7 +46,7 @@ users = require("./user.model")(sequelize, DataTypes)
 
 const db = {
   users,
-//   courses,
+  courses,
 //   questions,
 //   exercises,
 //   tests,

@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
 });
 
 require("./routes/user.routes")(app);
-// require("./routes/book.routes")(app);
+require("./routes/course.routes")(app);
 // require("./routes/token.routes")(app);
 
 const PORT = 8080;

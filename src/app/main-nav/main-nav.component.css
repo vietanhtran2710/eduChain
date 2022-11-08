@@ -15,8 +15,13 @@ a {
 
 nav {
     width: 100%;
+    border-bottom: 2px solid black;
 }
 
 .nav-link {
     margin-right: 100px;
+}
+
+.navbar-nav {
+    font-size: x-large;
 }
