@@ -159,7 +159,7 @@ export class LandingPageComponent implements OnInit {
         next: (result) => {
           let message = 'Have fun learning!';
           if (registerInfo.role != "STUDENT") {
-            message += 'Please wait for admin\'s verification.'
+            message = 'Please wait for admin\'s verification.'
           }
           Swal.fire({
             icon: 'success',
