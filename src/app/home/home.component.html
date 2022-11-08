@@ -3,13 +3,15 @@
     <h3 class="display-4">{{title}}</h3>
     <div class="row">
         <div *ngFor="let course of courses" class="col-4">
-            <div class="card grow">
-                <img class="card-img-top" [src]="course.image" alt="Card image cap">
-                <div class="card-body">
-                  <h5 class="card-title">{{course.name}}</h5>
-                  <p class="card-text">{{course.description}}</p>
+            <a (click)="navigateToCourse(course.courseID)">
+                <div class="card grow">
+                    <img class="card-img-top" [src]="course.image" alt="Card image cap">
+                    <div class="card-body">
+                    <h5 class="card-title">{{course.name}}</h5>
+                    <p class="card-text">{{course.description}}</p>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 </div>

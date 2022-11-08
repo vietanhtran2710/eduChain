@@ -65,7 +65,7 @@ export class HomeComponent implements OnInit {
   }
 
   navigateToCourse(id: number) {
-
+    this.router.navigate([`course/${id}`])
   }
 
 }

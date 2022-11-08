@@ -11,6 +11,7 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 import { HomeComponent } from './home/home.component';
 import { AdminComponent } from './admin/admin.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
+import { CourseComponent } from './course/course.component';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import { MainNavComponent } from './main-nav/main-nav.component';
     LandingPageComponent,
     HomeComponent,
     AdminComponent,
-    MainNavComponent
+    MainNavComponent,
+    CourseComponent
   ],
   imports: [
     BrowserModule,
