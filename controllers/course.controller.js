@@ -25,3 +25,31 @@ exports.create = async (req, res) => {
         res.status(500).send({ error: err })
     }
 }
+
+// Retrieve all unverified users
+exports.getUserCourse = (req, res) => {
+	Course.findAll({ 
+        where: { userAddress: req.params.address },
+    })
+    .then(data => {
+        res.send(data);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).send({
+            message: err.message || "Some error occurred while retrieving courses."
+        });
+    });
+};
+
+exports.getCourseImage = async (req, res) => {
+    let id = req.params.id;
+    console.log(id);
+    const course = await Course.findByPk(id);
+    if (course !== null) {
+        res.download(course.imageURI); // Set disposition and send it.
+    }
+    else {
+        res.status(404).send({ error: 'Course id not found' })
+    }
+}

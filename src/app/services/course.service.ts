@@ -13,4 +13,12 @@ export class CourseService {
   createCourse(data: any) {
     return this.http.post(baseUrl, data)
   }
+
+  getUserCourse(userAddress: string) {
+    return this.http.get(`${baseUrl}/teacher/${userAddress}`)
+  }
+
+  getCourseImage(id: number) {
+    return this.http.get(`${baseUrl}/download/${id}`, {responseType: `blob`})
+  }
 }
