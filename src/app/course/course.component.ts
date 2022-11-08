@@ -4,6 +4,8 @@ import { CourseService } from '../services/course.service';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { QuizService } from '../services/quiz.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { AuthService } from '../services/auth.service';
+import { EnrollmentService } from '../services/enrollment.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -20,20 +22,52 @@ export class CourseComponent implements OnInit {
   answer: string = "";
   questions: Array<string> = [];
   choices: Array<string> = [];
+  currentAccount: string = "";
+  currentAccountRole: string = "";
+  enrollStatus: Boolean = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
               private sanitizer: DomSanitizer,
               private fb: FormBuilder,
               private courseService: CourseService,
-              private quizService: QuizService
+              private quizService: QuizService,
+              private authService: AuthService,
+              private enrollmentService: EnrollmentService
   ) {
+    this.courseId = this.route.snapshot.paramMap.get('id')!;
+    if (Object.keys(this.authService.currentUserValue).length !== 0) {
+      this.authService.verifyToken().subscribe({
+        next: (data: any) => {
+          this.currentAccount = data.address;
+          this.currentAccountRole = data.role;
+          if (this.currentAccountRole == "TEACHER") {
+            this.enrollStatus = true;
+          }
+          else if (this.currentAccountRole == "STUDENT") {
+            this.enrollmentService.getUserEnrollmentStatus(this.currentAccount, this.courseId).subscribe({
+              next: (res: any) => {
+                this.enrollStatus = res.enrolled;
+              }
+            })
+          }
+        },
+        error: (err) => {
+
+        },
+        complete: () => {
+
+        }
+      })
+    }
+    else {
+      this.router.navigate([``])
+    }
     this.testModel = this.fb.group({
       title: '',
       week: '',
       description: ''
     })
-    this.courseId = this.route.snapshot.paramMap.get('id')!;
     this.courseService.getOneCourse(this.courseId).subscribe({
       next: (data: any) => {
         this.courseInfo = data;
@@ -98,5 +132,46 @@ export class CourseComponent implements OnInit {
 
   navigateToExercise() {
 
+  }
+
+  enroll() {
+    Swal.fire({
+      title: 'Are you sure to enroll this course?',
+      text: `${this.courseInfo.name}`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        if (this.courseInfo.fee != 0) {
+
+        }
+        else {
+          this.enrollmentService.enroll({courseID: this.courseId}).subscribe({
+            next: (result) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'Enrolled successfully',
+                text: `Have fun learning ${this.courseInfo.name}`
+              })
+              .then(result => {
+                window.location.reload();
+              })
+            },
+            error: (err) => {
+              Swal.fire({
+                icon: 'error',
+                title: 'Cannot enroll',
+                text: err,
+              })
+            },
+            complete: () => {
+    
+            }
+          })
+        }
+      }
+    });
   }
 }

@@ -661,4 +661,9 @@
     border-color: #dfdfdf;
     color: #1f2d3d;
   }
-  
+
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

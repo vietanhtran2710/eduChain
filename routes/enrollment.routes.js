@@ -14,6 +14,9 @@ module.exports = app => {
     // Get unenrolled course
     router.get("/unenrolled/:address", enrollment.getUnenrolledCourse);
 
+    // Check enrollment status
+    router.get("/status/:address&:id", enrollment.checkStatus);
+
     // // Get one course
     // router.get("/one/:id", course.getOneCourse);
   

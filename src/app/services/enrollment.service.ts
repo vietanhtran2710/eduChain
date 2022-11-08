@@ -10,11 +10,19 @@ export class EnrollmentService {
 
   constructor(private http: HttpClient) { }
 
+  enroll(data: any) {
+    return this.http.post(baseUrl, data)
+  }
+
   getEnrolledCourse(userAddress: string) {
     return this.http.get(`${baseUrl}/enrolled/${userAddress}`)
   }
 
   getUnenrolledCourse(userAddress: string) {
     return this.http.get(`${baseUrl}/unenrolled/${userAddress}`)
+  }
+
+  getUserEnrollmentStatus(address: string, courseID: string) {
+    return this.http.get(`${baseUrl}/status/${address}&${courseID}`)
   }
 }

@@ -46,10 +46,12 @@
                         <b>Created date: </b> <a class="float-right">{{courseInfo?.createdAt}}</a>
                       </li>
                     </ul>
-  
-                    <button class="btn btn-primary btn-block"><b>Upload material</b></button>
-                    <button class="btn btn-primary btn-block"
-                    data-bs-toggle="modal" data-bs-target="#testModal"><b>Create test</b></button>
+                    <div *ngIf="currentAccountRole == 'TEACHER'">
+                        <button class="btn btn-primary btn-block"><b>Upload material</b></button>
+                        <button class="btn btn-primary btn-block"
+                        data-bs-toggle="modal" data-bs-target="#testModal"><b>Create test</b></button>
+                    </div>
+                    
                   </div>
                   <!-- /.card-body -->
                 </div>
@@ -74,7 +76,7 @@
               </div>
               <!-- /.col -->
               <div class="col-md-9">
-                <div class="card">
+                <div *ngIf="enrollStatus;else unenroll" class="card">
                   <div class="card-header p-2">
                     <ul class="nav nav-pills">
                       <li class="nav-item"><a class="nav-link active" href="#activity" data-bs-toggle="tab">Activity</a></li>
@@ -175,6 +177,14 @@
                     <!-- /.tab-content -->
                   </div><!-- /.card-body -->
                 </div>
+                <ng-template #unenroll>
+                    <div class="card center">
+                        <h1 sytle="margin-top: 20px">Enroll course to see content</h1>
+                        <button class="btn btn-primary btn-block btn-center" 
+                        style="width: 30%;font-size: large; font-weight: bold;margin-bottom: 20px;"
+                        (click)=enroll()>ENROLL NOW</button>
+                    </div>
+                </ng-template>
                 <!-- /.card -->
               </div>
               <!-- /.col -->
