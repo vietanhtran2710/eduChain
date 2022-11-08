@@ -94,7 +94,6 @@ exports.getUnverified = (req, res) => {
 exports.count = (req, res) => {
     User.count()
     .then(data => {
-        console.log(data);
         res.status(200).send({count: data});
     })
     .catch(err => {
