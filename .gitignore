@@ -111,3 +111,6 @@ build
 
 # Database config folder
 config
+
+# User uploaded files folder
+files
