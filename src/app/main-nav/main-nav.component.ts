@@ -12,12 +12,34 @@ import Swal from 'sweetalert2';
 export class MainNavComponent implements OnInit {
   courseModel: FormGroup;
   file: File | undefined;
+  currentAccount: string = "";
+  currentAccountRole: string = "";
 
   constructor(
     private authService: AuthService,
     private courseService: CourseService,
     private fb: FormBuilder
-  ) { 
+  ) {
+    if (Object.keys(this.authService.currentUserValue).length !== 0) {
+      this.authService.verifyToken().subscribe({
+        next: (data: any) => {
+          this.currentAccount = data.address;
+          this.currentAccountRole = data.role;
+          if (this.currentAccountRole == "TEACHER") {
+            
+          }
+          else if (this.currentAccountRole == "STUDENT") {
+            
+          }
+        },
+        error: (err) => {
+
+        },
+        complete: () => {
+
+        }
+      })
+    }
     this.courseModel = this.fb.group({
       title: '',
       week: '',
