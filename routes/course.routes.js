@@ -14,6 +14,9 @@ module.exports = app => {
 
     // Get course image
     router.get("/download/:id", course.getCourseImage);
+
+    // Get one course
+    router.get("/one/:id", course.getOneCourse);
   
     app.use('/api/course', router);
   };

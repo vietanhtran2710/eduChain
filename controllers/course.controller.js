@@ -1,6 +1,7 @@
 const db = require("../models");
 const path = require('path')
 const Course = db.courses
+const User = db.users
 const sequelize = db.sequelize
 const { Op } = require('sequelize');
 
@@ -52,4 +53,16 @@ exports.getCourseImage = async (req, res) => {
     else {
         res.status(404).send({ error: 'Course id not found' })
     }
+}
+
+exports.getOneCourse = async (req, res) => {
+    let id = req.params.id;
+    Course.findByPk(id, { include: User})
+    .then((data) => {
+        res.status(200).send(data);
+    })
+    .catch((err) => {
+        console.log(err);
+        res.status(500).send({error: err});
+    })
 }

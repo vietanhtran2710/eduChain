@@ -26,6 +26,7 @@ courses = require("./course.model")(sequelize, DataTypes)
 // sponsoredContests = require('./sponsoredContest.model')(sequelize, DataTypes)
 
 users.hasMany(courses)
+courses.belongsTo(users)
 // users.hasMany(tests)
 // courses.hasMany(tests)
 // courses.hasMany(exercises)
