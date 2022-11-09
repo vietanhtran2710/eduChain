@@ -76,6 +76,18 @@
               </div>
               <!-- /.col -->
               <div class="col-md-9">
+                <div *ngIf="courseStatus == 2" class="card center">
+                  <h1 sytle="margin-top: 20px">VIEW YOUR CERTIFICATE</h1>
+                  <button class="btn btn-primary btn-block btn-center" 
+                  style="width: 30%;font-size: large; font-weight: bold;margin-bottom: 20px;"
+                  (click)=view()>VIEW NOW</button>
+                </div>
+                <div *ngIf="courseStatus == 3" class="card center">
+                  <h1 sytle="margin-top: 20px">CONGRATULATIONS! YOU COMPLETED THE COURSE</h1>
+                  <button class="btn btn-primary btn-block btn-center" 
+                  style="width: 30%;font-size: large; font-weight: bold;margin-bottom: 20px;"
+                  (click)=claim()>CLAIM REWARDS AND CERTIFICATE</button>
+                </div>
                 <div *ngIf="enrollStatus;else unenroll" class="card">
                   <div class="card-header p-2">
                     <ul class="nav nav-pills">
@@ -183,7 +195,7 @@
                 </div>
                 <ng-template #unenroll>
                     <div class="card center">
-                        <h1 sytle="margin-top: 20px">Enroll course to see content</h1>
+                        <h1 sytle="margin-top: 20px">ENROLL THE COURSE TO SEE CONTENT</h1>
                         <button class="btn btn-primary btn-block btn-center" 
                         style="width: 30%;font-size: large; font-weight: bold;margin-bottom: 20px;"
                         (click)=enroll()>ENROLL NOW</button>

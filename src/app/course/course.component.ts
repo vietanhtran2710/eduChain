@@ -29,6 +29,7 @@ export class CourseComponent implements OnInit {
   studentLoaded: Boolean = false;
   courseLoaded: Boolean = false;
   courseQuizes: Array<Array<any>> = [];
+  courseStatus: number = 0;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -52,6 +53,11 @@ export class CourseComponent implements OnInit {
             this.enrollmentService.getUserEnrollmentStatus(this.currentAccount, this.courseId).subscribe({
               next: (res: any) => {
                 this.enrollStatus = res.enrolled;
+              }
+            })
+            this.quizService.checkCourseStatus(this.currentAccount, this.courseId).subscribe({
+              next: (result: any) => {
+                this.courseStatus = result.status;
               }
             })
           }
@@ -197,5 +203,32 @@ export class CourseComponent implements OnInit {
         }
       }
     });
+  }
+
+  claim() {
+    this.quizService.claimCertificate(this.courseId)
+    .subscribe({
+      next: (result) => {
+        Swal.fire({
+          icon: 'success',
+          title: 'Congratulations',
+          text: `You earned your certificate and reward`
+        })
+        .then(result => {
+          window.location.reload();
+        })
+      },
+      error: (err) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Cannot enroll',
+          text: err,
+        })
+      }
+    })
+  }
+
+  view() {
+    
   }
 }

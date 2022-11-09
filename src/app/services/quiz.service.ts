@@ -25,4 +25,12 @@ export class QuizService {
   submit(data: any) {
     return this.http.post(`${baseUrl}/grade`, data)
   }
+
+  checkCourseStatus(address: string, courseID: string) {
+    return this.http.get(`${baseUrl}/status/${address}&${courseID}`)
+  }
+
+  claimCertificate(courseID: string) {
+    return this.http.post(`${baseUrl}/claim/${courseID}`, {})
+  }
 }

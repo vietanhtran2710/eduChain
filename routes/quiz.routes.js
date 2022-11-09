@@ -16,6 +16,12 @@ module.exports = app => {
 
     // Get course quizes
     router.get("/question/:quizID", quiz.getCourseQuestions);
+
+    // Check course status
+    router.get("/status/:address&:id", quiz.checkStatus);
+
+    // Check course status
+    router.post("/claim/:id", authJwt.verifyToken, quiz.claim);
   
     app.use('/api/quiz', router);
   };

@@ -4,8 +4,10 @@ const Quiz = db.quizes;
 const Question = db.questions;
 const Course = db.courses;
 const Submission = db.submissions;
+const Credential = db.credentials;
 const sequelize = db.sequelize
 const { QueryTypes, Op } = require('sequelize');
+const { soliditySha3 } = require("web3-utils");
 
 // Create a new Quiz
 exports.create = async (req, res) => {
@@ -118,6 +120,7 @@ exports.gradeSubmission = async (req, res) => {
 
 // Retrieve course quiz
 exports.getCourseQuizes = (req, res) => {
+    Credential.count().then((count) => console.log(count));
 	const id = req.params.courseID;
 
 	Quiz.findAll({ where: {courseCourseID: id}})
@@ -149,4 +152,140 @@ exports.getCourseQuestions = (req, res) => {
     });
 };
 
+// Get check course status
+exports.checkStatus = (req, res) => {
+	const userAddress = req.params.address;
+    const courseID = req.params.id;
+    Course.findByPk(courseID, {include: Quiz})
+    .then((result) => { 
+        let requiredGrade = result.dataValues.requiredAverageGrade;
+        let quizLength = result.dataValues.quizzes.length;
+        Submission.findAll({where: {
+            userAddress: userAddress,
+            courseCourseID: courseID
+        }})
+        .then((data) => {
+            console.log(requiredGrade, quizLength);
+            console.log(data);
+            if (data.length < quizLength) {
+                res.status(200).send({status: 0});
+            }
+            else {
+                let gradeSum = 0;
+                for (let item of data) {
+                    console.log(item);
+                    gradeSum += item.dataValues.grade;
+                }
+                gradeSum /= data.length;
+                if (gradeSum >= requiredGrade) {
+                    Credential.findOne({
+                        where: {
+                            userAddress: userAddress,
+                            courseCourseID: courseID
+                        }
+                    })
+                    .then((findResult) => {
+                        if (findResult) {
+                            res.status(200).send({status: 2});
+                        }
+                        else {
+                            res.status(200).send({status: 3});
+                        }
+                    })
+                    
+                }
+                else {
+                    res.status(200).send({status: 1});
+                }
+            }
+        })
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+};
 
+// Claim certificate
+exports.claim = (req, res) => {
+	const userAddress = req.address;
+    const courseID = req.params.id;
+    Course.findByPk(courseID, {include: Quiz})
+    .then((result) => { 
+        let requiredGrade = result.dataValues.requiredAverageGrade;
+        let quizLength = result.dataValues.quizzes.length;
+        let reward = result.dataValues.reward;
+        let teacher = result.dataValues.userAddress;
+        Submission.findAll({where: {
+            userAddress: userAddress,
+            courseCourseID: courseID
+        }})
+        .then((data) => {
+            console.log(requiredGrade, quizLength);
+            console.log(data);
+            if (data.length < quizLength) {
+                res.status(400).send({status: 0});
+            }
+            else {
+                let gradeSum = 0;
+                for (let item of data) {
+                    console.log(item);
+                    gradeSum += item.dataValues.grade;
+                }
+                gradeSum /= data.length;
+                if (gradeSum >= requiredGrade) {
+                    Credential.findOne({
+                        where: {
+                            userAddress: userAddress,
+                            courseCourseID: courseID
+                        }
+                    })
+                    .then((findResult) => {
+                        if (findResult) {
+                            res.status(400).send({status: 1});
+                        }
+                        else {
+                            // Create certificate and reward here
+                            Credential.count().then((countResult) => {
+                                let newID = countResult + 1;
+                                let timestamp = Math.floor(Date.now() / 1000)
+                                let hash = soliditySha3(teacher + ";" + userAddress + ";" + newID + ";" + timestamp.toString())
+                                certData = [{
+                                    issuer: teacher,
+                                    recipient: userAddress,
+                                    certHash: hash,
+                                    CID: newID.toString(),
+                                    issuanceTimestamp: timestamp
+                                }]
+                                blockchain.createCertificate(certData)
+                                .then((result) => {
+                                    blockchain.mintVND(userAddress, reward)
+                                    .then((result) => {
+                                        Credential.create({
+                                            hash: hash,
+                                            issueDate: timestamp.toString(),
+                                            grade: gradeSum,
+                                            issuer: teacher,
+                                            userAddress: userAddress,
+                                            courseCourseID: courseID,
+                                            revoked: false
+                                        })
+                                        .then((data) => {
+                                            res.status(201).send(data);
+                                            return;
+                                        })
+                                    })
+                                })
+                            })
+                        }
+                    })
+                }
+                else {
+                    res.status(400).send({status: 0});
+                }
+            }
+        })
+    })
+    .catch((err) => {
+        console.log(err);
+    })
+};
