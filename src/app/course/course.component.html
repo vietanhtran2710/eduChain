@@ -88,6 +88,10 @@
                       <div class="active tab-pane" id="activity">
                         <div *ngFor="let item of weeks" class="row">
                             <h2>Week {{item}}</h2>
+                            <a style="color: blue;font-size: large; cursor: pointer;" *ngFor="let quiz of courseQuizes[item - 1]"
+                            (click)="navigateToQuiz(quiz.quizID)">
+                              {{quiz.title}} ({{quiz.description}})
+                            </a>
                         </div>
                       </div>
                       <!-- /.tab-pane -->

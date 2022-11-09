@@ -13,4 +13,8 @@ export class QuizService {
   createQuiz(data: any) {
     return this.http.post(baseUrl, data)
   }
+
+  getCourseQuiz(courseID: string) {
+    return this.http.get(`${baseUrl}/course/${courseID}`)
+  }
 }

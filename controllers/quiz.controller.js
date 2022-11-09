@@ -35,3 +35,19 @@ exports.create = async (req, res) => {
     }
 }
 
+// Retrieve course quiz
+exports.getCourseQuizes = (req, res) => {
+	const id = req.params.courseID;
+
+	Quiz.findAll({ where: {courseCourseID: id}})
+		.then(data => {
+			res.status(200).send(data);
+		})
+		.catch(err => {
+			res.status(500).send({
+				message: "Error retrieving quizes: " + err
+			});
+		});
+};
+
+

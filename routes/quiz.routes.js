@@ -5,6 +5,9 @@ module.exports = app => {
   
     // Create a new quiz
     router.post("/", quiz.create);
+
+    // Get course quizes
+    router.get("/course/:courseID", quiz.getCourseQuizes);
   
     app.use('/api/quiz', router);
   };

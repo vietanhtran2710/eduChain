@@ -28,6 +28,7 @@ export class CourseComponent implements OnInit {
   enrollStatus: Boolean = false;
   studentLoaded: Boolean = false;
   courseLoaded: Boolean = false;
+  courseQuizes: Array<Array<any>> = [];
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -81,6 +82,15 @@ export class CourseComponent implements OnInit {
       next: (data: any) => {
         this.courseInfo = data;
         this.weeks = Array(this.courseInfo.week).fill(1).map((x, i)=>i + 1);
+        this.courseQuizes = Array(this.courseInfo.week).fill([]);
+        console.log(this.courseQuizes);
+        this.quizService.getCourseQuiz(this.courseId).subscribe({
+          next: (result: any) => {
+            for (let item of result) {
+              this.courseQuizes[item.week - 1].push(item);
+            }
+          }
+        })
         this.courseLoaded = true;
       }
     })
@@ -139,7 +149,7 @@ export class CourseComponent implements OnInit {
     })
   }
 
-  navigateToExercise() {
+  navigateToQuiz(id: number) {
 
   }
 
