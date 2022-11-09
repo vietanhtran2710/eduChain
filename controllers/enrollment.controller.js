@@ -40,7 +40,7 @@ exports.enroll = async (req, res) => {
 // Retrieve enrolled courses
 exports.getEnrolledCourse = (req, res) => {
 	const address = req.params.address;
-    User.findByPk(address,{ include: Course })
+    User.findByPk(address, {include: [{ model: Course, as: "enroll" }]})
     .then(data => {
         res.status(200).send(data);
     })

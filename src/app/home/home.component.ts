@@ -56,7 +56,8 @@ export class HomeComponent implements OnInit {
             this.secondTitle = "EXPLORE MORE COURES";
             this.enrollmentService.getEnrolledCourse(this.currentAccount).subscribe({
               next: (result: any) => {
-                this.courses = result.courses;
+                console.log(result);
+                this.courses = result.enroll;
                 for (let index = 0; index < this.courses.length; index++) {
                   this.courseService.getCourseImage(this.courses[index].courseID).subscribe({
                     next: (image) => {
