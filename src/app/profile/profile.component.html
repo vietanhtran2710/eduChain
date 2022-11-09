@@ -1,0 +1,118 @@
+<app-main-nav></app-main-nav>
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+<div *ngIf="loaded" class="container-fluid">
+    <div class="row bg-title">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <h4 class="page-title">Profile: {{currentAccount}}</h4>
+        </div>
+        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+            <a (click)="logOut()" href="javascript:void(0);" class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Log out</a>
+        </div>
+    </div>
+
+    <!-- /.row -->
+    <div class="row">
+        <div class="col-lg-4 col-sm-6 ">
+            <div class="white-box">
+                <h3 class="box-title">ETH Balance</h3>
+                <ul class="list-inline two-part">
+                    <li><i class="icon-user text-info"></i></li>
+                    <li class="text-right"><span class="counter text-info" id="totalUsers">{{eth}} ETH</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 ">
+            <div class="white-box">
+                <h3 class="box-title">KNG</h3>
+                <ul class="list-inline two-part">
+                    <li><i class="fa fa-briefcase text-purple"></i></li>
+                    <li class="text-right "><span class="counter text-purple">{{kng}} KNG</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 ">
+            <div class="white-box">
+                <h3 class="box-title">VNH</h3>
+                <ul class="list-inline two-part">
+                    <li><i class="fa icon-dropbox text-success"></i></li>
+                    <li class="text-right"><span class="counter text-success" id="totalBatch">{{vnh}} VNH</span></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <div  class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <div class="white-box">
+                <a *ngIf="currentAccountRole != 'STUDENT'" href="javascript:void(0);" class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light" onclick="javascript:$('#batchFormModel').modal();">Create NFT</a>
+                <h3 class="box-title">Your NFT</h3> 
+                <div class="table-responsive">
+                    <table class="table product-overview" id="adminCultivationTable">
+                        <thead>
+                            <tr>
+                                <th>Token ID</th>
+                                <th>Name</th>
+                                <th>Link</th>
+                                <th>Value</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr *ngFor="let token of nft">
+                                    <td>{{token.id}}</td>
+                                    <td>{{token.name}}</td>
+                                    <td>{{token.link}}</td>
+                                    <td>{{token.value}}</td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="currentAccountRole == 'STUDENT' "class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <div class="white-box">
+                <a href="javascript:void(0);" class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light" onclick="javascript:$('#batchFormModel').modal();">Create Reward</a>
+                <h3 class="box-title">Current Study Rewards</h3> 
+                <div class="table-responsive">
+                    <table class="table product-overview" id="adminCultivationTable">
+                        <thead>
+                            <tr>
+                                <th>Parent Address</th>
+                                <th>Minimum KNG Required</th>
+                                <th>VNH Reward</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr *ngFor="let reward of rewards">
+                                    <td>{{reward.sponsorAddress}}</td>
+                                    <td>{{reward.minimumKNGRequired}}</td>
+                                    <td>{{reward.vnhTokenReward}}</td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- <div class="row">
+        <div class="col-lg-6 col-sm-6 col-xs-12">
+            <div class="white-box">
+                <h3 class="box-title">Contest Factory Address <i class="fa fa-qrcode fa-2x text-danger"></i></h3>
+                <ul class="list-inline two-part">
+                    <li class="text-right" id="storageContractAddress">{{contestAddress}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-xs-12">
+            <div class="white-box">
+                <h3 class="box-title">Reward Address <i class="fa fa-qrcode fa-2x text-info"></i></h3>
+                <ul class="list-inline two-part">
+                    <li class="text-right" id="coffeeSupplychainContractAddress">{{rewardAddress}}</li>
+                </ul>
+            </div>
+        </div>
+    </div> -->
+</div>
