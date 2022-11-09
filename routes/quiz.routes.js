@@ -8,6 +8,9 @@ module.exports = app => {
 
     // Get course quizes
     router.get("/course/:courseID", quiz.getCourseQuizes);
+
+    // Get course quizes
+    router.get("/question/:quizID", quiz.getCourseQuestions);
   
     app.use('/api/quiz', router);
   };

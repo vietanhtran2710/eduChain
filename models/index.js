@@ -28,6 +28,7 @@ enrollments = require('./enrollment.model')(sequelize, DataTypes)
 users.hasMany(courses)
 courses.belongsTo(users)
 courses.hasMany(quizes)
+quizes.belongsTo(courses);
 quizes.hasMany(questions)
 // users.hasMany(tests)
 // courses.hasMany(tests)

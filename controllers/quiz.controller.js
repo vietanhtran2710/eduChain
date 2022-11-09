@@ -2,6 +2,7 @@ const db = require("../models");
 const blockchain = require('../middleware/blockchain')
 const Quiz = db.quizes;
 const Question = db.questions;
+const Course = db.courses;
 const sequelize = db.sequelize
 const { QueryTypes, Op } = require('sequelize');
 
@@ -48,6 +49,24 @@ exports.getCourseQuizes = (req, res) => {
 				message: "Error retrieving quizes: " + err
 			});
 		});
+};
+
+// Get quiz questions
+exports.getCourseQuestions = (req, res) => {
+	const id = req.params.quizID;
+
+	Quiz.findByPk(id, {
+        attributes: ["title", "week", "description", "courseCourseID", "createdAt", "updatedAt"], 
+        include: [{ model: Question }, {model: Course}]
+    })
+    .then(data => {
+        res.status(200).send(data);
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: "Error retrieving questions: " + err
+        });
+    });
 };
 
 

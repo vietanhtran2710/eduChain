@@ -15,6 +15,10 @@ export class QuizService {
   }
 
   getCourseQuiz(courseID: string) {
-    return this.http.get(`${baseUrl}/course/${courseID}`)
+    return this.http.get(`${baseUrl}/course/${courseID}`);
+  }
+
+  getQuizQuestions(quizID: string) {
+    return this.http.get(`${baseUrl}/question/${quizID}`);
   }
 }

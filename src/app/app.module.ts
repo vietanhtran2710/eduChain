@@ -12,6 +12,7 @@ import { HomeComponent } from './home/home.component';
 import { AdminComponent } from './admin/admin.component';
 import { MainNavComponent } from './main-nav/main-nav.component';
 import { CourseComponent } from './course/course.component';
+import { QuizComponent } from './quiz/quiz.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { CourseComponent } from './course/course.component';
     HomeComponent,
     AdminComponent,
     MainNavComponent,
-    CourseComponent
+    CourseComponent,
+    QuizComponent
   ],
   imports: [
     BrowserModule,

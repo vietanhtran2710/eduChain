@@ -150,7 +150,7 @@ export class CourseComponent implements OnInit {
   }
 
   navigateToQuiz(id: number) {
-
+    this.router.navigate([`/quiz/${id}`]);
   }
 
   formatDate(date: string) {
