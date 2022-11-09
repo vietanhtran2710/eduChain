@@ -93,13 +93,13 @@ exports.follow = async (req, res) => {
 exports.getFollowingUsers = async (req, res) => {
     const address = req.params.address;
 
-    Following.findAll({
-        where: { followingAddress: address},
-        include: User
+    User.findByPk(address,
+        {include: { model: User, as: "following" }
     }).then((result) => {
         res.status(200).send(result)
     })
     .catch(err => {
+        console.log(err)
         res.status(500).send({error: err});
     })
 }

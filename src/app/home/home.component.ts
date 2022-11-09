@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { EnrollmentService } from '../services/enrollment.service';
+import { UserService } from '../services/user.service';
 import { Router } from '@angular/router';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 
@@ -18,10 +19,13 @@ export class HomeComponent implements OnInit {
   courses: Array<any> = [];
   enrolledCourse: Array<any> = [];
   unenrolledCourses: Array<any> = [];
+  searchAddress: string = "";
+  followedStudent: Array<any> = [];
 
   constructor(private authService: AuthService,
               private courseService: CourseService,
               private enrollmentService: EnrollmentService,
+              private userService: UserService,
               private sanitizer: DomSanitizer,
               private router: Router
   ) { 
@@ -92,6 +96,15 @@ export class HomeComponent implements OnInit {
               }
             })
           }
+          else {
+            this.secondTitle = "YOUR STUDENTS";
+            this.userService.getFollowingUsers(this.currentAccount).subscribe({
+              next: (result: any) => {
+                this.followedStudent = result.following;
+                console.log(this.followedStudent);
+              }
+            })
+          }
         },
         error: (err) => {
 
@@ -108,6 +121,14 @@ export class HomeComponent implements OnInit {
 
   ngOnInit(): void {
 
+  }
+
+  goToProfile() {
+    this.router.navigate([`profile/${this.searchAddress}`])
+  }
+
+  navigateToProfile(address: string) {
+    this.router.navigate([`profile/${address}`])
   }
 
   navigateToCourse(id: number) {
