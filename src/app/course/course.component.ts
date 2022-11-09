@@ -90,10 +90,14 @@ export class CourseComponent implements OnInit {
       next: (data: any) => {
         this.courseInfo = data;
         this.weeks = Array(this.courseInfo.week).fill(1).map((x, i)=>i + 1);
-        this.courseQuizes = Array(this.courseInfo.week).fill([]);
         console.log(this.courseQuizes);
         this.quizService.getCourseQuiz(this.courseId).subscribe({
           next: (result: any) => {
+            console.log(result);
+            this.courseQuizes = [];
+            for(var i: number = 0; i < this.courseInfo.week; i++) {
+                this.courseQuizes[i] = [];
+            }
             for (let item of result) {
               this.courseQuizes[item.week - 1].push(item);
             }
