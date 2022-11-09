@@ -49,6 +49,8 @@ courses.belongsToMany(users, { through: enrollments, as: "student"})
 
 users.hasMany(credentials)
 courses.hasMany(credentials)
+credentials.belongsTo(courses)
+credentials.belongsTo(users)
 
 // users.belongsToMany(tests, { through: contestRegistrations})
 // tests.belongsToMany(users, { through: contestRegistrations})

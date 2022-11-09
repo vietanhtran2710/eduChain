@@ -1,0 +1,23 @@
+.course {
+    left: 0;
+    position:absolute;
+    text-align:center;
+    top: 30%;
+    width: 100%;
+    color: black;
+    font-size: 50px;
+}
+
+.center {
+    position:relative;
+}
+
+.name {
+    left: 0;
+    position:absolute;
+    text-align:center;
+    top: 52%;
+    width: 100%;
+    color: black;
+    font-size: 100px;
+}

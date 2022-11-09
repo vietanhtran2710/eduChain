@@ -7,6 +7,7 @@ import { CourseComponent } from './course/course.component';
 import { QuizComponent } from './quiz/quiz.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PaymentComponent } from './payment/payment.component';
+import { ViewComponent } from './view/view.component';
 
 const routes: Routes = [
   {path: "", component: LandingPageComponent},
@@ -15,7 +16,8 @@ const routes: Routes = [
   {path: "course/:id", component: CourseComponent},
   {path: "quiz/:id", component: QuizComponent},
   {path: "profile/:address", component: ProfileComponent},
-  {path: "payment", component: PaymentComponent}
+  {path: "payment", component: PaymentComponent},
+  {path: "view/:hash", component: ViewComponent}
 ];
 
 @NgModule({

@@ -6,6 +6,7 @@ import { QuizService } from '../services/quiz.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { EnrollmentService } from '../services/enrollment.service';
+import { CertificateService } from '../services/certificate.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -38,7 +39,8 @@ export class CourseComponent implements OnInit {
               private courseService: CourseService,
               private quizService: QuizService,
               private authService: AuthService,
-              private enrollmentService: EnrollmentService
+              private enrollmentService: EnrollmentService,
+              private certificateService: CertificateService
   ) {
     this.courseId = this.route.snapshot.paramMap.get('id')!;
     if (Object.keys(this.authService.currentUserValue).length !== 0) {
@@ -229,6 +231,10 @@ export class CourseComponent implements OnInit {
   }
 
   view() {
-    
+    this.certificateService.findOne(this.currentAccount, this.courseId).subscribe({
+      next: (result: any) => {
+        this.router.navigate([`view/${result.hash}`])
+      }
+    })
   }
 }

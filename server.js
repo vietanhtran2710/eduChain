@@ -31,7 +31,7 @@ require("./routes/course.routes")(app);
 require("./routes/quiz.routes")(app);
 require("./routes/enrollment.routes")(app);
 require("./routes/blockchain.routes")(app);
-
+require("./routes/certificate.routes")(app);
 const PORT = 8080;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);
