@@ -20,7 +20,7 @@ questions = require("./question.model")(sequelize, DataTypes)
 quizes = require("./quiz.model")(sequelize, DataTypes)
 enrollments = require('./enrollment.model')(sequelize, DataTypes)
 submissions = require('./submission.model')(sequelize, DataTypes)
-// tests = require("./test.model")(sequelize, DataTypes)
+followings = require("./following.model")(sequelize, DataTypes)
 // questions = require('./question.model')(sequelize, DataTypes)
 // contestRegistrations = require('./contestRegistration.model')(sequelize, DataTypes)
 // parentalControls = require('./parentalControl.model')(sequelize, DataTypes)
@@ -36,6 +36,9 @@ courses.hasMany(submissions);
 // courses.hasMany(tests)
 
 // tests.hasMany(questions)
+
+users.belongsToMany(users, { as: 'following', foreignKey: 'followingAddress', through: {model: followings }});
+users.belongsToMany(users, { as: 'followed', foreignKey: 'followedAddress', through: {model: followings }});
 
 users.belongsToMany(quizes, { through: submissions, as: "submission"})
 quizes.belongsToMany(users, { through: submissions, as: "result"})
@@ -58,7 +61,8 @@ const db = {
   quizes,
   questions,
   enrollments,
-  submissions
+  submissions,
+  followings
 //   tests,
 //   contestRegistrations,
 //   parentalControls,

@@ -1,3 +1,5 @@
+const authJwt = require('../middleware/authJwt')
+
 module.exports = app => {
     const user = require("../controllers/user.controller.js");
     const auth = require("../controllers/auth.controller.js")
@@ -6,6 +8,12 @@ module.exports = app => {
   
     // Create a new User
     router.post("/", user.create);
+
+    // follow a new User
+    router.post("/follow", authJwt.verifyToken, user.follow);
+
+    // get following users
+    router.get("/follow/:address", user.getFollowingUsers);
 
     // Retrieve user nonce
     router.get("/nonce/:address", user.getNonce)

@@ -14,6 +14,14 @@ export class UserService {
     return this.http.post(baseUrl, data)
   }
 
+  follow(data: any) {
+    return this.http.post(`${baseUrl}/follow`, data)
+  }
+
+  getFollowingUsers(address: string) {
+    return this.http.get(`${baseUrl}/follow/${address}`);
+  }
+
   getNonce(address: string) {
     return this.http.get(`${baseUrl}/nonce/${address}`)
   }

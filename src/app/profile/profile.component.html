@@ -5,6 +5,9 @@
         <div class="col">
             <h4 class="page-title">Profile: {{currentAccount}}</h4>
         </div>
+        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+            <a (click)="followUser()" class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Follow this user</a>
+        </div>
     </div>
 
     <!-- /.row -->
@@ -41,7 +44,8 @@
     <div  class="row">
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
             <div class="white-box">
-                <a *ngIf="currentAccountRole != 'STUDENT'" class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light" onclick="javascript:$('#batchFormModel').modal();">Create NFT</a>
+                <a *ngIf="currentAccountRole != 'STUDENT' && currentAccount == profileAddress" 
+                class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light" onclick="javascript:$('#batchFormModel').modal();">Create NFT</a>
                 <h3 class="box-title">Your NFT</h3> 
                 <div class="table-responsive">
                     <table class="table product-overview" id="adminCultivationTable">

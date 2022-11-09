@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { BlockchainService } from '../services/blockchain.service';
+import { UserService } from '../services/user.service';
 import { Router, ActivatedRoute } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile',
@@ -24,6 +26,7 @@ export class ProfileComponent implements OnInit {
   constructor(private authService: AuthService,
               private blockchainService: BlockchainService,
               private route: ActivatedRoute,
+              private userService: UserService
   ) {
     this.profileAddress = this.route.snapshot.paramMap.get('address')!; 
     if (Object.keys(this.authService.currentUserValue).length !== 0) {
@@ -69,8 +72,38 @@ export class ProfileComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  logOut() {
-
+  followUser() {
+    Swal.fire({
+      title: 'Are you sure to follow this user?',
+      text: `${this.profileAddress}`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+    }).then((result: any) => {
+      if (result.isConfirmed) {
+        this.userService.follow({address: this.profileAddress}).subscribe({
+          next: (result) => {
+            Swal.fire({
+              icon: 'success',
+              title: 'User followed successfully',
+              text: `${this.profileAddress}`
+            })
+            .then((result: any) => {
+              window.location.reload();
+            })
+          },
+          error: (err) => {
+            Swal.fire({
+              icon: 'error',
+              title: 'Cannot follow',
+              text: err,
+            })
+          }
+        })
+      }
+      
+    })
   }
 
 }

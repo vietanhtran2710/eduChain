@@ -1,6 +1,7 @@
 const db = require("../models");
 const blockchain = require('../middleware/blockchain')
 const User = db.users;
+const Following = db.followings;
 const sequelize = db.sequelize
 const { QueryTypes, Op } = require('sequelize');
 
@@ -58,6 +59,49 @@ exports.create = async (req, res) => {
             error: "Some error occurred while creating the account." + err
         });
     }
+}
+
+exports.follow = async (req, res) => {
+    const follower = req.address;
+    const followed = req.body.address;
+
+    try {
+        Following.findOne({
+            where: {
+                followingAddress: follower,
+                followedAddress: followed
+            }
+        })
+        .then(result => {
+            if (!result) {
+                Following.create(
+                    {
+                        followingAddress: follower,
+                        followedAddress: followed
+                    }
+                )
+                .then((result) => {
+                    res.status(201).send(result);
+                })
+            }
+        })
+    } catch (err) {
+        res.status(500).send({error: err});
+    }
+}
+
+exports.getFollowingUsers = async (req, res) => {
+    const address = req.params.address;
+
+    Following.findAll({
+        where: { followingAddress: address},
+        include: User
+    }).then((result) => {
+        res.status(200).send(result)
+    })
+    .catch(err => {
+        res.status(500).send({error: err});
+    })
 }
 
 // Retrieve single user with address
