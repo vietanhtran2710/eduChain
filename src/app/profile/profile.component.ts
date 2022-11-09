@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { BlockchainService } from '../services/blockchain.service';
 import { UserService } from '../services/user.service';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 
@@ -22,13 +23,19 @@ export class ProfileComponent implements OnInit {
   rewards: Array<any> = [];
   contestAddress: string = "";
   rewardAddress: string = "";
+  rewardModel: FormGroup
 
   constructor(private authService: AuthService,
+              private fb: FormBuilder,
               private blockchainService: BlockchainService,
               private route: ActivatedRoute,
               private userService: UserService
   ) {
-    this.profileAddress = this.route.snapshot.paramMap.get('address')!; 
+    this.profileAddress = this.route.snapshot.paramMap.get('address')!;
+    this.rewardModel = this.fb.group({
+      skill: 0,
+      vnd: 0
+    })
     if (Object.keys(this.authService.currentUserValue).length !== 0) {
       this.authService.verifyToken().subscribe({
         next: (data: any) => {
@@ -58,6 +65,9 @@ export class ProfileComponent implements OnInit {
           else if (this.currentAccountRole == "STUDENT") {
             
           }
+          else {
+            
+          }
         },
         error: (err) => {
 
@@ -70,6 +80,25 @@ export class ProfileComponent implements OnInit {
   }
 
   ngOnInit(): void {
+  }
+
+  createReward() {
+    this.blockchainService.createReward(
+      this.profileAddress, 
+      this.rewardModel.get('skill')?.value,
+      this.rewardModel.get('vnd')?.value,
+      this.currentAccount
+    )
+    .then((result) => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Reward created successfully',
+        text: `${this.profileAddress}`
+      })
+      .then((result: any) => {
+        window.location.reload();
+      })
+    })
   }
 
   followUser() {
