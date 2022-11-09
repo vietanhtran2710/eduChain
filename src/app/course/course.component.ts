@@ -26,6 +26,8 @@ export class CourseComponent implements OnInit {
   currentAccount: string = "";
   currentAccountRole: string = "";
   enrollStatus: Boolean = false;
+  studentLoaded: Boolean = false;
+  courseLoaded: Boolean = false;
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -72,13 +74,14 @@ export class CourseComponent implements OnInit {
     this.enrollmentService.getCourseStudents(this.courseId).subscribe({
       next: (result: any) => {
         this.courseStudents = result.student;
+        this.studentLoaded = true;
       }
     })
     this.courseService.getOneCourse(this.courseId).subscribe({
       next: (data: any) => {
         this.courseInfo = data;
         this.weeks = Array(this.courseInfo.week).fill(1).map((x, i)=>i + 1);
-        console.log(this.courseInfo)
+        this.courseLoaded = true;
       }
     })
     this.courseService.getCourseImage(this.courseId).subscribe({
@@ -141,7 +144,7 @@ export class CourseComponent implements OnInit {
   }
 
   formatDate(date: string) {
-    let d = date.split('T')[0].split('-')
+    let d = date.split('T')[0].split('-');
     return d[2] + "-" + d[1] + "-" + d[0]
   }
 

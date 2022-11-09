@@ -18,7 +18,7 @@
             <div class="row">
               <div class="col-md-3">
   
-                <div class="card card-primary card-outline">
+                <div *ngIf="courseLoaded" class="card card-primary card-outline">
                   <div class="card-body box-profile">
                     <div class="text-center">
                       <img class="img-fluid img-square" [src]="courseImage" alt="Course picture">
@@ -98,7 +98,7 @@
                             <h3 class="card-title">Teacher</h3>
                           </div>
                           <!-- /.card-header -->
-                          <div class="card-body table-responsive p-0">
+                          <div *ngIf="courseLoaded" class="card-body table-responsive p-0">
                             <table class="table table-hover text-nowrap">
                               <thead>
                                 <tr>
