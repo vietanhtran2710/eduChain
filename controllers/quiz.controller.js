@@ -7,7 +7,7 @@ const Submission = db.submissions;
 const sequelize = db.sequelize
 const { QueryTypes, Op } = require('sequelize');
 
-// Create a new User
+// Create a new Quiz
 exports.create = async (req, res) => {
     try {
         const info = req.body
@@ -19,7 +19,7 @@ exports.create = async (req, res) => {
             courseCourseID: info.course,
         }
         let newQuiz = await Quiz.create(quizInfo);
-        questionInfo = [];
+        let questionInfo = [];
         for (let i = 0; i < info.questions.length; i++) {
             questionInfo.push({
                 questionText: info.questions[i],
@@ -44,7 +44,8 @@ exports.gradeSubmission = async (req, res) => {
 
     try {
         let quizInfo = await Quiz.findByPk(quizID, { include: [{model: Course}, {model: Question} ]});
-        console.log(quizInfo);
+        let requiredGrade = quizInfo.dataValues.course.requiredAverageGrade;
+        console.log(requiredGrade);
         let correctAnswer = quizInfo.dataValues.answer;
         let question_mark = 10 / correctAnswer.length;
         let grade = 0;
@@ -59,25 +60,35 @@ exports.gradeSubmission = async (req, res) => {
             quizQuizID: quizID
         }})
         .then((result) => {
+            console.log(result);
             if (result) {
-                Submission.update(
-                    { grade: grade },
-                    { 
-                        where: {
+                if (result.dataValues.grade < grade) {
+                    Submission.update(
+                        { grade: grade },
+                        { 
+                            where: {
+                                userAddress: userAddress,
+                                quizQuizID: quizID
+                            },
+                        }
+                    )
+                    .then(async (updateResult) => {
+                        if (result.dataValues.grade < requiredGrade && grade >= requiredGrade) {
+                            console.log("Gonna mint");
+                            let _transaction = await blockchain.mintSKILL(userAddress)
+                        }
+                        Submission.findOne({ where: {
                             userAddress: userAddress,
                             quizQuizID: quizID
-                        },
-                    }
-                )
-                .then((result) => {
-                    Submission.findOne({ where: {
-                        userAddress: userAddress,
-                        quizQuizID: quizID
-                    }})
-                    .then((result) => {
-                        res.status(201).send(result);
+                        }})
+                        .then((result) => {
+                            res.status(201).send(result);
+                        })
                     })
-                })
+                }
+                else {
+                    res.status(200).send({grade: grade});
+                }
             }
             else {
                 let submit = {
@@ -88,7 +99,13 @@ exports.gradeSubmission = async (req, res) => {
                 }
                 Submission.create(submit)
                 .then((result) => {
-                    res.status(201).send(result);
+                    if (grade >= requiredGrade) {
+                        blockchain.mintSKILL(userAddress)
+                        .then((data) => {
+                            console.log("minted");
+                            res.status(201).send(result);
+                        })
+                    }
                 })
             }
         })
