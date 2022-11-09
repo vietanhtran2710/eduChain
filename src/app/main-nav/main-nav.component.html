@@ -6,7 +6,7 @@
         <a class="nav-link" data-bs-toggle="modal" data-bs-target="#courseModal">Create new course</a>
     </ul>
 	<ul *ngIf="currentAccountRole == 'STUDENT'" class="nav navbar-nav">
-        <a class="nav-link">Profile</a>
+        <a class="nav-link" (click)="navigateToProfile()">Profile</a>
     </ul>
 	<ul *ngIf="currentAccountRole == 'STUDENT'" class="nav navbar-nav">
         <a class="nav-link">Contest List</a>

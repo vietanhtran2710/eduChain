@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { CourseService } from '../services/course.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router, RouteReuseStrategy } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -18,6 +19,7 @@ export class MainNavComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private courseService: CourseService,
+    private router: Router,
     private fb: FormBuilder
   ) {
     if (Object.keys(this.authService.currentUserValue).length !== 0) {
@@ -57,6 +59,10 @@ export class MainNavComponent implements OnInit {
     if (event.target.value) {
       this.file = <File>event.target.files[0];
     }
+  }
+
+  navigateToProfile() {
+    this.router.navigate([`profile/${this.currentAccount}`])
   }
 
   createCourse() {
