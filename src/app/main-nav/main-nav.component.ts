@@ -22,6 +22,7 @@ export class MainNavComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder
   ) {
+    console.log(this.router.getCurrentNavigation());
     if (Object.keys(this.authService.currentUserValue).length !== 0) {
       this.authService.verifyToken().subscribe({
         next: (data: any) => {
@@ -63,6 +64,9 @@ export class MainNavComponent implements OnInit {
 
   navigateToProfile() {
     this.router.navigate([`profile/${this.currentAccount}`])
+    .then(() => {
+      window.location.reload();
+    });
   }
 
   createCourse() {

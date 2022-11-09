@@ -5,8 +5,11 @@
     <ul *ngIf="currentAccountRole == 'TEACHER'" class="nav navbar-nav">
         <a class="nav-link" data-bs-toggle="modal" data-bs-target="#courseModal">Create new course</a>
     </ul>
-	<ul *ngIf="currentAccountRole == 'STUDENT'" class="nav navbar-nav">
+	<ul class="nav navbar-nav">
         <a class="nav-link" (click)="navigateToProfile()">Profile</a>
+    </ul>
+	<ul class="nav navbar-nav">
+        <a class="nav-link" routerLink="/payment">Trade VND Token</a>
     </ul>
 	<ul *ngIf="currentAccountRole == 'STUDENT'" class="nav navbar-nav">
         <a class="nav-link">Contest List</a>
