@@ -21,4 +21,8 @@ export class QuizService {
   getQuizQuestions(quizID: string) {
     return this.http.get(`${baseUrl}/question/${quizID}`);
   }
+
+  submit(data: any) {
+    return this.http.post(`${baseUrl}/grade`, data)
+  }
 }

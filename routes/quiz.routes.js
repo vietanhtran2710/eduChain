@@ -1,3 +1,5 @@
+const authJwt = require('../middleware/authJwt')
+
 module.exports = app => {
     const quiz = require("../controllers/quiz.controller.js");
   
@@ -5,6 +7,9 @@ module.exports = app => {
   
     // Create a new quiz
     router.post("/", quiz.create);
+
+    // Grade a submission
+    router.post("/grade", authJwt.verifyToken, quiz.gradeSubmission);
 
     // Get course quizes
     router.get("/course/:courseID", quiz.getCourseQuizes);

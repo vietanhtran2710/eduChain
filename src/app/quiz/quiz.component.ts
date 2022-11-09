@@ -37,7 +37,20 @@ export class QuizComponent implements OnInit {
   }
 
   submit() {
-
+    this.quizService.submit({
+      answer: this.submission.join(""),
+      quizID: this.quizID
+    }).subscribe({
+      next: (result) => {
+        console.log(result);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+      complete: () => {
+        
+      }
+    })
   }
 
 }
