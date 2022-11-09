@@ -59,3 +59,55 @@ exports.mintSKILL = async (address) => {
     })
   })
 }
+
+exports.mintVND = async (address, amount) => {
+  const that = this;
+  this.rewardContract = await new this.web3.eth.Contract(rewardABI, rewardAddress);
+  const query = this.rewardContract.methods.mintVND(address, amount, []);
+  const encodedABI = query.encodeABI();
+  const signedTx = await this.web3.eth.accounts.signTransaction(
+    {
+      data: encodedABI,
+      from: key.address,
+      gas: 2000000,
+      to: this.rewardContract.options.address,
+    },
+    key.secret,
+    false,
+  );
+  return new Promise((resolve, reject) => {
+    this.web3.eth.sendSignedTransaction(signedTx.rawTransaction)
+    .then(result => {
+      return resolve(result);
+    })
+    .catch(err => {
+      return reject(err);
+    })
+  })
+}
+
+exports.burnVND = async (address, amount) => {
+  const that = this;
+  this.rewardContract = await new this.web3.eth.Contract(rewardABI, rewardAddress);
+  const query = this.rewardContract.methods.burnVND(address, amount);
+  const encodedABI = query.encodeABI();
+  const signedTx = await this.web3.eth.accounts.signTransaction(
+    {
+      data: encodedABI,
+      from: key.address,
+      gas: 2000000,
+      to: this.rewardContract.options.address,
+    },
+    key.secret,
+    false,
+  );
+  return new Promise((resolve, reject) => {
+    this.web3.eth.sendSignedTransaction(signedTx.rawTransaction)
+    .then(result => {
+      return resolve(result);
+    })
+    .catch(err => {
+      return reject(err);
+    })
+  })
+}

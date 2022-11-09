@@ -30,6 +30,7 @@ require("./routes/user.routes")(app);
 require("./routes/course.routes")(app);
 require("./routes/quiz.routes")(app);
 require("./routes/enrollment.routes")(app);
+require("./routes/blockchain.routes")(app);
 
 const PORT = 8080;
 app.listen(PORT, () => {

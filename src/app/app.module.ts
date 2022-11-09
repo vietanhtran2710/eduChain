@@ -14,6 +14,7 @@ import { MainNavComponent } from './main-nav/main-nav.component';
 import { CourseComponent } from './course/course.component';
 import { QuizComponent } from './quiz/quiz.component';
 import { ProfileComponent } from './profile/profile.component';
+import { PaymentComponent } from './payment/payment.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { ProfileComponent } from './profile/profile.component';
     MainNavComponent,
     CourseComponent,
     QuizComponent,
-    ProfileComponent
+    ProfileComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,

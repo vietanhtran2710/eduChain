@@ -1,0 +1,133 @@
+<app-main-nav></app-main-nav>
+<div *ngIf="loaded" id="main-wrapper">
+  <!-- Secondary menu
+  ============================================= -->
+  <div class="bg-white">
+    <div class="container d-flex justify-content-center">
+      <ul class="nav secondary-nav alternate">
+        <li class="nav-item"> <a class="nav-link active" id="deposit-tab" data-bs-toggle="tab" href="#deposit">Buy Token</a></li>
+        <li class="nav-item"> <a class="nav-link" id="withdraw-tab" data-bs-toggle="tab" href="#withdraw">Exchange Money</a></li>
+      </ul>
+    </div>
+  </div>
+  <!-- Secondary menu end -->
+
+  <!-- Content
+  ============================================= -->
+  <div class="tab-content">
+    <div  id="deposit" class="tab-pane fade show active py-4" role="tabpanel">
+      <div class="container">
+        <h2 class="font-weight-400 text-center mt-3 mb-4">Buy Token</h2>
+        <div class="row">
+          <div class="col-md-9 col-lg-7 col-xl-6 mx-auto">
+            <div class="bg-white shadow-sm rounded p-3 pt-sm-5 pb-sm-5 px-sm-5 mb-4">
+
+              <!-- Deposit Money Form
+              ============================================= -->
+              <form id="form-send-money" method="post">
+                <div class="form-group">
+                  <label for="youSend">Amount</label>
+                  <div class="input-group">
+                    <input type="number" class="form-control" name="buy" id="buy" [(ngModel)]="moneySpent" #buy="ngModel" (change)="calculateVNDBuy()">
+                    <div class="input-group-append"> <span class="input-group-text p-0">
+                    </span>
+                  </div>
+                  </div>
+                </div>
+                <p>Your current VND balance: {{currentVND}}</p>
+                <div class="inlineimage">
+                  <img class="img-responsive images" src="https://cdn0.iconfinder.com/data/icons/credit-card-debit-card-payment-PNG/128/Mastercard-Curved.png">
+                  <img class="img-responsive images" src="https://cdn0.iconfinder.com/data/icons/credit-card-debit-card-payment-PNG/128/Discover-Curved.png">
+                  <img class="img-responsive images" src="https://cdn0.iconfinder.com/data/icons/credit-card-debit-card-payment-PNG/128/Paypal-Curved.png">
+                  <img class="img-responsive images" src="https://cdn0.iconfinder.com/data/icons/credit-card-debit-card-payment-PNG/128/American-Express-Curved.png">
+                </div>
+                <div class="form-group">
+                  <label for="cardNumber">Card Number</label>
+                  <div class="input-group">
+                    <input type="tel" class="form-control" placeholder="Valid Card Number" />
+                    <span class="input-group-addon">
+                      <span class="fa fa-credit-card"></span>
+                    </span>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-xs-7 col-md-7">
+                      <div class="form-group"> <label><span class="hidden-xs">EXPIRATION</span><span class="visible-xs-inline">EXP</span> DATE</label> <input type="tel" class="form-control" placeholder="MM / YY" /> </div>
+                  </div>
+                  <div class="col-xs-5 col-md-5 pull-right">
+                      <div class="form-group"> <label>CV CODE</label> <input type="password" class="form-control" placeholder="CVC" /> </div>
+                  </div>
+                </div><div class="form-group">
+                  <label for="cardOwner">Card Owner</label>
+                  <div class="input-group">
+                    <input type="tel" class="form-control" placeholder="Card Owner's Name" />
+                    <span class="input-group-addon">
+                      <span class="fa fa-credit-card"></span>
+                    </span>
+                  </div>
+                </div>
+                <p class="text-muted mt-4">Transactions fees <span class="float-right d-flex align-items-center"><del>20.000 VND</del> <span class="bg-info text-1 text-white font-weight-500 rounded d-inline-block px-2 line-height-4 ml-2">Free</span></span></p>
+                <hr>
+                <p class="text-4 font-weight-500">You'll buy <span class="float-right">{{vndBuy}} VNH</span></p>
+                <button class="btn btn-primary btn-block" (click)="buyVND()">Continue</button>
+              </form>
+              <!-- Deposit Money Form end -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="withdraw" class="tab-pane fade show py-4" role="tabpanel">
+      <div class="container">
+        <h2 class="font-weight-400 text-center mt-3 mb-4">Exchange Money</h2>
+        <div class="row">
+          <div class="col-md-9 col-lg-7 col-xl-6 mx-auto">
+            <div class="bg-white shadow-sm rounded p-3 pt-sm-5 pb-sm-5 px-sm-5 mb-4">
+              <form id="form-send-money" method="post">
+                <div class="form-group">
+                  <label for="youSend">Amount</label>
+                  <div class="input-group">
+                    <input type="text" class="form-control" name="sell" id="sell" [(ngModel)]="vndSell" #sell="ngModel" (change)="calculateMoneyEarn()">
+                    <div class="input-group-append"> <span class="input-group-text p-0">
+                    </span>
+                  </div>
+                  </div>
+                </div>
+                <p>Your current VND balance: {{currentVND}}</p>
+                <div class="inlineimage">
+                  <img class="img-responsive images" src="https://cdn0.iconfinder.com/data/icons/credit-card-debit-card-payment-PNG/128/Mastercard-Curved.png">
+                  <img class="img-responsive images" src="https://cdn0.iconfinder.com/data/icons/credit-card-debit-card-payment-PNG/128/Discover-Curved.png">
+                  <img class="img-responsive images" src="https://cdn0.iconfinder.com/data/icons/credit-card-debit-card-payment-PNG/128/Paypal-Curved.png">
+                  <img class="img-responsive images" src="https://cdn0.iconfinder.com/data/icons/credit-card-debit-card-payment-PNG/128/American-Express-Curved.png">
+                </div>
+                <div class="form-group">
+                  <label for="cardNumber">Card Number</label>
+                  <div class="input-group">
+                    <input type="tel" class="form-control" placeholder="Valid Card Number" />
+                    <span class="input-group-addon">
+                      <span class="fa fa-credit-card"></span>
+                    </span>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label for="cardOwner">Card Owner</label>
+                  <div class="input-group">
+                    <input type="tel" class="form-control" placeholder="Card Owner's Name" />
+                    <span class="input-group-addon">
+                      <span class="fa fa-credit-card"></span>
+                    </span>
+                  </div>
+                </div>
+                <p class="text-muted mt-4">Transactions fees <span class="float-right d-flex align-items-center"><del>20.000 VND</del> <span class="bg-info text-1 text-white font-weight-500 rounded d-inline-block px-2 line-height-4 ml-2">Free</span></span></p>
+                <hr>
+                <p class="text-4 font-weight-500">You'll get <span class="float-right">{{moneyReceived}} VND</span></p>
+                <button class="btn btn-primary btn-block" (click)="sellVND()">Continue</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

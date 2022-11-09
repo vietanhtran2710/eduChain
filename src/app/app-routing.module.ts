@@ -6,6 +6,7 @@ import { AdminComponent } from './admin/admin.component';
 import { CourseComponent } from './course/course.component';
 import { QuizComponent } from './quiz/quiz.component';
 import { ProfileComponent } from './profile/profile.component';
+import { PaymentComponent } from './payment/payment.component';
 
 const routes: Routes = [
   {path: "", component: LandingPageComponent},
@@ -13,7 +14,8 @@ const routes: Routes = [
   {path: "admin", component: AdminComponent},
   {path: "course/:id", component: CourseComponent},
   {path: "quiz/:id", component: QuizComponent},
-  {path: "profile/:address", component: ProfileComponent}
+  {path: "profile/:address", component: ProfileComponent},
+  {path: "payment", component: PaymentComponent}
 ];
 
 @NgModule({

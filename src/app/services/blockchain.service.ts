@@ -1,5 +1,8 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 const Web3 = require('web3')
+
+const baseUrl = 'http://localhost:8080/api/blockchain';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +21,7 @@ export class BlockchainService {
   private rewardAddress = this.rewardArtifacts.networks["5777"].address
   private rewardContract: any;
 
-  constructor() {
+  constructor(private http: HttpClient) {
 
   }
 
@@ -27,6 +30,14 @@ export class BlockchainService {
     this.contestFactoryContract = await new this.web3.eth.Contract(this.contestFactory, this.contestFactoryAddress);
     this.rewardContract = await new this.web3.eth.Contract(this.reward, this.rewardAddress);
     this.initialized = true;
+  }
+
+  mintVND(data: any) {
+    return this.http.post(`${baseUrl}/buy`, data)
+  }
+
+  burnVND(data: any) {
+    return this.http.post(`${baseUrl}/sell`, data)
   }
 
   async getEthBalance(address: string) {
@@ -51,22 +62,33 @@ export class BlockchainService {
     })
   }
 
-  async getAllRewards(address: string) {
-    await this.initWeb3();
+  async getVNDBalance(address: string) {
+    if (!this.initialized) await this.initWeb3();
     const that = this;
     return new Promise((resolve, reject) => {
-      that.rewardContract.methods.getAllRewards(address).call()
+      that.rewardContract.methods.balanceOf(address, 1).call()
       .then((result: any) => {
         return resolve(result);
       })
     })
   }
 
-  async getVNDBalance(address: string) {
-    if (!this.initialized) await this.initWeb3();
+  async createReward(address: string, required: number, amount: number, currentAccount: string) {
+    await this.initWeb3();
     const that = this;
     return new Promise((resolve, reject) => {
-      that.rewardContract.methods.balanceOf(address, 1).call()
+      that.rewardContract.methods.createStudyProgressReward(address, amount, required).send({from: currentAccount})
+      .then((result: any) => {
+        return resolve(result);
+      })
+    })
+  }
+
+  async getAllRewards(address: string) {
+    await this.initWeb3();
+    const that = this;
+    return new Promise((resolve, reject) => {
+      that.rewardContract.methods.getAllRewards(address).call()
       .then((result: any) => {
         return resolve(result);
       })
