@@ -2,11 +2,8 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 <div *ngIf="loaded" class="container-fluid">
     <div class="row bg-title">
-        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+        <div class="col">
             <h4 class="page-title">Profile: {{currentAccount}}</h4>
-        </div>
-        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-            <a (click)="logOut()" href="javascript:void(0);" class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Log out</a>
         </div>
     </div>
 
@@ -35,7 +32,7 @@
                 <h3 class="box-title">VND TOKEN Balance</h3>
                 <ul class="list-inline two-part">
                     <li><i class="fa icon-dropbox text-success"></i></li>
-                    <li class="text-right"><span class="counter text-success" id="totalBatch">{{vnd}} VNH</span></li>
+                    <li class="text-right"><span class="counter text-success" id="totalBatch">{{vnd}} VND</span></li>
                 </ul>
             </div>
         </div>
@@ -81,8 +78,8 @@
                         <thead>
                             <tr>
                                 <th>Parent Address</th>
-                                <th>Minimum KNG Required</th>
-                                <th>VNH Reward</th>
+                                <th>Minimum SKILL Required</th>
+                                <th>VND Reward</th>
                             </tr>
                         </thead>
                         <tbody>
