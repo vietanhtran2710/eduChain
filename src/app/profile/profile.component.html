@@ -23,19 +23,19 @@
         </div>
         <div class="col-lg-4 col-sm-6 ">
             <div class="white-box">
-                <h3 class="box-title">KNG</h3>
+                <h3 class="box-title">SKILL TOKEN Balance</h3>
                 <ul class="list-inline two-part">
                     <li><i class="fa fa-briefcase text-purple"></i></li>
-                    <li class="text-right "><span class="counter text-purple">{{kng}} KNG</span></li>
+                    <li class="text-right "><span class="counter text-purple">{{skill}} SKILL</span></li>
                 </ul>
             </div>
         </div>
         <div class="col-lg-4 col-sm-6 ">
             <div class="white-box">
-                <h3 class="box-title">VNH</h3>
+                <h3 class="box-title">VND TOKEN Balance</h3>
                 <ul class="list-inline two-part">
                     <li><i class="fa icon-dropbox text-success"></i></li>
-                    <li class="text-right"><span class="counter text-success" id="totalBatch">{{vnh}} VNH</span></li>
+                    <li class="text-right"><span class="counter text-success" id="totalBatch">{{vnd}} VNH</span></li>
                 </ul>
             </div>
         </div>
@@ -44,7 +44,7 @@
     <div  class="row">
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
             <div class="white-box">
-                <a *ngIf="currentAccountRole != 'STUDENT'" href="javascript:void(0);" class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light" onclick="javascript:$('#batchFormModel').modal();">Create NFT</a>
+                <a *ngIf="currentAccountRole != 'STUDENT'" class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light" onclick="javascript:$('#batchFormModel').modal();">Create NFT</a>
                 <h3 class="box-title">Your NFT</h3> 
                 <div class="table-responsive">
                     <table class="table product-overview" id="adminCultivationTable">
@@ -70,10 +70,11 @@
         </div>
     </div>
 
-    <div *ngIf="currentAccountRole == 'STUDENT' "class="row">
+    <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
             <div class="white-box">
-                <a href="javascript:void(0);" class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light" onclick="javascript:$('#batchFormModel').modal();">Create Reward</a>
+                <a *ngIf="currentAccountRole != 'STUDENT'" class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light" 
+                onclick="javascript:$('#batchFormModel').modal();">Create Reward</a>
                 <h3 class="box-title">Current Study Rewards</h3> 
                 <div class="table-responsive">
                     <table class="table product-overview" id="adminCultivationTable">
@@ -97,7 +98,7 @@
         </div>
     </div>
 
-    <!-- <div class="row">
+    <div class="row">
         <div class="col-lg-6 col-sm-6 col-xs-12">
             <div class="white-box">
                 <h3 class="box-title">Contest Factory Address <i class="fa fa-qrcode fa-2x text-danger"></i></h3>
@@ -114,5 +115,5 @@
                 </ul>
             </div>
         </div>
-    </div> -->
+    </div>
 </div>
