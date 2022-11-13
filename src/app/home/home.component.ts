@@ -57,7 +57,7 @@ export class HomeComponent implements OnInit {
           }
           else if (this.currentAccountRole == "STUDENT") {
             this.title = "YOUR ENROLLED COURSE";
-            this.secondTitle = "EXPLORE MORE COURES";
+            this.secondTitle = "EXPLORE MORE COURSE";
             this.enrollmentService.getEnrolledCourse(this.currentAccount).subscribe({
               next: (result: any) => {
                 console.log(result);
