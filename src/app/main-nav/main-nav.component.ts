@@ -22,7 +22,6 @@ export class MainNavComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder
   ) {
-    console.log(this.router.getCurrentNavigation());
     if (Object.keys(this.authService.currentUserValue).length !== 0) {
       this.authService.verifyToken().subscribe({
         next: (data: any) => {
