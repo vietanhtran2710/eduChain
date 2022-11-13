@@ -30,7 +30,7 @@ const db = require("./models");
 //         fullName: "ADMIN",
 //         email: "vietanhtran.uet@gmail.com",
 //         workLocation: "Vietnam National University",
-//         dateOfBirth: "10//2000",
+//         dateOfBirth: "10/27/2000",
 //         verified: true
 //     });
 // });
@@ -50,6 +50,8 @@ require("./routes/quiz.routes")(app);
 require("./routes/enrollment.routes")(app);
 require("./routes/blockchain.routes")(app);
 require("./routes/certificate.routes")(app);
+require("./routes/contest.routes")(app);
+
 const PORT = 8080;
 app.listen(PORT, () => {
     console.log(`Server is running on port ${PORT}.`);

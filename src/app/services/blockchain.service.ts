@@ -4,6 +4,16 @@ const Web3 = require('web3')
 
 const baseUrl = 'http://localhost:8080/api/blockchain';
 
+const unpack = (str: string) => {
+  var bytes = [];
+  for(var i = 0; i < str.length; i++) {
+      var char = str.charCodeAt(i);
+      bytes.push(char >>> 8);
+      bytes.push(char & 0xFF);
+  }
+  return bytes;
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -101,5 +111,16 @@ export class BlockchainService {
 
   getRewardAddress(): string {
     return this.rewardAddress
+  }
+
+  async createContest(answer: string, currentAccount: string) {
+    await this.initWeb3();
+    const that = this;
+    return new Promise((resolve, reject) => {
+      that.contestFactoryContract.methods.createNewContest(unpack(answer)).send({from: currentAccount})
+      .then((result: any) => {
+        return resolve(result);
+      })
+    })
   }
 }

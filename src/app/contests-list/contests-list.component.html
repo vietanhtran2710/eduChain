@@ -10,7 +10,8 @@
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
             <div class="white-box">
-                <a href="javascript:void(0);" class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light" onclick="javascript:$('#batchFormModel').modal();">Create Contest</a>
+                <a class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light"
+                data-bs-toggle="modal" data-bs-target="#contestModal">Create Contest</a>
                 <h3 class="box-title">Contests list</h3> 
                 <div class="table-responsive">
                     <table class="table product-overview" id="adminCultivationTable">
@@ -56,31 +57,41 @@
     </div>
 </div>
 
-<!-- <div id="batchFormModel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-top: 170px;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Create Contest</h2>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label class="control-label" for="farmerRegistrationNo">Title<i class="red">*</i></label>
-                    <input type="text" class="form-control" id="farmerRegistrationNo" name="farmerRegistrationNo"
-                    [(ngModel)]="contestInfo.title" #title="ngModel">
-                </div> 
-                <div class="form-group">
-                    <label class="control-label" for="farmerName">Description<i class="red">*</i></label>
-                    <input type="text" class="form-control" id="farmerName" name="farmerName"
-                    [(ngModel)]="contestInfo.description" #description="ngModel">
-                </div> 
-                <div class="form-group">
-                    <label class="control-label" for="farmerName">Questions & Answers<i class="red">*</i></label> <br>
-                    <input type="file" id="myFile" name="filename">
-                </div>                           
-            </div>
-            <div class="modal-footer">
-                 <button type="submit" (click)="createContest()" class="fcbtn btn btn-primary btn-outline btn-1f">Submit</button>
-            </div>
-        </div>
-    </div>
-</div> -->
+<div class="modal fade" id="contestModal" tabindex="-1" role="dialog" 
+    aria-labelledby="contestModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title" id="extendModalLabel">
+					Create contest
+				</h1>
+			</div>
+			<div class="modal-body">
+				<form [formGroup]="contestModel" (ngSubmit)="createContest()" id="contest">
+					<div class="form-group">
+						<label for="title">Contest title</label>
+						<input class="form-control" type="text" class="form-control" name="title" id="title" formControlName="title">
+                        <label for="description">Description</label>
+						<textarea class="form-control" type="text" class="form-control" name="description" id="description" formControlName="description">
+                        </textarea>
+                        <label for="file">Questions file</label>
+						<input class="form-control" type="file" class="form-control" name="file" id="file" (input)="fileChosen($event)">
+					</div>
+				</form>
+                <div *ngFor="let item of questions; let i = index">
+					<h5>{{i + 1}}. {{item}}</h5>
+                    <div *ngFor="let choice of choices[i].split(';'); let j = index">
+                        <p style="display: inline">{{"ABCD"[j]}}. {{choice}}</p>
+                        <p style="display: inline" *ngIf="answer[i] == 'ABCD'[j]"> (Correct answer)</p>
+                    </div>
+				</div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary" form="contest" data-dismiss="modal">
+                    Confirm
+                </button>
+			</div>
+		</div>
+	</div>
+</div>
