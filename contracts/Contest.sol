@@ -2,11 +2,18 @@
 
 import "@openzeppelin/contracts/utils/Counters.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "./LearningReward.sol";
 
 pragma solidity ^0.8.0;
 
 // Reward for the best only.
 contract Contest is Ownable {
+    LearningReward rewardContract;
+    address rewardAddress;
+
+    uint256 public constant SKILL_ID = 0;
+    uint256 public constant VND_ID = 1;
+
     struct Reward {
         uint256[] collectiblesTokenId;
         uint256 vnhToken;
@@ -20,6 +27,7 @@ contract Contest is Ownable {
     mapping(address => Reward) sponsorReward;
 
     address[] contestants;
+    mapping(address => bool) isContestant;
     mapping(address => Result) contestantsResult;
 
     uint256 totalVnhReward;
@@ -27,8 +35,10 @@ contract Contest is Ownable {
 
     bytes[] answers;
 
-    constructor(bytes[] memory _answers) {
+    constructor(bytes[] memory _answers, address rewardContractAddress) {
         answers = _answers;
+        rewardContract = LearningReward(rewardContractAddress);
+        rewardAddress = rewardContractAddress;
     }
 
     function getStudentResults() public view returns (Result[] memory) {
@@ -81,16 +91,29 @@ contract Contest is Ownable {
     }
 
     function register(address student) public {
+        require(
+            rewardContract.isStudent(student),
+            "OLPContestFactory: only role student"
+        );
         contestants.push(student);
+        isContestant[student] = true;
     }
 
-    function registerBatch(address[] memory students) public {
+    function registerBatch(address[] memory students) public onlyOwner {
+        for (uint256 i = 0; i < students.length; ++i) {
+            require(
+                rewardContract.isStudent(students[i]),
+                "OLPContestFactory: only role student"
+            );
+        }
         for (uint256 i = 0; i < students.length; ++i) {
             contestants.push(students[i]);
+            isContestant[students[i]] = true;
         }
     }
 
-    function gradeSubmission(address student, bytes[] calldata submission, uint time) public onlyOwner {
+    function gradeSubmission(address student, bytes[] calldata submission, uint time) public returns (uint) {
+        require(isContestant[msg.sender], "Sender is not a contestants");
         uint grade = 0;
         for (uint256 i = 0; i < answers.length; i++) {
             bytes memory a = answers[i]; bytes memory b = submission[i];
@@ -98,21 +121,47 @@ contract Contest is Ownable {
         }
         contestantsResult[student].grade = grade;
         contestantsResult[student].time = time;
+        return grade;
     }
 
     function registerReward(
-        address _sponsor,
         uint256 _totalVnh,
-        uint256[] memory _nfts
+        uint256[] memory nfts
     ) public {
-        sponsors.push(_sponsor);
-        sponsorReward[_sponsor] = Reward({
+        require(
+            rewardContract.isSponsor(msg.sender),
+            "OLPContestFactory: only role sponsor"
+        );
+
+        // Send sponsor's registed reward token to contract's balance.
+        uint256 len = nfts.length;
+
+        uint256[] memory ids = new uint256[](len + 1);
+        uint256[] memory amounts = new uint256[](len + 1);
+
+        for (uint256 i = 0; i < len; ++i) {
+            ids[i] = nfts[i];
+            amounts[i] = 1;
+        }
+
+        ids[len] = VND_ID;
+        amounts[len] = _totalVnh;
+
+        rewardContract.safeBatchTransferFrom(
+            msg.sender,
+            rewardAddress,
+            ids,
+            amounts,
+            ""
+        );
+        sponsors.push(msg.sender);
+        sponsorReward[msg.sender] = Reward({
             vnhToken: _totalVnh,
-            collectiblesTokenId: _nfts
+            collectiblesTokenId: nfts
         });
         totalVnhReward += _totalVnh;
-        for (uint256 i = 0; i < _nfts.length; ++i) {
-            totalNftReward.push(_nfts[i]);
+        for (uint256 i = 0; i < nfts.length; ++i) {
+            totalNftReward.push(nfts[i]);
         }
     }
 
@@ -122,5 +171,35 @@ contract Contest is Ownable {
 
     function getTotalNftReward() public view returns (uint256[] memory) {
         return totalNftReward;
+    }
+
+    function endContest() public onlyOwner {
+        address winner = getTopWinner();
+
+        // Send reward (from contract's balance) the to winner.
+        uint256 len = getTotalNftReward().length;
+
+        uint256[] memory ids = new uint256[](len + 1);
+        uint256[] memory amounts = new uint256[](len + 1);
+
+        for (uint256 i = 0; i < len; ++i) {
+            ids[i] = getTotalNftReward()[i];
+            amounts[i] = 1;
+        }
+
+        ids[len] = VND_ID;
+        amounts[len] = getTotalVnhReward();
+        rewardContract.withdrawBatchFromContract(winner, ids, amounts, "");
+    }
+
+    function getAllRewardOf()
+        public
+        view
+        returns (uint256, uint256[] memory)
+    {
+        return (
+            getTotalVnhReward(),
+            getTotalNftReward()
+        );
     }
 }

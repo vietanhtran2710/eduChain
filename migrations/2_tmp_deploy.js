@@ -7,9 +7,9 @@ module.exports = async function (deployer) {
   .then(function() {
     return deployer.deploy(ContestFactory, Reward.address);
   })
-  .then(async function() {
+  .then(async function(instance) {
     rewardContractInstance = await Reward.deployed();
-    rewardContractInstance.setContract(ContestFactory.address);
+    rewardContractInstance.setContract(instance.address);
     return deployer.deploy(Certificate, "Certificate", "CERT");
   })
   .then(() => {

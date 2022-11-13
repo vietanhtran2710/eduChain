@@ -62,15 +62,15 @@ contract Tokens is
         _setURI(newuri);
     }
 
-    function approveForContract() public {
-        setApprovalForAll(PROCESS_CONTRACT_ADDRESS, true);
+    function approveForContract(address contractAddress) public {
+        setApprovalForAll(contractAddress, true);
     }
 
-    function withdrawFromContract(address _to, uint256 _id, uint256 _amount, bytes memory data) public onlyRole(PROCESS_CONTRACT_ROLE) {
+    function withdrawFromContract(address _to, uint256 _id, uint256 _amount, bytes memory data) public onlyRole(CONTRACT_ROLE) {
         Tokens(address(this)).safeTransferFrom(address(this), _to, _id, _amount, data);
     }
 
-    function withdrawBatchFromContract(address _to, uint256[] memory _ids, uint256[] memory _amounts, bytes memory data) public onlyRole(PROCESS_CONTRACT_ROLE) {
+    function withdrawBatchFromContract(address _to, uint256[] memory _ids, uint256[] memory _amounts, bytes memory data) public onlyRole(CONTRACT_ROLE) {
         Tokens(address(this)).safeBatchTransferFrom(address(this), _to, _ids, _amounts, data);
     }
 

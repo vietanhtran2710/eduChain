@@ -4,7 +4,7 @@ pragma solidity ^0.8.0;
 import "@openzeppelin/contracts/access/AccessControl.sol";
 
 contract Role is AccessControl {
-    bool isContractSet = false;
+    bool public isContractSet = false;
     address public PROCESS_CONTRACT_ADDRESS;
 
     bytes32 public constant URI_SETTER_ROLE = keccak256("URI_SETTER_ROLE");
@@ -15,26 +15,16 @@ contract Role is AccessControl {
     bytes32 public constant TEACHER_ROLE = keccak256("TEACHER_ROLE");
     bytes32 public constant STUDENT_ROLE = keccak256("STUDENT_ROLE");
     bytes32 public constant PARENT_ROLE = keccak256("PARENT_ROLE");
-    bytes32 public constant PROCESS_CONTRACT_ROLE =
-        keccak256("PROCESS_CONTRACT_ROLE");
+    bytes32 public constant CONTRACT_ROLE = keccak256("CONTRACT_ROLE");
 
-    function setContract(address _address)
-        public
-        onlyRole(DEFAULT_ADMIN_ROLE)
-        returns (address)
-    {
+    function setContract(address _address) public onlyRole(DEFAULT_ADMIN_ROLE) {
         require(
             (isContractSet == false) && (_address != address(0)),
             "Only set once"
         );
-        grantRole(PROCESS_CONTRACT_ROLE, _address);
+        grantRole(CONTRACT_ROLE, _address);
+        _setRoleAdmin(CONTRACT_ROLE, CONTRACT_ROLE);
         isContractSet = true;
-        PROCESS_CONTRACT_ADDRESS = _address;
-        return PROCESS_CONTRACT_ADDRESS;
-    }
-
-    function getContractAdress() public view returns (address) {
-        return PROCESS_CONTRACT_ADDRESS;
     }
 
     // Add roles.

@@ -1,8 +1,10 @@
 let reward = artifacts.require("./LearningReward.sol");
 let contest = artifacts.require("./ContestFactory.sol");
+let singleContest = artifacts.require("./Contest.sol");
 
 let rewardInstance, contestInstance;
 let contractAddress, contestId;
+let singleContestInstance;
 
 function unpack(str) {
     var bytes = [];
@@ -18,14 +20,22 @@ contract('Contracts', function (accounts) {
     it("Contracts deployment", function() {
         return reward.deployed().then(function(instance) {
             rewardInstance = instance;
+            console.log("Learning Reward Address: ", rewardInstance.address);
             assert(rewardInstance != undefined, "LearningReward should be defined/deployed");
         })
         .then(function() {
             return contest.deployed().then(function(instance) {
                 contestInstance = instance;
                 contractAddress = contestInstance.address;
+                console.log("Contest Factory Address: ", contractAddress);
                 assert(contestInstance != undefined, "ContestFactory should be deployed");
             })
+        })
+        .then(() => {
+            return rewardInstance.isContractSet();
+        })
+        .then((result) => {
+            assert.equal(result, true, "Contract must have been set");
         });
     });
 
@@ -57,15 +67,15 @@ contract('Contracts', function (accounts) {
         })
     })
 
-    it("Sponsor approval", function() {
-        return rewardInstance.approveForContract({from: accounts[4]})
-        .then(function (){
-            return rewardInstance.isApprovedForAll(accounts[4], contractAddress, {from: accounts[0]})
-        })
-        .then(function (result) {
-            assert.equal(true, result, "Sponsor at account 4 should approved");
-        })
-    })
+    // it("Sponsor approval", function() {
+    //     return rewardInstance.approveForContract({from: accounts[4]})
+    //     .then(function (){
+    //         return rewardInstance.isApprovedForAll(accounts[4], contractAddress, {from: accounts[0]})
+    //     })
+    //     .then(function (result) {
+    //         assert.equal(true, result, "Sponsor at account 4 should approved");
+    //     })
+    // })
 
     it("SKILL Token mint test", function() {
         return rewardInstance.earnReward(accounts[1], {from: accounts[0]})
@@ -155,21 +165,39 @@ contract('Contracts', function (accounts) {
 
     it("Contest Reward test", async function() {
         tx = await contestInstance.createNewContest(unpack("ABCD"), {from: accounts[0]});
-        contestId = tx.logs[1]['args']['0'];
+        let contestAddress;
+        for (let item of tx.logs) {
+            if (item.event == "CreatedContest") {
+                contestAddress = item.args.contestAddress
+            }
+        }
         return contestInstance.getNumberOfContests({from: accounts[0]})
         .then(async function(result) {
             assert.equal(1, result.toNumber(), "Contest should be created");
-            await contestInstance.registerReward(contestId, 60, [2], {from: accounts[4]});
+            return contestInstance.getUserContests(accounts[0])
+        })
+        .then(async (result) => {
+            assert.equal(contestAddress, result[0], "Wrong contest address");
+            singleContestInstance = await singleContest.at(contestAddress);
+            return singleContestInstance.owner();
+        })
+        .then(async (result) => {
+            await rewardInstance.approveForContract(contestAddress, {from: accounts[4]})
+            return rewardInstance.isApprovedForAll(accounts[4], contestAddress, {from: accounts[0]})
+        })
+        .then(async (result) => {
+            assert.equal(true, result, "Sponsor at account 4 should approved");
+            await singleContestInstance.registerReward(60, [2], {from: accounts[4]});
             return rewardInstance.balanceOf(accounts[4], 1, {from: accounts[4]})
         })
         .then(async function(result) {
             assert.equal(40, result.toNumber(), "Rewards should be transferred");
             await rewardInstance.addStudent(accounts[5], {from: accounts[0]})
-            await contestInstance.registerStudent(accounts[5], contestId, {from: accounts[0]})
-            await contestInstance.registerStudent(accounts[1], contestId, {from: accounts[0]})
-            await contestInstance.gradeSubmission(contestId, accounts[5], unpack("ABCD"), 11, {from: accounts[0]})
-            await contestInstance.gradeSubmission(contestId, accounts[1], unpack("ABCD"), 10, {from: accounts[0]})
-            await contestInstance.endContest(contestId, {from: accounts[0]})
+            await singleContestInstance.register(accounts[5], {from: accounts[0]})
+            await singleContestInstance.register(accounts[1], {from: accounts[0]})
+            await singleContestInstance.gradeSubmission(accounts[5], unpack("ABCD"), 11, {from: accounts[5]})
+            await singleContestInstance.gradeSubmission(accounts[1], unpack("ABCD"), 10, {from: accounts[1]})
+            await singleContestInstance.endContest({from: accounts[0]})
             return rewardInstance.balanceOf(accounts[1], 1, {from: accounts[0]})
         })
         .then(function(result) {
