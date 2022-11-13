@@ -11,8 +11,8 @@
 	<ul class="nav navbar-nav">
         <a class="nav-link" routerLink="/payment">Trade VND Token</a>
     </ul>
-	<ul *ngIf="currentAccountRole == 'STUDENT'" class="nav navbar-nav">
-        <a class="nav-link">Contest List</a>
+	<ul class="nav navbar-nav">
+        <a class="nav-link" routerLink="/contestslist">Contests</a>
     </ul>
     <ul class="nav navbar-nav ml-auto">
         <a class="nav-link" (click)="logOut()">Log Out</a>
