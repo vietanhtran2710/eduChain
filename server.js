@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const key = require('./config/secret-key.json');
 
 global.__basedir = __dirname;
 console.log(__dirname)
@@ -11,6 +12,8 @@ var corsOptions = {
     origin: "http://localhost:4200",
 };
 
+console.log(process.argv);
+
 app.use(cors(corsOptions));
 
 app.use(bodyParser.json());
@@ -18,9 +21,24 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 const db = require("./models");
+
+// db.sequelize.sync({force: true}).then(async () => {
+//     console.log("Server ready");
+//     await db.users.create({
+//         address: key.address,
+//         role: "ADMIN",
+//         fullName: "ADMIN",
+//         email: "vietanhtran.uet@gmail.com",
+//         workLocation: "Vietnam National University",
+//         dateOfBirth: "10//2000",
+//         verified: true
+//     });
+// });
+
 db.sequelize.sync().then(() => {
-  console.log("Drop and re-sync db.");
+    console.log("Server ready");
 });
+
 
 app.get("/", (req, res) => {
     res.json({ message: "Server is running" });
