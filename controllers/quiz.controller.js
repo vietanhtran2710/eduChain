@@ -135,7 +135,7 @@ exports.getCourseQuizes = (req, res) => {
 };
 
 // Get quiz questions
-exports.getCourseQuestions = (req, res) => {
+exports.getQuizQuestions = (req, res) => {
 	const id = req.params.quizID;
 
 	Quiz.findByPk(id, {

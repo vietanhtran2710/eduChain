@@ -15,7 +15,7 @@ module.exports = app => {
     router.get("/course/:courseID", quiz.getCourseQuizes);
 
     // Get course quizes
-    router.get("/question/:quizID", quiz.getCourseQuestions);
+    router.get("/question/:quizID", quiz.getQuizQuestions);
 
     // Check course status
     router.get("/status/:address&:id", quiz.checkStatus);
