@@ -1,0 +1,86 @@
+<app-main-nav></app-main-nav>
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+<div *ngIf="loaded" class="container-fluid">
+    <div class="row bg-title">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <h4 class="page-title">LISTS OF ALL CONTEST</h4>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <div class="white-box">
+                <a href="javascript:void(0);" class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light" onclick="javascript:$('#batchFormModel').modal();">Create Contest</a>
+                <h3 class="box-title">Contests list</h3> 
+                <div class="table-responsive">
+                    <table class="table product-overview" id="adminCultivationTable">
+                        <thead>
+                            <tr>
+                                <th>Address</th>
+                                <th>Title</th>
+                                <th>Description</th>
+                                <th>Host</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr *ngFor="let contest of contests">
+                                    <td><a (click)="navigateToContest(contest.address)">{{contest.address}}</a></td>
+                                    <td>{{contest.title}}</td>
+                                    <td>{{contest.description}}</td>
+                                    <td>{{contest.userAddress}}</td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 col-sm-6 col-xs-12">
+            <div class="white-box">
+                <h3 class="box-title">Contest Factory Address <i class="fa fa-qrcode fa-2x text-danger"></i></h3>
+                <ul class="list-inline two-part">
+                    <li class="text-right" id="storageContractAddress">{{contestAddress}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-xs-12">
+            <div class="white-box">
+                <h3 class="box-title">Reward Address <i class="fa fa-qrcode fa-2x text-info"></i></h3>
+                <ul class="list-inline two-part">
+                    <li class="text-right" id="coffeeSupplychainContractAddress">{{rewardAddress}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div id="batchFormModel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-top: 170px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Create Contest</h2>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="control-label" for="farmerRegistrationNo">Title<i class="red">*</i></label>
+                    <input type="text" class="form-control" id="farmerRegistrationNo" name="farmerRegistrationNo"
+                    [(ngModel)]="contestInfo.title" #title="ngModel">
+                </div> 
+                <div class="form-group">
+                    <label class="control-label" for="farmerName">Description<i class="red">*</i></label>
+                    <input type="text" class="form-control" id="farmerName" name="farmerName"
+                    [(ngModel)]="contestInfo.description" #description="ngModel">
+                </div> 
+                <div class="form-group">
+                    <label class="control-label" for="farmerName">Questions & Answers<i class="red">*</i></label> <br>
+                    <input type="file" id="myFile" name="filename">
+                </div>                           
+            </div>
+            <div class="modal-footer">
+                 <button type="submit" (click)="createContest()" class="fcbtn btn btn-primary btn-outline btn-1f">Submit</button>
+            </div>
+        </div>
+    </div>
+</div> -->

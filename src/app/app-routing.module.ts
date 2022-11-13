@@ -8,6 +8,7 @@ import { QuizComponent } from './quiz/quiz.component';
 import { ProfileComponent } from './profile/profile.component';
 import { PaymentComponent } from './payment/payment.component';
 import { ViewComponent } from './view/view.component';
+import { ContestsListComponent } from './contests-list/contests-list.component';
 
 const routes: Routes = [
   {path: "", component: LandingPageComponent},
@@ -17,7 +18,8 @@ const routes: Routes = [
   {path: "quiz/:id", component: QuizComponent},
   {path: "profile/:address", component: ProfileComponent},
   {path: "payment", component: PaymentComponent},
-  {path: "view/:hash", component: ViewComponent}
+  {path: "view/:hash", component: ViewComponent},
+  {path: "contestslist", component: ContestsListComponent}
 ];
 
 @NgModule({
