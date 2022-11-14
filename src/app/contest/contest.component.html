@@ -1,0 +1,179 @@
+<app-main-nav></app-main-nav>
+<link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
+<div class="container-fluid">
+    <div class="row bg-title">
+        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+            <h4 class="page-title">Contest: {{contestAddress}}</h4>
+        </div>
+        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+            <a *ngIf="currentAccountRole == 'SPONSOR'" 
+            class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light" 
+            >Register Reward</a>
+            <a *ngIf="currentAccountRole == 'STUDENT'" 
+            class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light" 
+            (click)="takeExam()">Take Exam</a>
+        </div>
+    </div>
+
+    <!-- /.row -->
+
+    <div class="row">
+        <div class="col-lg-4 col-sm-6 ">
+            <div class="white-box">
+                <h3 class="box-title">Total VNH Reward</h3>
+                <ul class="list-inline two-part">
+                    <li><i class="icon-user text-info"></i></li>
+                    <li class="text-right"><span class="counter text-info" id="totalUsers">{{total}} VNH</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 ">
+            <div class="white-box">
+                <h3 class="box-title">Users</h3>
+                <ul class="list-inline two-part">
+                    <li><i class="fa fa-briefcase text-purple"></i></li>
+                    <li class="text-right "><span class="counter text-purple">{{contestants.length}} STUDENTS</span></li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-4 col-sm-6 ">
+            <div class="white-box">
+                <h3 class="box-title">Total NFT rewards</h3>
+                <ul class="list-inline two-part">
+                    <li><i class="fa icon-dropbox text-success"></i></li>
+                    <li class="text-right"><span class="counter text-success" id="totalBatch">{{nftRewardCount}} NFT</span></li>
+                </ul>
+            </div>
+        </div>
+    </div> 
+
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <div class="white-box">
+                <a *ngIf="currentAccount == contestInfo.userAddress" 
+                class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Register Student</a>
+                <h3 class="box-title">Contestants list</h3> 
+                <div class="table-responsive">
+                    <table class="table product-overview" id="adminCultivationTable">
+                        <thead>
+                            <tr>
+                                <th>Address</th>
+                                <th>FullName</th>
+                                <th>Work Location</th>
+                                <th>Date Of Birth</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr *ngFor="let student of contestants">
+                                    <td>{{student.address}}</td>
+                                    <td>{{student.fullName}}</td>
+                                    <td>{{student.workLocation}}</td>
+                                    <td>{{formatDate(student.dateOfBirth)}}</td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
+            <div class="white-box">
+                <a *ngIf="currentAccount == contestInfo.userAddress && contestInfo.contestEnded != 'ENDED'" (click)="endContest()" 
+                class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">End Contest</a>
+                <h3 class="box-title">Results</h3> 
+                <div class="table-responsive">
+                    <table class="table product-overview" id="adminCultivationTable">
+                        <thead>
+                            <tr>
+                                <th>Address</th>
+                                <th>Grade</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                <tr *ngFor="let student of results; let i = index">
+                                    <td>{{contestants[i].address}}</td>
+                                    <td>{{student.grade}}</td>
+                                    <td>{{student.time}}</td>
+                                </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-6 col-sm-6 col-xs-12">
+            <div class="white-box">
+                <h3 class="box-title">Contest Factory Address <i class="fa fa-qrcode fa-2x text-danger"></i></h3>
+                <ul class="list-inline two-part">
+                    <li class="text-right" id="storageContractAddress">{{contestAddress}}</li>
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-6 col-sm-6 col-xs-12">
+            <div class="white-box">
+                <h3 class="box-title">Reward Address <i class="fa fa-qrcode fa-2x text-info"></i></h3>
+                <ul class="list-inline two-part">
+                    <li class="text-right" id="coffeeSupplychainContractAddress">{{rewardAddress}}</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- <div id="registerModel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-top: 170px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Register Student</h2>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="control-label" for="farmerRegistrationNo">Address<i class="red">*</i></label>
+                    <input type="text" class="form-control" id="farmerRegistrationNo" name="farmerRegistrationNo"
+                    [(ngModel)]="registerAddress" #title="ngModel">
+                </div>                       
+            </div>
+            <div class="modal-footer">
+                 <button type="submit" (click)="registerStudent()" class="fcbtn btn btn-primary btn-outline btn-1f">Submit</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="rewardModel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-top: 170px;">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 class="modal-title">Add reward</h2>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label class="control-label" for="farmerRegistrationNo">VNH Token<i class="red">*</i></label>
+                    <input type="number" class="form-control" id="farmerRegistrationNo" name="farmerRegistrationNo"
+                    [(ngModel)]="vnh" #title="ngModel">
+                </div>
+                <div *ngFor="let in of counter(nftCount); let i = index" class="form-group">
+                    <label class="control-label" for="farmerRegistrationNo">NFT ID<i class="red">*</i></label>
+                    <select type="text" class="form-control" name="accountRole" id="accountRole" [(ngModel)]="nftID[i]" #id{{i}}="ngModel">
+                        <option *ngFor="let id of ownedNFT" value={{id}}>{{id}}</option>
+                    </select>
+                    <div *ngIf="nftID[i] != undefined">
+                        <span>NAME: {{nftInfo.get(nftID[i])["name"]}}</span> <br>
+                        <span>LINK: {{nftInfo.get(nftID[i])["link"]}}</span> <br>
+                        <span>VALUE: {{nftInfo.get(nftID[i])["value"]}}</span> <br>
+                    </div>
+                </div>                       
+            </div>
+            <div class="modal-footer">
+                <button type="submit" (click)="removeNFT()" class="fcbtn btn btn-primary btn-outline btn-1f">Remove NFT</button>
+                <button type="submit" (click)="addNFT()" class="fcbtn btn btn-primary btn-outline btn-1f">Add NFT</button>
+                <button type="submit" (click)="addReward()" class="fcbtn btn btn-primary btn-outline btn-1f">Submit</button> 
+            </div>
+        </div>
+    </div>
+</div> -->

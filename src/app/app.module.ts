@@ -17,6 +17,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { PaymentComponent } from './payment/payment.component';
 import { ViewComponent } from './view/view.component';
 import { ContestsListComponent } from './contests-list/contests-list.component';
+import { ContestComponent } from './contest/contest.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,8 @@ import { ContestsListComponent } from './contests-list/contests-list.component';
     ProfileComponent,
     PaymentComponent,
     ViewComponent,
-    ContestsListComponent
+    ContestsListComponent,
+    ContestComponent
   ],
   imports: [
     BrowserModule,

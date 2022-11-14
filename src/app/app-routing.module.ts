@@ -9,6 +9,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { PaymentComponent } from './payment/payment.component';
 import { ViewComponent } from './view/view.component';
 import { ContestsListComponent } from './contests-list/contests-list.component';
+import { ContestComponent } from './contest/contest.component';
 
 const routes: Routes = [
   {path: "", component: LandingPageComponent},
@@ -19,7 +20,8 @@ const routes: Routes = [
   {path: "profile/:address", component: ProfileComponent},
   {path: "payment", component: PaymentComponent},
   {path: "view/:hash", component: ViewComponent},
-  {path: "contestslist", component: ContestsListComponent}
+  {path: "contestslist", component: ContestsListComponent},
+  {path: "contest/:address", component: ContestComponent}
 ];
 
 @NgModule({

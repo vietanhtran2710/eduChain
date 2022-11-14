@@ -1,0 +1,604 @@
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,300,500,600,700,800);
+@import url(https://fonts.googleapis.com/css?family=Roboto:100,300,400,500,700,900);
+@import url(https://fonts.googleapis.com/css?family=Poppins:400,500,300,600,700);
+
+.preloader {
+    width: 100%;
+    height: 31px;
+    text-align: center;
+}
+
+.fa-check:before {
+	content: "\f00c"
+}
+    
+.cssload-speeding-wheel {
+    width: 31px;
+    height: 31px;
+    margin: 0 auto;
+    border: 2px solid rgba(97,100,193,0.98);
+    border-radius: 50%;
+    border-left-color: transparent;
+    border-right-color: transparent;
+    animation: cssload-spin 425ms infinite linear;
+    -o-animation: cssload-spin 425ms infinite linear;
+    -ms-animation: cssload-spin 425ms infinite linear;
+    -webkit-animation: cssload-spin 425ms infinite linear;
+    -moz-animation: cssload-spin 425ms infinite linear;
+}
+    
+@keyframes cssload-spin {
+    100%{ transform: rotate(360deg); transform: rotate(360deg); }
+}
+    
+@-o-keyframes cssload-spin {
+    100%{ -o-transform: rotate(360deg); transform: rotate(360deg); }
+}
+    
+@-ms-keyframes cssload-spin {
+    100%{ -ms-transform: rotate(360deg); transform: rotate(360deg); }
+}
+    
+@-webkit-keyframes cssload-spin {
+    100%{ -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
+    
+@-moz-keyframes cssload-spin {
+    100%{ -moz-transform: rotate(360deg); transform: rotate(360deg); }
+}
+
+@font-face {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://fonts.gstatic.com/s/poppins/v1/2fCJtbhSlhNNa6S2xlh9GyEAvth_LlrfE80CYdSH47w.woff2) format('woff2');
+    unicode-range: U+02BC, U+0900097F, U+1CD0-1CF6, U+1CF8-1CF9, U+200B-200D, U+20A8, U+20B9, U+25CC, U+A830-A839, U+A8E0-A8FB
+}
+
+@font-face {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://fonts.gstatic.com/s/poppins/v1/UGh2YG8gx86rRGiAZYIbVyEAvth_LlrfE80CYdSH47w.woff2) format('woff2');
+    unicode-range: U+0100024F, U+1E00-1EFF, U+20A0-20AB, U+20AD-20CF, U+2C60-2C7F, U+A720-A7FF
+}
+
+@font-face {
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 400;
+    src: url(https://fonts.gstatic.com/s/poppins/v1/yQWaOD4iNU5NTY0apN-qj_k_vArhqVIZ0nv9q090hN8.woff2) format('woff2');
+    unicode-range: U+000000FF, U+0131, U+01520153, U+02C6, U+02DA, U+02DC, U+2000-206F, U+2074, U+20AC, U+2212, U+2215, U+E0FF, U+EFFD, U+F000
+}
+
+.container-fluid {
+    background-color: #edf1f5;
+}
+
+.white {
+    color: white;
+}
+
+* {
+    outline: 0!important
+}
+
+body {
+    font-family: Poppins, sans-serif;
+    margin: 0;
+    overflow-x: hidden;
+    color: #686868;
+    font-weight: 300
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+    background: #fff
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    color: #2b2b2b;
+    font-family: Poppins, sans-serif;
+    margin: 10px 0;
+    font-weight: 300
+}
+
+h3 {
+    line-height: 30px;
+    font-size: 21px
+}
+
+h4 {
+    line-height: 22px;
+    font-size: 18px
+}
+
+.p-r-10 {
+    padding-right: 10px!important
+}
+
+.m-l-20 {
+    margin-left: 20px!important
+}
+
+.text-danger {
+    color: #fb9678!important
+}
+
+.text-success {
+    color: #00c292!important
+}
+
+.text-info {
+    color: #03a9f3!important
+}
+
+.text-inverse {
+    color: #4c5667!important
+}
+
+.text-purple {
+    color: #9675ce!important
+}
+
+.label {
+    letter-spacing: .05em;
+    border-radius: 60px;
+    padding: 4px 16px 3px;
+    font-weight: 500
+}
+
+.label-success {
+    background-color: #00c292
+}
+
+.label-info {
+    background-color: #03a9f3
+}
+
+.label-warning {
+    background-color: #fec107
+}
+
+.label-danger {
+    background-color: #fb9678
+}
+
+.label-primary {
+    background-color: #ab8ce4
+}
+
+.btn {
+    border-radius: 0
+}
+
+
+.container-fluid {
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-bottom: 15px;
+}
+
+.col-lg-1,
+.col-lg-10,
+.col-lg-11,
+.col-lg-12,
+.col-lg-2,
+.col-lg-3,
+.col-lg-4,
+.col-lg-5,
+.col-lg-6,
+.col-lg-7,
+.col-lg-8,
+.col-lg-9,
+.col-md-1,
+.col-md-10,
+.col-md-11,
+.col-md-12,
+.col-md-2,
+.col-md-3,
+.col-md-4,
+.col-md-5,
+.col-md-6,
+.col-md-7,
+.col-md-8,
+.col-md-9,
+.col-sm-1,
+.col-sm-10,
+.col-sm-11,
+.col-sm-12,
+.col-sm-2,
+.col-sm-3,
+.col-sm-4,
+.col-sm-5,
+.col-sm-6,
+.col-sm-7,
+.col-sm-8,
+.col-sm-9,
+.col-xs-1,
+.col-xs-10,
+.col-xs-11,
+.col-xs-12,
+.col-xs-2,
+.col-xs-3,
+.col-xs-4,
+.col-xs-5,
+.col-xs-6,
+.col-xs-7,
+.col-xs-8,
+.col-xs-9 {
+    padding-left: 7.5px;
+    padding-right: 7.5px
+}
+
+.row {
+    margin-right: -7.5px;
+    margin-left: -7.5px
+}
+
+.table-responsive {
+    overflow-y: hidden
+}
+
+#page-wrapper {
+    padding: 0 0 60px;
+    min-height: 568px;
+    background: #edf1f5
+}
+
+.bg-title {
+    border-bottom: 1px solid #e4e7ea;
+    overflow: hidden;
+    padding: 15px 15px 10px;
+    margin-bottom: 25px;
+    margin-left: -25.5px;
+    margin-right: -25.5px
+}
+
+.bg-title h4 {
+    color: rgba(0, 0, 0, .5);
+    font-weight: 600;
+    margin-top: 6px
+}
+
+.btn-outline {
+    color: inherit;
+    background-color: transparent;
+    transition: all .5s
+}
+
+.btn-rounded {
+    border-radius: 60px
+}
+
+.btn-info,
+.btn-info.disabled {
+    background: #03a9f3;
+    border: 1px solid #03a9f3
+}
+
+.btn-info.btn-outline {
+    color: #03a9f3;
+    background-color: transparent
+}
+
+.white-box {
+    background: #fff;
+    padding: 25px;
+    margin-bottom: 15px
+}
+
+.white-box .box-title {
+    margin: 0 0 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 14px
+}
+
+.waves-effect {
+    position: relative;
+    cursor: pointer;
+    display: inline-block;
+    overflow: hidden;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    -webkit-tap-highlight-color: transparent
+}
+
+.table {
+    margin-bottom: 10px
+}
+
+.table-bordered,
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+    border-top: 1px solid #e4e7ea
+}
+
+.table>tbody>tr>td,
+.table>tbody>tr>th,
+.table>tfoot>tr>td,
+.table>tfoot>tr>th,
+.table>thead>tr>td,
+.table>thead>tr>th {
+    padding: 15px 8px
+}
+
+.table>thead>tr>th {
+    vertical-align: bottom;
+    border-bottom: 1px solid #e4e7ea
+}
+
+tbody {
+    color: #797979
+}
+
+th {
+    color: #666;
+    font-weight: 500
+}
+
+.two-part li {
+    width: 48.8%
+}
+
+.two-part li i {
+    font-size: 50px
+}
+
+.two-part li span {
+    font-size: 50px;
+    font-weight: 100;
+    font-family: Poppins, sans-serif
+}
+
+.fa {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+}
+
+.fa-2x {
+    font-size: 2em
+}
+
+.pull-right {
+    float: right
+}
+
+.fa-qrcode:before {
+    content: "\f029"
+}
+
+.icon-action-redo,
+.icon-action-undo,
+.icon-anchor,
+.icon-arrow-down,
+.icon-arrow-down-circle,
+.icon-arrow-left,
+.icon-arrow-left-circle,
+.icon-arrow-right,
+.icon-arrow-right-circle,
+.icon-arrow-up,
+.icon-arrow-up-circle,
+.icon-badge,
+.icon-bag,
+.icon-ban,
+.icon-basket,
+.icon-basket-loaded,
+.icon-bell,
+.icon-book-open,
+.icon-briefcase,
+.icon-bubble,
+.icon-bubbles,
+.icon-bulb,
+.icon-calculator,
+.icon-calender,
+.icon-call-end,
+.icon-call-in,
+.icon-call-out,
+.icon-camera,
+.icon-camrecorder,
+.icon-chart,
+.icon-check,
+.icon-chemistry,
+.icon-clock,
+.icon-close,
+.icon-cloud-download,
+.icon-cloud-upload,
+.icon-compass,
+.icon-control-end,
+.icon-control-forward,
+.icon-control-pause,
+.icon-control-play,
+.icon-control-rewind,
+.icon-control-start,
+.icon-credit-card,
+.icon-crop,
+.icon-cup,
+.icon-cursor,
+.icon-cursor-move,
+.icon-diamond,
+.icon-direction,
+.icon-directions,
+.icon-disc,
+.icon-dislike,
+.icon-doc,
+.icon-docs,
+.icon-drawar,
+.icon-drop,
+.icon-earphones,
+.icon-earphones-alt,
+.icon-emotsmile,
+.icon-energy,
+.icon-envelope,
+.icon-envelope-letter,
+.icon-envelope-open,
+.icon-equalizer,
+.icon-eye,
+.icon-eyeglass,
+.icon-feed,
+.icon-film,
+.icon-fire,
+.icon-flag,
+.icon-folder,
+.icon-folder-alt,
+.icon-frame,
+.icon-game-controller,
+.icon-ghost,
+.icon-globe,
+.icon-globe-alt,
+.icon-graduation,
+.icon-graph,
+.icon-grid,
+.icon-handbag,
+.icon-heart,
+.icon-home,
+.icon-hourglass,
+.icon-info,
+.icon-key,
+.icon-layers,
+.icon-like,
+.icon-link,
+.icon-list,
+.icon-location-pin,
+.icon-lock,
+.icon-lock-open,
+.icon-login,
+.icon-logout,
+.icon-loop,
+.icon-magic-wand,
+.icon-magnet,
+.icon-magnifier,
+.icon-magnifier-add,
+.icon-magnifier-remove,
+.icon-map,
+.icon-menu,
+.icon-microphone,
+.icon-mouse,
+.icon-music-tone,
+.icon-music-tone-alt,
+.icon-mustache,
+.icon-note,
+.icon-notebook,
+.icon-options,
+.icon-options-vertical,
+.icon-paper-clip,
+.icon-paper-plane,
+.icon-paypal,
+.icon-pencil,
+.icon-people,
+.icon-phone,
+.icon-picture,
+.icon-pie-chart,
+.icon-pin,
+.icon-plane,
+.icon-playlist,
+.icon-plus,
+.icon-power,
+.icon-present,
+.icon-printer,
+.icon-puzzle,
+.icon-question,
+.icon-refresh,
+.icon-reload,
+.icon-rocket,
+.icon-screen-desktop,
+.icon-screen-smartphone,
+.icon-screen-tablet,
+.icon-settings,
+.icon-share,
+.icon-share-alt,
+.icon-shield,
+.icon-shuffle,
+.icon-size-actual,
+.icon-size-fullscreen,
+.icon-social-behance,
+.icon-social-dribbble,
+.icon-social-dropbox,
+.icon-social-facebook,
+.icon-social-foursqare,
+.icon-social-github,
+.icon-social-gplus,
+.icon-social-instagram,
+.icon-social-linkedin,
+.icon-social-pintarest,
+.icon-social-reddit,
+.icon-social-skype,
+.icon-social-soundcloud,
+.icon-social-spotify,
+.icon-social-stumbleupon,
+.icon-social-tumblr,
+.icon-social-twitter,
+.icon-social-youtube,
+.icon-speech,
+.icon-speedometer,
+.icon-star,
+.icon-support,
+.icon-symble-female,
+.icon-symbol-male,
+.icon-tag,
+.icon-target,
+.icon-trash,
+.icon-trophy,
+.icon-umbrella,
+.icon-user,
+.icon-user-female,
+.icon-user-follow,
+.icon-user-following,
+.icon-user-unfollow,
+.icon-vector,
+.icon-volume-1,
+.icon-volume-2,
+.icon-volume-off,
+.icon-wallet,
+.icon-wrench {
+    font-family: simple-line-icons;
+    font-style: normal;
+    font-weight: 400;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+}
+
+.icon-user:before {
+    content: "\e005"
+}
+
+.list-inline>li {
+    display: inline-block
+}
+
+@media (min-width:992px) {
+    .col-md-1,
+    .col-md-10,
+    .col-md-11,
+    .col-md-12,
+    .col-md-2,
+    .col-md-3,
+    .col-md-4,
+    .col-md-5,
+    .col-md-6,
+    .col-md-7,
+    .col-md-8,
+    .col-md-9 {
+    float: left
+    }
+}
