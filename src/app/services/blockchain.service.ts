@@ -31,6 +31,10 @@ export class BlockchainService {
   private rewardAddress = this.rewardArtifacts.networks["5777"].address
   private rewardContract: any;
 
+  private singleContestArtifacts = require('../../../build/contracts/Contest.json');
+  private singleContest = this.singleContestArtifacts.abi;
+  private singleContestContract: any;
+
   constructor(private http: HttpClient) {
 
   }
@@ -118,6 +122,18 @@ export class BlockchainService {
     const that = this;
     return new Promise((resolve, reject) => {
       that.contestFactoryContract.methods.createNewContest(unpack(answer)).send({from: currentAccount})
+      .then((result: any) => {
+        return resolve(result);
+      })
+    })
+  }
+
+  async getAllContestRewards(contestAddress: string) {
+    await this.initWeb3();
+    this.singleContestContract = await new this.web3.eth.Contract(this.singleContest, contestAddress);
+    const that = this;
+    return new Promise((resolve, reject) => {
+      that.singleContestContract.methods.getAllRewardOf().call()
       .then((result: any) => {
         return resolve(result);
       })

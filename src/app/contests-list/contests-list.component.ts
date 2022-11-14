@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { BlockchainService } from '../services/blockchain.service';
 import { ContestService } from '../services/contest.service';
+import { Router } from '@angular/router';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -27,7 +28,8 @@ export class ContestsListComponent implements OnInit {
     private fb: FormBuilder,
     private authService: AuthService,
     private blockchainService: BlockchainService,
-    private contestService: ContestService
+    private contestService: ContestService,
+    private router: Router
   ) { 
     this.contestModel = this.fb.group({
       title: '',
@@ -118,7 +120,7 @@ export class ContestsListComponent implements OnInit {
   }
 
   navigateToContest(contestAddress: string) {
-
+    this.router.navigate([`contest/${contestAddress}`]);
   }
 
 }

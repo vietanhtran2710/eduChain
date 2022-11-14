@@ -31,8 +31,8 @@ courses.hasMany(quizes)
 quizes.belongsTo(courses);
 quizes.hasMany(questions);
 courses.hasMany(submissions);
-users.hasMany(contests);
-contests.belongsTo(users);
+users.hasMany(contests, {as: "owner"});
+contests.belongsTo(users, {as: "user"});
 contests.hasMany(questions);
 
 users.belongsToMany(users, { as: 'following', foreignKey: 'followingAddress', through: {model: followings }});

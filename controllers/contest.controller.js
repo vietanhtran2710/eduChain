@@ -54,12 +54,12 @@ exports.getContestQuestions = (req, res) => {
     });
 };
 
-// Get quiz questions
+// Get contest contestants
 exports.getContestants = (req, res) => {
 	const address = req.params.address;
 
 	Contest.findByPk(address, { 
-        include: {model: User, as: "contestant"}
+        include: {model: User, as: "registration"}
     })
     .then(data => {
         res.status(200).send(data);
@@ -71,7 +71,7 @@ exports.getContestants = (req, res) => {
     });
 };
 
-// Get quiz questions
+// Get all contests
 exports.getAllContests = (req, res) => {
 	Contest.findAll({ 
         include: {model: User}
@@ -82,6 +82,23 @@ exports.getAllContests = (req, res) => {
     .catch(err => {
         res.status(500).send({
             message: "Error retrieving contests: " + err
+        });
+    });
+};
+
+// Get one contest
+exports.getOne = (req, res) => {
+    const address = req.params.address;
+
+	Contest.findByPk(address, { 
+        include: {model: User, as: "user"}
+    })
+    .then(data => {
+        res.status(200).send(data);
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: "Error retrieving contest: " + err
         });
     });
 };

@@ -17,4 +17,12 @@ export class ContestService {
   getAllContest() {
     return this.http.get(`${baseUrl}/contests`)
   }
+
+  getContestContestants(contestAddress: string) {
+    return this.http.get(`${baseUrl}/contestant/${contestAddress}`);
+  }
+
+  getOne(contestAddress: string) {
+    return this.http.get(`${baseUrl}/one/${contestAddress}`);
+  }
 }

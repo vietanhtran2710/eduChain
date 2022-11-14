@@ -1,6 +1,6 @@
 <app-main-nav></app-main-nav>
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
-<div class="container-fluid">
+<div *ngIf="loaded" class="container-fluid">
     <div class="row bg-title">
         <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
             <h4 class="page-title">Contest: {{contestAddress}}</h4>
@@ -18,7 +18,7 @@
     <!-- /.row -->
 
     <div class="row">
-        <div class="col-lg-4 col-sm-6 ">
+        <div class="col-lg-3">
             <div class="white-box">
                 <h3 class="box-title">Total VNH Reward</h3>
                 <ul class="list-inline two-part">
@@ -27,16 +27,16 @@
                 </ul>
             </div>
         </div>
-        <div class="col-lg-4 col-sm-6 ">
+        <div class="col-lg-6">
             <div class="white-box">
                 <h3 class="box-title">Users</h3>
                 <ul class="list-inline two-part">
                     <li><i class="fa fa-briefcase text-purple"></i></li>
-                    <li class="text-right "><span class="counter text-purple">{{contestants.length}} STUDENTS</span></li>
+                    <li class="text-left "><span class="counter text-purple">{{contestants.length}} STUDENTS</span></li>
                 </ul>
             </div>
         </div>
-        <div class="col-lg-4 col-sm-6 ">
+        <div class="col-lg-3">
             <div class="white-box">
                 <h3 class="box-title">Total NFT rewards</h3>
                 <ul class="list-inline two-part">
@@ -50,7 +50,7 @@
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
             <div class="white-box">
-                <a *ngIf="currentAccount == contestInfo.userAddress" 
+                <a *ngIf="currentAccount == contestInfo.user.address" 
                 class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Register Student</a>
                 <h3 class="box-title">Contestants list</h3> 
                 <div class="table-responsive">
@@ -80,7 +80,7 @@
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
             <div class="white-box">
-                <a *ngIf="currentAccount == contestInfo.userAddress && contestInfo.contestEnded != 'ENDED'" (click)="endContest()" 
+                <a *ngIf="currentAccount == contestInfo.user.address && contestInfo.contestEnded != 'ENDED'" (click)="endContest()" 
                 class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">End Contest</a>
                 <h3 class="box-title">Results</h3> 
                 <div class="table-responsive">
@@ -110,7 +110,7 @@
             <div class="white-box">
                 <h3 class="box-title">Contest Factory Address <i class="fa fa-qrcode fa-2x text-danger"></i></h3>
                 <ul class="list-inline two-part">
-                    <li class="text-right" id="storageContractAddress">{{contestAddress}}</li>
+                    <li class="text-right" id="storageContractAddress">{{contestFactoryAddress}}</li>
                 </ul>
             </div>
         </div>
