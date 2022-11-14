@@ -13,6 +13,9 @@ module.exports = app => {
 
     // Get contest contestants
     router.get("/contestant/:address", contest.getContestants);
+
+    // Get all contests
+    router.get("/contests/", contest.getAllContests);
   
     app.use('/api/contest', router);
   };

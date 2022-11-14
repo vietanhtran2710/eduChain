@@ -13,4 +13,8 @@ export class ContestService {
   createContest(data: any) {
     return this.http.post(baseUrl, data)
   }
+
+  getAllContest() {
+    return this.http.get(`${baseUrl}/contests`)
+  }
 }

@@ -38,6 +38,13 @@ export class ContestsListComponent implements OnInit {
         next: (data: any) => {
           this.currentAccount = data.address;
           this.currentAccountRole = data.role;
+          if (this.currentAccountRole == "SPONSOR") {
+            this.contestService.getAllContest().subscribe({
+              next: (data: any) => {
+                this.contests = data;
+              }
+            })
+          }
         }
       })
     }

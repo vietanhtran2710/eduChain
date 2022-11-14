@@ -70,3 +70,18 @@ exports.getContestants = (req, res) => {
         });
     });
 };
+
+// Get quiz questions
+exports.getAllContests = (req, res) => {
+	Contest.findAll({ 
+        include: {model: User}
+    })
+    .then(data => {
+        res.status(200).send(data);
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: "Error retrieving contests: " + err
+        });
+    });
+};
