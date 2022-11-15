@@ -31,10 +31,12 @@ contract Role is AccessControl {
     // Only default admin can add roles.
     function addSponsor(address _address) public {
         grantRole(SPONSOR_ROLE, _address);
+        grantRole(MINTER_ROLE, _address);
     }
 
     function addTeacher(address _address) public {
         grantRole(TEACHER_ROLE, _address);
+        grantRole(MINTER_ROLE, _address);
     }
 
     function addStudent(address _address) public {
@@ -43,18 +45,20 @@ contract Role is AccessControl {
 
     function addParent(address _address) public {
         grantRole(PARENT_ROLE, _address);
+        grantRole(MINTER_ROLE, _address);
     }
 
     function addBatchSponsor(address[] memory _address) public {
         for(uint256 i = 0; i < _address.length; ++i) {
             grantRole(SPONSOR_ROLE, _address[i]);
+            grantRole(MINTER_ROLE, _address[i]);
         }
     }
 
     function addBatchTeacher(address[] memory _address) public {
         for(uint256 i = 0; i < _address.length; ++i) {
             grantRole(TEACHER_ROLE, _address[i]);
-
+            grantRole(MINTER_ROLE, _address[i]);
         }
     }
 
@@ -67,6 +71,7 @@ contract Role is AccessControl {
     function addBatchParent(address[] memory _address) public {
         for(uint256 i = 0; i < _address.length; ++i) {
             grantRole(PARENT_ROLE, _address[i]);
+            grantRole(MINTER_ROLE, _address[i]);
         }
     }
 

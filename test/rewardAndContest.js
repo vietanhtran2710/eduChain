@@ -67,16 +67,6 @@ contract('Contracts', function (accounts) {
         })
     })
 
-    // it("Sponsor approval", function() {
-    //     return rewardInstance.approveForContract({from: accounts[4]})
-    //     .then(function (){
-    //         return rewardInstance.isApprovedForAll(accounts[4], contractAddress, {from: accounts[0]})
-    //     })
-    //     .then(function (result) {
-    //         assert.equal(true, result, "Sponsor at account 4 should approved");
-    //     })
-    // })
-
     it("SKILL Token mint test", function() {
         return rewardInstance.earnReward(accounts[1], {from: accounts[0]})
         .then(function(result) {
@@ -148,7 +138,7 @@ contract('Contracts', function (accounts) {
     })
 
     it("NFT test", async function() {
-        await rewardInstance.createNFT(accounts[4], "Title;link;value", {from: accounts[0]});
+        await rewardInstance.createNFT(accounts[4], "Title;link;value", {from: accounts[4]});
         return rewardInstance.balanceOf(accounts[4], 2, {from: accounts[4]})
         .then(function(result) {
             assert.equal(1, result.toNumber(), "NFT should be minted");
