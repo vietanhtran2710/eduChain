@@ -74,7 +74,7 @@ exports.getContestants = (req, res) => {
 // Get all contests
 exports.getAllContests = (req, res) => {
 	Contest.findAll({ 
-        include: {model: User}
+        include: {model: User, as: "user"}
     })
     .then(data => {
         res.status(200).send(data);
