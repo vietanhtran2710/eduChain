@@ -92,7 +92,7 @@ contract Contest is Ownable {
         return sponsorReward[sponsor].collectiblesTokenId;
     }
 
-    function register(address student) public {
+    function register(address student) public onlyOwner {
         require(
             rewardContract.isStudent(student),
             "OLPContestFactory: only role student"
