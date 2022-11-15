@@ -23,7 +23,8 @@ export class ProfileComponent implements OnInit {
   rewards: Array<any> = [];
   contestAddress: string = "";
   rewardAddress: string = "";
-  rewardModel: FormGroup
+  rewardModel: FormGroup;
+  nftModel: FormGroup
 
   constructor(private authService: AuthService,
               private fb: FormBuilder,
@@ -35,6 +36,11 @@ export class ProfileComponent implements OnInit {
     this.rewardModel = this.fb.group({
       skill: 0,
       vnd: 0
+    })
+    this.nftModel = this.fb.group({
+      name: '',
+      link: '',
+      value: 0,
     })
     if (Object.keys(this.authService.currentUserValue).length !== 0) {
       this.authService.verifyToken().subscribe({
@@ -58,6 +64,11 @@ export class ProfileComponent implements OnInit {
           this.blockchainService.getAllRewards(this.profileAddress)
           .then((result: any) => {
             this.rewards = result;
+          })
+          this.blockchainService.getOwnedNFTs(this.profileAddress)
+          .then((result: any) => {
+            this.nft = result;
+            console.log(result);
           })
           if (this.currentAccountRole == "TEACHER") {
 
@@ -98,6 +109,21 @@ export class ProfileComponent implements OnInit {
       .then((result: any) => {
         window.location.reload();
       })
+    })
+  }
+
+  createNFT() {
+    let uri = this.nftModel.get('name')?.value + ";" + this.nftModel.get('link')?.value + ";" + this.nftModel.get('value')?.value;
+    this.blockchainService.createNFT(this.currentAccount, uri)
+    .then((result: any) => {
+      if (result) {
+        Swal.fire(
+          'Create NFT success!',
+          `Transaction: ${(result as any).transactionHash}`,
+          'success'
+        )
+        .then(result => {window.location.reload()})
+      }
     })
   }
 

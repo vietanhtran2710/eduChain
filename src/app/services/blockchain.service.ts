@@ -65,6 +65,17 @@ export class BlockchainService {
     })
   }
 
+  async createNFT(address: string, uri: string) {
+    if (!this.initialized) await this.initWeb3();
+    const that = this;
+    return new Promise((resolve, reject) => {
+      that.rewardContract.methods.createNFT(address, uri).send({from: address})
+      .then((result: any) => {
+        return resolve(result);
+      })
+    })
+  }
+
   async getSkillBalance(address: string) {
     if (!this.initialized) await this.initWeb3();
     const that = this;
@@ -72,6 +83,34 @@ export class BlockchainService {
       that.rewardContract.methods.balanceOf(address, 0).call()
       .then((result: any) => {
         return resolve(result);
+      })
+    })
+  }
+
+  async getOwnedNFTs(address: string) {
+    if (!this.initialized) await this.initWeb3();
+    type NFTInfo = {
+      tokenId?: number;
+      uri?: string;
+    };
+    const that = this;
+    return new Promise((resolve, reject) => {
+      that.rewardContract.methods.getOwnedNFTs(address).call()
+      .then((result: any) => {
+        let nftInfos: Array<NFTInfo> = [];
+        for (let item of result) {
+          nftInfos.push({tokenId: item, uri: ""})
+        }
+        let promises = [];
+        for (let item of result) {
+          promises.push(that.rewardContract.methods.uri(item).call());
+        }
+        Promise.all(promises).then((values) => {
+          for (let i = 0; i < values.length; i++) {
+            nftInfos[i].uri = values[i];
+          }
+          return resolve(nftInfos);
+        })
       })
     })
   }

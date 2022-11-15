@@ -2,10 +2,10 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 <div *ngIf="loaded" class="container-fluid">
     <div class="row bg-title">
-        <div class="col">
+        <div class="col-10">
             <h4 class="page-title">Profile: {{currentAccount}}</h4>
         </div>
-        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
+        <div class="col-2">
             <a (click)="followUser()" class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Follow this user</a>
         </div>
     </div>
@@ -41,11 +41,12 @@
         </div>
     </div>
 
-    <div  class="row">
+    <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
             <div class="white-box">
                 <a *ngIf="currentAccountRole != 'STUDENT' && currentAccount == profileAddress" 
-                class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light" onclick="javascript:$('#batchFormModel').modal();">Create NFT</a>
+                class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light"
+                data-bs-toggle="modal" data-bs-target="#nftModal">Create NFT</a>
                 <h3 class="box-title">Your NFT</h3> 
                 <div class="table-responsive">
                     <table class="table product-overview" id="adminCultivationTable">
@@ -59,10 +60,10 @@
                         </thead>
                         <tbody>
                                 <tr *ngFor="let token of nft">
-                                    <td>{{token.id}}</td>
-                                    <td>{{token.name}}</td>
-                                    <td>{{token.link}}</td>
-                                    <td>{{token.value}}</td>
+                                    <td>{{token.tokenId}}</td>
+                                    <td>{{token.uri.split(";")[0]}}</td>
+                                    <td>{{token.uri.split(";")[1]}}</td>
+                                    <td>{{token.uri.split(";")[2]}}</td>
                                 </tr>
                         </tbody>
                     </table>
@@ -141,6 +142,37 @@
 			<div class="modal-footer">
 				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
                 <button type="submit" class="btn btn-primary" (click)="createReward()" form="reward">
+                    Confirm
+                </button>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="modal fade" id="nftModal" tabindex="-1" role="dialog" 
+    aria-labelledby="nftModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title" id="extendModalLabel">
+					Create Reward
+				</h1>
+			</div>
+			<div class="modal-body">
+				<form [formGroup]="nftModel" (ngSubmit)="createNFT()" id="nft">
+					<div class="form-group">
+						<label for="name">Product Name</label>
+						<input class="form-control" type="text" class="form-control" name="name" id="name" formControlName="name">
+                        <label for="link">Product E-commerce Link</label>
+						<input class="form-control" type="text" class="form-control" name="link" id="link" formControlName="link">
+                        <label for="value">Value (VND)</label>
+						<input class="form-control" type="number" class="form-control" name="value" id="value" formControlName="value">
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary" form="nft">
                     Confirm
                 </button>
 			</div>
