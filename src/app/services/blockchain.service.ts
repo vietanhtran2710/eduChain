@@ -65,6 +65,40 @@ export class BlockchainService {
     })
   }
 
+  async isSponsoring(address: string, contractAddress: string) {
+    if (!this.initialized) await this.initWeb3();
+    const that = this;
+    return new Promise((resolve, reject) => {
+      that.rewardContract.methods.isApprovedForAll(address, contractAddress).call()
+      .then((result: any) => {
+        return resolve(result);
+      })
+    })
+  }
+
+  async approveForContract(contractaddress: string, currentAccount: string) {
+    if (!this.initialized) await this.initWeb3();
+    const that = this;
+    return new Promise((resolve, reject) => {
+      that.rewardContract.methods.approveForContract(contractaddress).send({from: currentAccount})
+      .then((result: any) => {
+        return resolve(result);
+      })
+    })
+  }
+
+  async register(studentsList: Array<string>, contestAddress: string, currentAccount: string) {
+    await this.initWeb3();
+    this.singleContestContract = await new this.web3.eth.Contract(this.singleContest, contestAddress);
+    const that = this;
+    return new Promise((resolve, reject) => {
+      that.singleContestContract.methods.registerBatch(studentsList).send({from: currentAccount})
+      .then((result: any) => {
+        return resolve(result);
+      })
+    })
+  }
+
   async createNFT(address: string, uri: string) {
     if (!this.initialized) await this.initWeb3();
     const that = this;

@@ -8,6 +8,9 @@ module.exports = app => {
     // Create a new contest
     router.post("/", authJwt.verifyToken, contest.create);
 
+    // Register students
+    router.post("/register", authJwt.verifyToken, contest.register);
+
     // Get contest questions
     router.get("/question/:address", contest.getContestQuestions);
 

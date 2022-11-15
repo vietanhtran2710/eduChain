@@ -3,6 +3,7 @@ const blockchain = require('../middleware/blockchain')
 const Question = db.questions;
 const User = db.users;
 const Contest = db.contests;
+const ContestRegistration = db.contestRegistrations;
 const sequelize = db.sequelize
 const { QueryTypes, Op } = require('sequelize');
 const { soliditySha3 } = require("web3-utils");
@@ -30,6 +31,45 @@ exports.create = async (req, res) => {
         .then((data) => {
             res.status(201).send(data);
         })
+    }
+	catch (err) {
+        console.log(err);
+        res.status(500).send({error: err});
+    }
+}
+
+// Create a new Quiz
+exports.register = async (req, res) => {
+    const address = req.address;
+    const contestAddress = req.body.contestAddress;
+    try {
+        let contest = await Contest.findByPk(contestAddress, {
+            include: {model: User, as: "user"}
+        });
+        if (contest) {
+            if (contest.user.address == address) {
+                let students = req.body.students;
+                let newContestants = [];
+                for (let i = 0; i < students.length; i++) {
+                    newContestants.push({
+                        userAddress: students[i],
+                        contestAddress: contestAddress,
+                    })
+                }
+                ContestRegistration.bulkCreate(newContestants)
+                .then((data) => {
+                    res.status(201).send(data);
+                })
+            }
+            else {
+                console.log("Invalid user address");
+                res.status(400).send({msg: "Invalid user address"})
+            }
+        }   
+        else {
+            console.log("No contest found");
+            res.status(400).send({msg: "No contest found"})
+        }
     }
 	catch (err) {
         console.log(err);

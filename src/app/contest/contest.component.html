@@ -2,20 +2,21 @@
 <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 <div *ngIf="loaded" class="container-fluid">
     <div class="row bg-title">
-        <div class="col-lg-3 col-md-4 col-sm-4 col-xs-12">
+        <div class="col-9">
             <h4 class="page-title">Contest: {{contestAddress}}</h4>
         </div>
-        <div class="col-lg-9 col-sm-8 col-md-8 col-xs-12">
-            <a *ngIf="currentAccountRole == 'SPONSOR'" 
+        <div class="col-3">
+            <a *ngIf="currentAccountRole == 'SPONSOR' && sponsoring" 
             class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light" 
             >Register Reward</a>
+            <a *ngIf="currentAccountRole == 'SPONSOR' && !sponsoring" 
+            class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light" 
+            (click)="sponsor()">Sponsor this contest</a>
             <a *ngIf="currentAccountRole == 'STUDENT'" 
             class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light" 
             (click)="takeExam()">Take Exam</a>
         </div>
     </div>
-
-    <!-- /.row -->
 
     <div class="row">
         <div class="col-lg-3">
@@ -51,7 +52,8 @@
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
             <div class="white-box">
                 <a *ngIf="currentAccount == contestInfo.user.address" 
-                class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">Register Student</a>
+                class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light"
+                data-bs-toggle="modal" data-bs-target="#registerModal">Register Student</a>
                 <h3 class="box-title">Contestants list</h3> 
                 <div class="table-responsive">
                     <table class="table product-overview" id="adminCultivationTable">
@@ -80,7 +82,7 @@
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
             <div class="white-box">
-                <a *ngIf="currentAccount == contestInfo.user.address && contestInfo.contestEnded != 'ENDED'" (click)="endContest()" 
+                <a *ngIf="currentAccount == contestInfo.user.address && contestInfo.contestEnded" (click)="endContest()" 
                 class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">End Contest</a>
                 <h3 class="box-title">Results</h3> 
                 <div class="table-responsive">
@@ -125,27 +127,38 @@
     </div>
 </div>
 
-<!-- <div id="registerModel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-top: 170px;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Register Student</h2>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label class="control-label" for="farmerRegistrationNo">Address<i class="red">*</i></label>
-                    <input type="text" class="form-control" id="farmerRegistrationNo" name="farmerRegistrationNo"
-                    [(ngModel)]="registerAddress" #title="ngModel">
-                </div>                       
-            </div>
-            <div class="modal-footer">
-                 <button type="submit" (click)="registerStudent()" class="fcbtn btn btn-primary btn-outline btn-1f">Submit</button>
-            </div>
-        </div>
-    </div>
+<div class="modal fade" id="registerModal" tabindex="-1" role="dialog" 
+    aria-labelledby="registerModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title" id="extendModalLabel">
+					Register students <br> as contestants
+				</h1>
+			</div>
+			<div class="modal-body">
+				<form [formGroup]="registerModel" (ngSubmit)="register()" id="register">
+					<div class="form-group">
+                        <h3>Single Student</h3>
+						<label for="address">Address</label>
+						<input class="form-control" type="text" class="form-control" name="address" id="address" formControlName="address">
+                        <h3>Multiple Students</h3>
+                        <label for="file">Contestants list file</label>
+						<input class="form-control" type="file" class="form-control" name="file" id="file" (input)="fileChosen($event)">
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary" form="register" data-dismiss="modal">
+                    Confirm
+                </button>
+			</div>
+		</div>
+	</div>
 </div>
 
-<div id="rewardModel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-top: 170px;">
+<!-- <div id="rewardModel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-top: 170px;">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
