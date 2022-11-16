@@ -82,7 +82,7 @@
     <div class="row">
         <div class="col-md-12 col-lg-12 col-sm-12 col-xs-12">
             <div class="white-box">
-                <a *ngIf="currentAccount == contestInfo.user.address && contestInfo.contestEnded" (click)="endContest()" 
+                <a *ngIf="currentAccount == contestInfo.user.address && !contestInfo.contestEnded" (click)="endContest()" 
                 class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light">End Contest</a>
                 <h3 class="box-title">Results</h3> 
                 <div class="table-responsive">

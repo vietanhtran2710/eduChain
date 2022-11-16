@@ -176,7 +176,8 @@ export class ContestComponent implements OnInit {
   }
 
   formatDate(date: string) {
-
+    let d = date.split('T')[0].split('-');
+    return d[2] + "-" + d[1] + "-" + d[0]
   }
 
 }
