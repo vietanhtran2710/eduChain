@@ -189,7 +189,31 @@ export class CourseComponent implements OnInit {
     }).then((result) => {
       if (result.isConfirmed) {
         if (this.courseInfo.fee != 0) {
-
+          this.blockchainService.approve(this.currentAccount, this.courseInfo.fee)
+          .then((result: any) => {
+            this.enrollmentService.enroll({courseID: this.courseId}).subscribe({
+              next: (result) => {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Enrolled successfully',
+                  text: `Have fun learning ${this.courseInfo.name}`
+                })
+                .then(result => {
+                  window.location.reload();
+                })
+              },
+              error: (err) => {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Cannot enroll',
+                  text: err,
+                })
+              },
+              complete: () => {
+      
+              }
+            })
+          })
         }
         else {
           this.enrollmentService.enroll({courseID: this.courseId}).subscribe({

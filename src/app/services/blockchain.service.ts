@@ -60,6 +60,17 @@ export class BlockchainService {
     return this.http.post(`${baseUrl}/sell`, data)
   }
 
+  async approve(currentAccount: string, amount: number) {
+    if (!this.initialized) await this.initWeb3();
+    const that = this;
+    return new Promise((resolve, reject) => {
+      that.rewardContract.methods.setApprovalForAll("0x94eF6f0f7193C0cD3DAD6f7Fee15e82e1B02d614", true).send({from: currentAccount})
+      .then((result: any) => {
+        return resolve(result);
+      })
+    })
+  }
+
   async revokeCertificate(hash: string, reason: string, currentAccount: string) {
     if (!this.initialized) await this.initWeb3();
     const that = this;

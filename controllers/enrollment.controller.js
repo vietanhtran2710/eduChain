@@ -21,14 +21,30 @@ exports.enroll = async (req, res) => {
 	}
 
     try {
-        const enrollment = {
-            userAddress: address,
-            courseCourseID: courseID,
+        let course = await Course.findByPk(courseID);
+        if (course.dataValues.fee != 0) {
+            blockchain.transferFee(address, course.dataValues.userAddress, course.dataValues.fee)
+            .then((result) => {
+                const enrollment = {
+                    userAddress: address,
+                    courseCourseID: courseID,
+                }
+                Enrollment.create(enrollment)
+                .then((result) => {
+                    res.status(201).send({ message: 'Enroll successfully' })
+                })
+            })
         }
-        Enrollment.create(enrollment)
-        .then((result) => {
-            res.status(201).send({ message: 'Enroll successfully' })
-        })
+        else {
+            const enrollment = {
+                userAddress: address,
+                courseCourseID: courseID,
+            }
+            Enrollment.create(enrollment)
+            .then((result) => {
+                res.status(201).send({ message: 'Enroll successfully' })
+            })
+        }
     } catch (err) {
         console.log(err);
         res.status(500).send({
@@ -38,7 +54,7 @@ exports.enroll = async (req, res) => {
 }
 
 // Retrieve enrolled courses
-exports.getEnrolledCourse = (req, res) => {
+exports.getEnrolledCourse = async (req, res) => {
 	const address = req.params.address;
     User.findByPk(address, {include: [{ model: Course, as: "enroll" }]})
     .then(data => {
