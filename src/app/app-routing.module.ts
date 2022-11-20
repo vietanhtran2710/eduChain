@@ -10,6 +10,7 @@ import { PaymentComponent } from './payment/payment.component';
 import { ViewComponent } from './view/view.component';
 import { ContestsListComponent } from './contests-list/contests-list.component';
 import { ContestComponent } from './contest/contest.component';
+import { ExamComponent } from './exam/exam.component';
 
 const routes: Routes = [
   {path: "", component: LandingPageComponent},
@@ -21,7 +22,8 @@ const routes: Routes = [
   {path: "payment", component: PaymentComponent},
   {path: "view/:hash", component: ViewComponent},
   {path: "contestslist", component: ContestsListComponent},
-  {path: "contest/:address", component: ContestComponent}
+  {path: "contest/:address", component: ContestComponent},
+  {path: "exam/:address", component: ExamComponent}
 ];
 
 @NgModule({

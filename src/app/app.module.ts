@@ -18,6 +18,7 @@ import { PaymentComponent } from './payment/payment.component';
 import { ViewComponent } from './view/view.component';
 import { ContestsListComponent } from './contests-list/contests-list.component';
 import { ContestComponent } from './contest/contest.component';
+import { ExamComponent } from './exam/exam.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +33,8 @@ import { ContestComponent } from './contest/contest.component';
     PaymentComponent,
     ViewComponent,
     ContestsListComponent,
-    ContestComponent
+    ContestComponent,
+    ExamComponent
   ],
   imports: [
     BrowserModule,

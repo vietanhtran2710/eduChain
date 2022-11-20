@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from '../services/auth.service';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { BlockchainService } from '../services/blockchain.service';
 import { ContestService } from '../services/contest.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
@@ -45,7 +45,8 @@ export class ContestComponent implements OnInit {
     private route: ActivatedRoute,
     private blockchainService: BlockchainService,
     private contestService: ContestService,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private router: Router
   ) {
     this.registerModel = this.fb.group({
       address: ''
@@ -233,7 +234,7 @@ export class ContestComponent implements OnInit {
   }
 
   takeExam() {
-
+    this.router.navigate([`exam/${this.contestAddress}`]);
   }
 
   formatDate(date: string) {
