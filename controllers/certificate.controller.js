@@ -59,3 +59,27 @@ exports.findInCourse = (req, res) => {
         })
     })
 }
+
+exports.revoke = (req, res) => {
+    const hash = req.params.hash;
+    Credential.update(
+        { revoked: true },
+        { where: { hash: hash }
+    })
+    .then(num => {
+        if (num == 1) {
+            res.status(200).send({
+                message: "Certificate was revoke successfully."
+            });
+        } else {
+            res.status(400).send({
+                message: `Cannot revoke certificate with hash=${hash}. Maybe cert was not found`
+            });
+        }
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: `Error revoking certificate with hash=${hash}, ${err}`
+        });
+    });
+}

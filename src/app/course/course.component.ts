@@ -7,6 +7,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { AuthService } from '../services/auth.service';
 import { EnrollmentService } from '../services/enrollment.service';
 import { CertificateService } from '../services/certificate.service';
+import { BlockchainService } from '../services/blockchain.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -41,6 +42,7 @@ export class CourseComponent implements OnInit {
               private quizService: QuizService,
               private authService: AuthService,
               private enrollmentService: EnrollmentService,
+              private blockchainService: BlockchainService,
               private certificateService: CertificateService
   ) {
     this.courseId = this.route.snapshot.paramMap.get('id')!;
@@ -252,6 +254,11 @@ export class CourseComponent implements OnInit {
     this.router.navigate([`view/${hash}`])
   }
 
+  toBoolean(value: number) {
+    if (value == 1) return true;
+    else return false;
+  }
+
   revoke(hash: string) {
     Swal.fire({
       title: "Are you sure to revoke this certificate?",
@@ -260,8 +267,32 @@ export class CourseComponent implements OnInit {
       icon: 'question',
       showCancelButton: true        
     }).then((result) => {
-        if (result.value) {
-            console.log("Result: " + result.value);
+        if (result.value && result.isConfirmed) {
+          this.blockchainService.revokeCertificate(hash, result.value, this.currentAccount)
+          .then((result: any) => {
+            this.certificateService.revoke(hash).subscribe({
+              next: (result: any) => {
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Certificate revoked',
+                  text: `Hash: ${hash}`
+                })
+                .then(result => {
+                  window.location.reload();
+                })
+              },
+              error: (err: any) => {
+                Swal.fire({
+                  icon: 'error',
+                  title: 'Cannot revoke',
+                  text: err,
+                })
+              },
+              complete: () => {
+
+              }
+            })
+          })
         }
     });
   }

@@ -12,6 +12,8 @@ module.exports = app => {
     // Get all course's certificates
     router.get("/course/:id", cert.findInCourse);
 
+    // Revoke a certificate
+    router.put("/revoke/:hash", cert.revoke);
   
     app.use('/api/certificate', router);
   };

@@ -26,6 +26,11 @@ export class BlockchainService {
   private contestFactoryAddress = this.contestFactoryArtifacts.networks["5777"].address;
   private contestFactoryContract: any;
 
+  private certificateArtifacts = require('../../../build/contracts/Certificate.json');
+  private certificate = this.certificateArtifacts.abi;
+  private certificateAddress = this.certificateArtifacts.networks["5777"].address;
+  private certificateContract: any;
+
   private rewardArtifacts = require('../../../build/contracts/LearningReward.json');
   private reward = this.rewardArtifacts.abi;
   private rewardAddress = this.rewardArtifacts.networks["5777"].address
@@ -43,6 +48,7 @@ export class BlockchainService {
     this.web3 = new Web3(Web3.givenProvider || '"ws://localhost:7545"');
     this.contestFactoryContract = await new this.web3.eth.Contract(this.contestFactory, this.contestFactoryAddress);
     this.rewardContract = await new this.web3.eth.Contract(this.reward, this.rewardAddress);
+    this.certificateContract = await new this.web3.eth.Contract(this.certificate, this.certificateAddress);
     this.initialized = true;
   }
 
@@ -52,6 +58,20 @@ export class BlockchainService {
 
   burnVND(data: any) {
     return this.http.post(`${baseUrl}/sell`, data)
+  }
+
+  async revokeCertificate(hash: string, reason: string, currentAccount: string) {
+    if (!this.initialized) await this.initWeb3();
+    const that = this;
+    return new Promise((resolve, reject) => {
+      that.certificateContract.methods.hashToID(hash).call()
+      .then((id: number) => {
+        that.certificateContract.methods.revokeCertificate([id], reason).send({from: currentAccount})
+        .then((result: any) => {
+          return resolve(result);
+        })
+      })
+    })
   }
 
   async getEthBalance(address: string) {

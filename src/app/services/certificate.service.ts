@@ -21,4 +21,8 @@ export class CertificateService {
   getCourseCertificate(courseID: string) {
     return this.http.get(`${baseUrl}/course/${courseID}`)
   }
+
+  revoke(hash: string) {
+    return this.http.put(`${baseUrl}/revoke/${hash}`, {})
+  }
 }

@@ -201,6 +201,7 @@
                                   <th>Full Name</th>
                                   <th>Date</th>
                                   <th>Grade</th>
+                                  <th>Revoked</th>
                                 </tr>
                               </thead>
                               <tbody>
@@ -208,6 +209,7 @@
                                   <td>{{cert?.user.fullName}}</td>
                                   <td>{{cert?.issueDate}}</td>
                                   <td>{{cert?.grade}}</td>
+                                  <td>{{toBoolean(cert?.revoked)}}</td>
                                   <td><button class="btn btn-primary" (click)="viewFromHash(cert.hash)">View</button></td>
                                   <td *ngIf="currentAccountRole == 'TEACHER'">
                                     <button class="btn btn-primary" (click)="revoke(cert.hash)">Revoke</button>
