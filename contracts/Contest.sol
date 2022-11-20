@@ -115,8 +115,9 @@ contract Contest is Ownable {
     function gradeSubmission(address student, bytes[] calldata submission, uint time) public returns (uint) {
         require(msg.sender == student && rewardContract.isStudent(student), "Only student can send their own submission");
         uint grade = 0;
-        for (uint256 i = 0; i < answers.length; i++) {
-            bytes memory a = answers[i]; bytes memory b = submission[i];
+        for (uint256 i = 1; i < answers.length; i += 2) {
+            bytes memory a = answers[i]; 
+            bytes memory b = submission[i];
             if (keccak256(a) == keccak256(b)) grade++;
         }
         contestantsResult[student].grade = grade;
