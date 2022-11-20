@@ -107,7 +107,7 @@ export class HomeComponent implements OnInit {
           }
         },
         error: (err) => {
-
+          this.router.navigate([``])
         },
         complete: () => {
 

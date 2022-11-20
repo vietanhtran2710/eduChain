@@ -6,6 +6,12 @@ import { ContestService } from '../services/contest.service';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import Swal from 'sweetalert2';
 
+type NFT = {
+  name: string;
+  link: string;
+  value: number;
+};
+
 @Component({
   selector: 'app-contest',
   templateUrl: './contest.component.html',
@@ -26,8 +32,13 @@ export class ContestComponent implements OnInit {
   results: Array<any> = [];
   contestFactoryAddress: string = "";
   registerModel: FormGroup;
+  rewardModel: FormGroup;
   registerList: Array<string> = [];
   sponsoring: Boolean = false;
+  nftCount: number = 0;
+  sponsorNFT: any;
+  nftRewards: Array<number> = [];
+  nftInfo: Map<number, NFT> = new Map<number, NFT>();
 
   constructor(
     private authService: AuthService,
@@ -38,6 +49,9 @@ export class ContestComponent implements OnInit {
   ) {
     this.registerModel = this.fb.group({
       address: ''
+    });
+    this.rewardModel = this.fb.group({
+      vnd: ''
     });
     this.contestAddress = this.route.snapshot.paramMap.get('address')!;
     if (Object.keys(this.authService.currentUserValue).length !== 0) {
@@ -51,6 +65,19 @@ export class ContestComponent implements OnInit {
             this.blockchainService.isSponsoring(this.currentAccount, this.contestAddress)
             .then((result: any) => {
               this.sponsoring = result;
+            })
+            this.blockchainService.getOwnedNFTs(this.currentAccount)
+            .then((result: any) => {
+              this.sponsorNFT = result;
+              for (let item of this.sponsorNFT) {
+                let parts = item.uri.split(';');
+                this.nftInfo.set(item.tokenId, {
+                  name: parts[0],
+                  link: parts[1],
+                  value: parts[2]
+                });
+              }
+              console.log(this.nftInfo);
             })
           }
         }
@@ -167,8 +194,42 @@ export class ContestComponent implements OnInit {
     }
   }
 
+  addNFT() {
+    if (this.nftCount < this.sponsorNFT.length) this.nftCount += 1;
+  }
+
+  counter(i: number) {
+    return new Array(i);
+  }
+
+  removeNFT() {
+    if (this.nftCount > 0) this.nftCount -= 1;
+  }
+
   endContest() {
 
+  }
+
+  addReward() {
+    console.log(this.rewardModel.get("vnd")?.value, this.nftRewards);
+    this.blockchainService.registerReward(this.contestAddress, this.rewardModel.get("vnd")?.value, this.nftRewards, this.currentAccount)
+    .then((result) => {
+      Swal.fire({
+        icon: 'success',
+        title: 'Reward added successfully',
+        text: `${this.rewardModel.get("vnd")?.value} VND and ${this.nftRewards.length} NFT added`
+      })
+      .then(result => {
+        window.location.reload();
+      })
+    })
+    .catch((err) => {
+      Swal.fire({
+        icon: 'error',
+        title: 'Cannot add reward',
+        text: err,
+      })
+    })
   }
 
   takeExam() {

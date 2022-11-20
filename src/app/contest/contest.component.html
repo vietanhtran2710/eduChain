@@ -8,7 +8,7 @@
         <div class="col-3">
             <a *ngIf="currentAccountRole == 'SPONSOR' && sponsoring" 
             class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light" 
-            >Register Reward</a>
+            data-bs-toggle="modal" data-bs-target="#rewardModal">Register Reward</a>
             <a *ngIf="currentAccountRole == 'SPONSOR' && !sponsoring" 
             class="btn btn-info pull-right m-l-20 btn-rounded btn-outline hidden-xs hidden-sm waves-effect waves-light" 
             (click)="sponsor()">Sponsor this contest</a>
@@ -158,35 +158,42 @@
 	</div>
 </div>
 
-<!-- <div id="rewardModel" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" style="display: none; padding-top: 170px;">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h2 class="modal-title">Add reward</h2>
-            </div>
-            <div class="modal-body">
-                <div class="form-group">
-                    <label class="control-label" for="farmerRegistrationNo">VNH Token<i class="red">*</i></label>
-                    <input type="number" class="form-control" id="farmerRegistrationNo" name="farmerRegistrationNo"
-                    [(ngModel)]="vnh" #title="ngModel">
-                </div>
-                <div *ngFor="let in of counter(nftCount); let i = index" class="form-group">
+<div class="modal fade" id="rewardModal" tabindex="-1" role="dialog" 
+    aria-labelledby="rewardModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h1 class="modal-title" id="extendModalLabel">
+					Add reward to contest
+				</h1>
+			</div>
+			<div class="modal-body">
+				<form [formGroup]="rewardModel" (ngSubmit)="addReward()" id="reward">
+					<div class="form-group">
+						<label for="vnd">VND Token</label>
+						<input class="form-control" type="number" class="form-control" name="vnd" id="vnd" formControlName="vnd">
+					</div>
+				</form>
+                <div *ngFor="let item of counter(nftCount); let i = index" class="form-group">
                     <label class="control-label" for="farmerRegistrationNo">NFT ID<i class="red">*</i></label>
-                    <select type="text" class="form-control" name="accountRole" id="accountRole" [(ngModel)]="nftID[i]" #id{{i}}="ngModel">
-                        <option *ngFor="let id of ownedNFT" value={{id}}>{{id}}</option>
+                    <select type="number" class="form-control" name="accountRole" id="accountRole" [(ngModel)]="nftRewards[i]" #id{{i}}="ngModel">
+                        <option *ngFor="let nft of sponsorNFT" value={{nft.tokenId}}>{{nft.tokenId}}</option>
                     </select>
-                    <div *ngIf="nftID[i] != undefined">
-                        <span>NAME: {{nftInfo.get(nftID[i])["name"]}}</span> <br>
-                        <span>LINK: {{nftInfo.get(nftID[i])["link"]}}</span> <br>
-                        <span>VALUE: {{nftInfo.get(nftID[i])["value"]}}</span> <br>
+                    <div *ngIf="nftRewards[i] != undefined">
+                        <span>NAME: {{nftInfo.get(nftRewards[i])?.name}}</span> <br>
+                        <span>LINK: {{nftInfo.get(nftRewards[i])?.link}}</span> <br>
+                        <span>VALUE: {{nftInfo.get(nftRewards[i])?.value}}</span> <br>
                     </div>
-                </div>                       
-            </div>
-            <div class="modal-footer">
-                <button type="submit" (click)="removeNFT()" class="fcbtn btn btn-primary btn-outline btn-1f">Remove NFT</button>
-                <button type="submit" (click)="addNFT()" class="fcbtn btn btn-primary btn-outline btn-1f">Add NFT</button>
-                <button type="submit" (click)="addReward()" class="fcbtn btn btn-primary btn-outline btn-1f">Submit</button> 
-            </div>
-        </div>
-    </div>
-</div> -->
+                </div>
+			</div>
+			<div class="modal-footer">
+                <button (click)="removeNFT()" class="fcbtn btn btn-primary btn-outline btn-1f">Remove NFT</button>
+                <button (click)="addNFT()" class="fcbtn btn btn-primary btn-outline btn-1f">Add NFT</button>
+				<button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button (click)="addReward()" type="submit" class="btn btn-primary" form="reward" data-dismiss="modal">
+                    Confirm
+                </button>
+			</div>
+		</div>
+	</div>
+</div>

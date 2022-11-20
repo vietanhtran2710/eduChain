@@ -99,6 +99,18 @@ export class BlockchainService {
     })
   }
 
+  async registerReward(contestAddress: string, amount: number, nft: Array<number>, currentAccount: string) {
+    await this.initWeb3();
+    this.singleContestContract = await new this.web3.eth.Contract(this.singleContest, contestAddress);
+    const that = this;
+    return new Promise((resolve, reject) => {
+      that.singleContestContract.methods.registerReward(amount, nft).send({from: currentAccount})
+      .then((result: any) => {
+        return resolve(result);
+      })
+    })
+  }
+
   async createNFT(address: string, uri: string) {
     if (!this.initialized) await this.initWeb3();
     const that = this;
