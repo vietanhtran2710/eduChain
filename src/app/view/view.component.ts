@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CertificateService } from '../services/certificate.service';
+import { BlockchainService } from '../services/blockchain.service';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -10,14 +11,23 @@ import { ActivatedRoute } from '@angular/router';
 export class ViewComponent implements OnInit {
   certificate: any;
   hash: string = "";
+  revoked: any;
 
-  constructor(private certificateService: CertificateService, private route: ActivatedRoute) { 
+  constructor(
+    private certificateService: CertificateService,
+    private route: ActivatedRoute,
+    private blockchainService: BlockchainService
+  ) { 
     this.hash = this.route.snapshot.paramMap.get('hash')!;
     this.certificateService.getOne(this.hash).subscribe({
       next: (result) => {
         this.certificate = result;
         console.log(this.certificate);
       }
+    })
+    this.blockchainService.revokedStatus(this.hash).then((result: any) => {
+      this.revoked = result;
+      console.log(this.revoked);
     })
   }
 

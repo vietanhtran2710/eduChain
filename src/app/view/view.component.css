@@ -21,3 +21,16 @@
     color: black;
     font-size: 100px;
 }
+
+.small {
+    font-size: 50px;
+}
+
+.white {
+    color: white;
+}
+
+img {
+    -webkit-filter: blur(2px) brightness(0.4);
+    filter: blur(2px) brightness(0.4);
+}

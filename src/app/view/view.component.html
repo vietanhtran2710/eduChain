@@ -3,8 +3,14 @@
     <div class="row">
         <div class="col-8 center">
             <img style="width: 100%" src="../../assets/certificate_3.png">
-            <h1 class="course">{{certificate.course.name}}</h1>
-            <h1 class="name">{{certificate.user.fullName}}</h1>
+            <div *ngIf="!revoked.isRevoked; else revokedTag">
+                <h1 class="course">{{certificate.course.name}}</h1>
+                <h1 class="name">{{certificate.user.fullName}}</h1>
+            </div>
+            <ng-template #revokedTag>
+                <h1 class="course white">THIS CERTIFICATE IS REVOKED</h1>
+                <h2 class="name white small">Reason: {{revoked.reason}}</h2>
+            </ng-template>
         </div>
         <div class="col-4">
             <ul class="list-group">

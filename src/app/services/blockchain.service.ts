@@ -74,6 +74,20 @@ export class BlockchainService {
     })
   }
 
+  async revokedStatus(hash: string) {
+    if (!this.initialized) await this.initWeb3();
+    const that = this;
+    return new Promise((resolve, reject) => {
+      that.certificateContract.methods.hashToID(hash).call()
+      .then((id: number) => {
+        that.certificateContract.methods.revokedStatus(id).call()
+        .then((status: any) => {
+          return resolve(status);
+        })
+      })
+    })
+  }
+
   async getEthBalance(address: string) {
     if (!this.initialized) await this.initWeb3();
     const that = this;
