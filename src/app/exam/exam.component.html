@@ -1,1 +1,120 @@
-<p>exam works!</p>
+<app-main-nav></app-main-nav>
+<div *ngIf="loaded" style="height: auto;">
+    <div class="wrapper">
+      <!-- Content Wrapper. Contains page content -->
+      <div class="content-wrapper" style="min-height: 1416px;">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1>{{contestInfo.title}}</h1>
+              </div>
+            </div>
+          </div><!-- /.container-fluid -->
+        </section>
+  
+        <!-- Main content -->
+        <section class="content">
+          <div class="container-fluid">
+            <div class="row">
+              <!-- /.col -->
+              <div class="col-md-9">
+                <div class="card">
+                  <div class="card-header p-2">
+                    <ul class="nav nav-pills">
+                      <li class="nav-item"><a class="nav-link active" href="#exercise" data-bs-toggle="tab">Information</a></li>
+                      <li class="nav-item"><a class="nav-link" href="#test" data-bs-toggle="tab">Test</a></li>
+                    </ul>
+                  </div><!-- /.card-header -->
+                  <div class="card-body">
+                    <div class="tab-content">
+                      <div class="active tab-pane" id="exercise">
+                        <div class="container-fluid">
+                          <div class="row mb-2">
+                            <div class="col-sm-6">
+                              <h1>{{contestInfo.title}}</h1>
+                            </div>
+                            <div class="col-sm-6">
+                              <div class="breadcrumb float-sm-right">
+                                <div class="breadcrumb-item active">Owner: {{contestInfo.userAddress}}</div>
+                              </div>
+                            </div>
+                            <div class="container-fluid">
+                              <div class="row">
+                                <div class="col-12">
+                                  <div class="callout callout-info">
+                                    <h5><i class="fa fa-info"></i> Description:</h5>
+                                    {{contestInfo.description}}
+                                  </div>
+                                </div><!-- /.col -->
+                              </div><!-- /.row -->
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+  
+                      <div class="tab-pane" id="test">
+                        <!-- Post -->
+                        <div *ngFor="let item of contestInfo.questions; let i = index" class="post">
+                          <h5>Question {{i}}</h5>
+                          <p>
+                            {{item.questionText}}
+                          </p>
+  
+                          <div class="form-group">
+                            <div *ngFor="let ans of item.choices.split(';'); let j = index" class="custom-control custom-radio">
+                              <input class="custom-control-input" id={{i}}{{j}} type="radio" name={{i}} value={{answers[j]}} [(ngModel)]="submission[i]" #{{i}}{{j}}="ngModel">
+                              <label for={{i}}{{j}} class="custom-control-label">{{ans}}</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- /.tab-content -->
+                  </div><!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+              </div>
+              <div class="col-md-3">
+  
+                <!-- Profile Image -->
+                <div class="card card-primary card-outline">
+                  <div class="card-body box-profile">
+  
+                    <h3 class="profile-username text-center">Contest Address: <br> {{contestInfo.address}}</h3>
+  
+                    <ul class="list-group list-group-unbordered mb-3">
+                      <li class="list-group-item">
+                        <b>Host</b> <a class="float-right">{{contestInfo.user.workLocation}}</a>
+                      </li>
+                    </ul>
+  
+                    <a href="javascript:void(0)" (click)="submit()" class="btn btn-warning btn-block"><b>Submit</b></a>
+                  </div>
+                  <!-- /.card-body -->
+                </div>
+                <!-- /.card -->
+  
+                <!-- About Me Box -->
+                <div class="card card-primary p-3">
+                  <div class ="card-text content mt-3">
+                    <h5> List of questions
+                    </h5>
+                    <div class="allquestionsononepage">
+                      <a *ngFor="let item of contestInfo.questions; let i = index" class="btn btn-primary" id="quiznavbutton1" href="#">{{i + 1}}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+                <!-- /.card -->
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+          </div>
+        </section>
+        <!-- /.content -->
+      </div>
+  </div>
+  

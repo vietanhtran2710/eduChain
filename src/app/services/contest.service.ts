@@ -26,6 +26,10 @@ export class ContestService {
     return this.http.get(`${baseUrl}/one/${contestAddress}`);
   }
 
+  getContestQuestions(contestAddress: string) {
+    return this.http.get(`${baseUrl}/question/${contestAddress}`);
+  }
+
   getStudentRegisteredContests(studentAddress: string) {
     return this.http.get(`${baseUrl}/registered/${studentAddress}`);
   }

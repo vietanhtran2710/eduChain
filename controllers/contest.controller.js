@@ -82,7 +82,7 @@ exports.getContestQuestions = (req, res) => {
 	const address = req.params.address;
 
 	Contest.findByPk(address, { 
-        include: Question
+        include: [{model: Question}, {model: User, as: "user"}]
     })
     .then(data => {
         res.status(200).send(data);
