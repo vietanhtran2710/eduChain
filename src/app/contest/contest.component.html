@@ -95,10 +95,10 @@
                             </tr>
                         </thead>
                         <tbody>
-                                <tr *ngFor="let student of results; let i = index">
-                                    <td>{{contestants[i].address}}</td>
-                                    <td>{{student.grade}}</td>
-                                    <td>{{student.time}}</td>
+                                <tr *ngFor="let result of contestResults">
+                                    <td>{{result.address}}</td>
+                                    <td>{{result.grade}}</td>
+                                    <td>{{result.time}}</td>
                                 </tr>
                         </tbody>
                     </table>

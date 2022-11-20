@@ -111,6 +111,47 @@ export class BlockchainService {
     })
   }
 
+  async submitAnswer(contestAddress: string, studentAddress: string, answer: string, time: number) {
+    await this.initWeb3();
+    this.singleContestContract = await new this.web3.eth.Contract(this.singleContest, contestAddress);
+    const that = this;
+    return new Promise((resolve, reject) => {
+      that.singleContestContract.methods.gradeSubmission(studentAddress, unpack(answer), time).send({from: studentAddress})
+      .then((result: any) => {
+        return resolve(result);
+      })
+    })
+  }
+
+  async getContestResult(contestAddress: string) {
+    type Result = {
+      address: string,
+      grade: number,
+      time: number
+    }
+    await this.initWeb3();
+    let results: Array<Result> = [];
+    this.singleContestContract = await new this.web3.eth.Contract(this.singleContest, contestAddress);
+    const that = this;
+    return new Promise((resolve, reject) => {
+      that.singleContestContract.methods.getStudents().call()
+      .then((result: any) => {
+        for (let item of result) {
+          let instance: Result = {address: item, grade: 0, time: 0}; 
+          results.push(instance);
+        }
+        that.singleContestContract.methods.getStudentResults().call()
+        .then((result: any) => {
+          for (let i = 0; i < result.length; i++) {
+            results[i].grade = result[i].grade;
+            results[i].time = result[i].time;
+          }
+          return resolve(results);
+        })
+      })
+    })
+  }
+
   async createNFT(address: string, uri: string) {
     if (!this.initialized) await this.initWeb3();
     const that = this;

@@ -39,6 +39,7 @@ export class ContestComponent implements OnInit {
   sponsorNFT: any;
   nftRewards: Array<number> = [];
   nftInfo: Map<number, NFT> = new Map<number, NFT>();
+  contestResults: Array<any> = [];
 
   constructor(
     private authService: AuthService,
@@ -81,6 +82,10 @@ export class ContestComponent implements OnInit {
               console.log(this.nftInfo);
             })
           }
+          this.blockchainService.getContestResult(this.contestAddress)
+          .then((result: any) => {
+            this.contestResults = result;
+          })
         }
       })
       this.blockchainService.getAllContestRewards(this.contestAddress)

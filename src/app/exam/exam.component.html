@@ -8,7 +8,8 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1>{{contestInfo.title}}</h1>
+                <h1 style="display: inline">{{contestInfo.title}}</h1>
+                <h1 *ngIf="testStarted" style="display: inline"> - Time Elapsed: {{time}}</h1>
               </div>
             </div>
           </div><!-- /.container-fluid -->
@@ -56,19 +57,24 @@
   
                       <div class="tab-pane" id="test">
                         <!-- Post -->
-                        <div *ngFor="let item of contestInfo.questions; let i = index" class="post">
-                          <h5>Question {{i}}</h5>
-                          <p>
-                            {{item.questionText}}
-                          </p>
-  
-                          <div class="form-group">
-                            <div *ngFor="let ans of item.choices.split(';'); let j = index" class="custom-control custom-radio">
-                              <input class="custom-control-input" id={{i}}{{j}} type="radio" name={{i}} value={{answers[j]}} [(ngModel)]="submission[i]" #{{i}}{{j}}="ngModel">
-                              <label for={{i}}{{j}} class="custom-control-label">{{ans}}</label>
+                        <div *ngIf="testStarted;else not">
+                            <div *ngFor="let item of contestInfo.questions; let i = index" class="post">
+                                <h5>Question {{i}}</h5>
+                                <p>
+                                  {{item.questionText}}
+                                </p>
+        
+                                <div class="form-group">
+                                  <div *ngFor="let ans of item.choices.split(';'); let j = index" class="custom-control custom-radio">
+                                    <input class="custom-control-input" id={{i}}{{j}} type="radio" name={{i}} value={{answers[j]}} [(ngModel)]="submission[i]" #{{i}}{{j}}="ngModel">
+                                    <label for={{i}}{{j}} class="custom-control-label">{{ans}}</label>
+                                  </div>
+                                </div>
                             </div>
-                          </div>
                         </div>
+                        <ng-template #not>
+                            <button (click)="startTest()">START THE TEST</button>
+                        </ng-template>
                       </div>
                     </div>
                     <!-- /.tab-content -->
