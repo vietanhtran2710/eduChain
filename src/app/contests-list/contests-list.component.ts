@@ -47,6 +47,19 @@ export class ContestsListComponent implements OnInit {
               }
             })
           }
+          else {
+            this.contestService.getStudentRegisteredContests(this.currentAccount).subscribe({
+              next: (result: any) => {
+                this.contests = result.contestant;
+              },
+              error: (err) => {
+
+              },
+              complete: () => {
+
+              }
+            })
+          }
         }
       })
     }

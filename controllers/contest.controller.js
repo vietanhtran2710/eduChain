@@ -142,3 +142,22 @@ exports.getOne = (req, res) => {
         });
     });
 };
+
+// Get contest contestants
+exports.getRegisteredContests = (req, res) => {
+	const userAddress = req.params.address;
+
+	User.findByPk(userAddress, { 
+        include: [
+            {model: Contest, include: {model: User, as: "user"}, as: "contestant"}
+        ]
+    })
+    .then(data => {
+        res.status(200).send(data);
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: "Error retrieving contests: " + err
+        });
+    });
+};
