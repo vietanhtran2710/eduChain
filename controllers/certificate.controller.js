@@ -40,3 +40,22 @@ exports.findOne = (req, res) => {
         })
     })
 }
+
+exports.findInCourse = (req, res) => {
+    const id = req.params.id;
+    Credential.findAll({
+        where: {
+            courseCourseID: id
+        },
+        include: {model: User}
+    })
+    .then(data => {
+        res.status(200).send(data);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).send({
+            message: err
+        })
+    })
+}

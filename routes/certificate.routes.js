@@ -6,8 +6,11 @@ module.exports = app => {
     // Get one certificate
     router.get("/:hash", cert.getOne);
 
-    // Get one certificate
+    // Get one certificate with user address and course ID
     router.get("/find/:address&:id", cert.findOne);
+
+    // Get all course's certificates
+    router.get("/course/:id", cert.findInCourse);
 
   
     app.use('/api/certificate', router);

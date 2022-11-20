@@ -31,6 +31,7 @@ export class CourseComponent implements OnInit {
   courseLoaded: Boolean = false;
   courseQuizes: Array<Array<any>> = [];
   courseStatus: number = 0;
+  courseCertificate: Array<any> = [];
 
   constructor(private route: ActivatedRoute,
               private router: Router,
@@ -63,6 +64,11 @@ export class CourseComponent implements OnInit {
               }
             })
           }
+          this.certificateService.getCourseCertificate(this.courseId).subscribe({
+            next: (result: any) => {
+              this.courseCertificate = result;
+            }
+          })
         },
         error: (err) => {
 
@@ -240,5 +246,23 @@ export class CourseComponent implements OnInit {
         this.router.navigate([`view/${result.hash}`])
       }
     })
+  }
+
+  viewFromHash(hash: string) {
+    this.router.navigate([`view/${hash}`])
+  }
+
+  revoke(hash: string) {
+    Swal.fire({
+      title: "Are you sure to revoke this certificate?",
+      text: "Provide a reason:",
+      input: 'text',
+      icon: 'question',
+      showCancelButton: true        
+    }).then((result) => {
+        if (result.value) {
+            console.log("Result: " + result.value);
+        }
+    });
   }
 }

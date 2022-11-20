@@ -17,4 +17,8 @@ export class CertificateService {
   findOne(address: string, courseID: string) {
     return this.http.get(`${baseUrl}/find/${address}&${courseID}`)
   }
+
+  getCourseCertificate(courseID: string) {
+    return this.http.get(`${baseUrl}/course/${courseID}`)
+  }
 }
