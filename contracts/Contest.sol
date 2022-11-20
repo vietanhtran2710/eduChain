@@ -10,7 +10,6 @@ pragma solidity ^0.8.0;
 contract Contest is Ownable {
     LearningReward rewardContract;
     address rewardAddress;
-    address adminAddress;
 
     uint256 public constant SKILL_ID = 0;
     uint256 public constant VND_ID = 1;
@@ -36,11 +35,10 @@ contract Contest is Ownable {
 
     bytes[] answers;
 
-    constructor(bytes[] memory _answers, address rewardContractAddress, address _adminAddress) {
+    constructor(bytes[] memory _answers, address rewardContractAddress) {
         answers = _answers;
         rewardContract = LearningReward(rewardContractAddress);
         rewardAddress = rewardContractAddress;
-        adminAddress = _adminAddress;
     }
 
     function getStudentResults() public view returns (Result[] memory) {
@@ -115,7 +113,7 @@ contract Contest is Ownable {
     }
 
     function gradeSubmission(address student, bytes[] calldata submission, uint time) public returns (uint) {
-        require(adminAddress == msg.sender, "Sender is not admin");
+        require(msg.sender == student && rewardContract.isStudent(student), "Only student can send their own submission");
         uint grade = 0;
         for (uint256 i = 0; i < answers.length; i++) {
             bytes memory a = answers[i]; bytes memory b = submission[i];
