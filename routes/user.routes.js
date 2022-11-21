@@ -7,7 +7,7 @@ module.exports = app => {
     var router = require("express").Router();
   
     // Create a new User
-    router.post("/", user.create);
+    router.post("/", user.create);  
 
     // follow a new User
     router.post("/follow", authJwt.verifyToken, user.follow);
@@ -32,18 +32,6 @@ module.exports = app => {
 
     // Verify user
     router.put("/verify/:address", user.verifyUser)
-  
-    // // // Retrieve all users
-    // // router.get("/", user.findAll);
-
-    // // // Retrieve a single user
-    // // router.get("/address/:address", user.findOne)
-
-    // // // Edit an user with address
-    // // router.put("/:address", user.edit)
-  
-    // // //Delete an user with address
-    // // router.delete("/:address", user.delete);
   
     app.use('/api/user', router);
   };
