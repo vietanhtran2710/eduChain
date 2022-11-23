@@ -35,6 +35,8 @@ export class ContestsListComponent implements OnInit {
       title: '',
       description: ''
     })
+    this.contestAddress = this.blockchainService.getContestFactoryAddress();
+    this.rewardAddress = this.blockchainService.getRewardAddress();
     if (Object.keys(this.authService.currentUserValue).length !== 0) {
       this.authService.verifyToken().subscribe({
         next: (data: any) => {
