@@ -213,7 +213,49 @@ export class ContestComponent implements OnInit {
   }
 
   endContest() {
+    Swal.fire({
+      title: 'Are you sure to end this contest?',
+      text: `Rewards will be transferred to the winner immediately`,
+      icon: 'question',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.blockchainService.endContest(this.contestAddress, this.currentAccount)
+        .then((result) => {
+          this.contestService.endContest(this.contestAddress).subscribe({
+            next: (result) => {
+              Swal.fire({
+                icon: 'success',
+                title: 'Contest ended',
+                text: `Rewards have been transferred to the winner`
+              })
+              .then(result => {
+                window.location.reload();
+              })
+            },
+            error: (err) => {
+              Swal.fire({
+                icon: 'error',
+                title: 'Cannot end contest',
+                text: err,
+              })
+            },
+            complete: () => {
 
+            }
+          })
+        })
+        .catch((err) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Cannot end contest',
+            text: err,
+          })
+        })
+      }
+    })
   }
 
   addReward() {

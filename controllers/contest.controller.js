@@ -161,3 +161,30 @@ exports.getRegisteredContests = (req, res) => {
         });
     });
 };
+
+// End contest
+exports.endContest = (req, res) => {
+    const address = req.params.address;
+
+    Contest.update({contestEnded: true},
+        {
+            where: {address: address}
+        }
+    )
+    .then(num => {
+        if (num == 1) {
+            res.status(200).send({
+                message: "Contest was updated successfully."
+            });
+        } else {
+            res.status(400).send({
+                message: `Cannot update contest with address=${address}. Maybe contest was not found`
+            });
+        }
+    })
+    .catch(err => {
+        res.status(500).send({
+            message: `Error updating contest with address=${address}, ${err}`
+        });
+    });
+}

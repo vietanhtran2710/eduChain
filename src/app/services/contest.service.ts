@@ -37,4 +37,8 @@ export class ContestService {
   registerStudent(data: any) {
     return this.http.post(`${baseUrl}/register`, data)
   }
+
+  endContest(address: string) {
+    return this.http.put(`${baseUrl}/end/${address}`, {});
+  }
 }

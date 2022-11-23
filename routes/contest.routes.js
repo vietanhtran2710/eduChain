@@ -25,6 +25,9 @@ module.exports = app => {
 
     // Get registered contests
     router.get("/registered/:address", contest.getRegisteredContests);
+
+    // End contest
+    router.put("/end/:address", contest.endContest);
   
     app.use('/api/contest', router);
   };
