@@ -30,7 +30,7 @@
     color: white;
 }
 
-img {
+.revokedImg {
     -webkit-filter: blur(2px) brightness(0.4);
     filter: blur(2px) brightness(0.4);
 }

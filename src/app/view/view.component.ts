@@ -12,6 +12,7 @@ export class ViewComponent implements OnInit {
   certificate: any;
   hash: string = "";
   revoked: any;
+  loaded: Boolean = false;
 
   constructor(
     private certificateService: CertificateService,
@@ -27,6 +28,7 @@ export class ViewComponent implements OnInit {
     })
     this.blockchainService.revokedStatus(this.hash).then((result: any) => {
       this.revoked = result;
+      this.loaded = true;
       console.log(this.revoked);
     })
   }

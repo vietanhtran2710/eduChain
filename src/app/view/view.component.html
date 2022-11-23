@@ -1,8 +1,8 @@
 <app-main-nav></app-main-nav>
-<div class="container-fluid">
+<div *ngIf="loaded" class="container-fluid">
     <div class="row">
         <div class="col-8 center">
-            <img style="width: 100%" src="../../assets/certificate_3.png">
+            <img [ngClass]="{'revokedImg': revoked.isRevoked}" style="width: 100%" src="../../assets/certificate_3.png">
             <div *ngIf="!revoked.isRevoked; else revokedTag">
                 <h1 class="course">{{certificate.course.name}}</h1>
                 <h1 class="name">{{certificate.user.fullName}}</h1>
@@ -16,7 +16,7 @@
             <ul class="list-group">
                 <li class="list-group-item"><b>Recipient Full Name:</b><br>{{certificate.user.fullName}}</li>
                 <li class="list-group-item"><b>Course:</b><br>{{certificate.course.name}}</li>
-                <li class="list-group-item"><b>Grade address:</b><br>{{certificate.grade}}</li>
+                <li class="list-group-item"><b>Grade:</b><br>{{certificate.grade}}</li>
               </ul>
         </div>
     </div>
