@@ -602,3 +602,8 @@ th {
     float: left
     }
 }
+
+tr:hover {
+    background-color: #4c5667;
+    color: white;
+}
