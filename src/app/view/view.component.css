@@ -34,3 +34,7 @@
     -webkit-filter: blur(2px) brightness(0.4);
     filter: blur(2px) brightness(0.4);
 }
+
+h1 {
+    font-family: 'Times New Roman', Times, serif;
+}
