@@ -77,7 +77,7 @@ export class ExamComponent implements OnInit {
       Swal.fire({
         icon: 'success',
         title: 'Answer submitted successfully',
-        text: `Your grade: ${result}`
+        text: `Your grade has been saved`
       })
       .then(result => {
         window.location.reload();
