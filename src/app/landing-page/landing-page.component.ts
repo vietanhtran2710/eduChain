@@ -145,7 +145,6 @@ export class LandingPageComponent implements OnInit {
   }
 
   register() {
-    console.log(this.registerModel);
     let registerInfo = {
       address: this.registerModel.get('walletAddress')?.value,
       role: this.registerModel.get('role')?.value,
