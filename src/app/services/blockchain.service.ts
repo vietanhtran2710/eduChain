@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import data from "../../../config/secret-key.json"
 const Web3 = require('web3')
 
 const baseUrl = 'http://localhost:8080/api/blockchain';
@@ -64,7 +65,7 @@ export class BlockchainService {
     if (!this.initialized) await this.initWeb3();
     const that = this;
     return new Promise((resolve, reject) => {
-      that.rewardContract.methods.setApprovalForAll("0x94eF6f0f7193C0cD3DAD6f7Fee15e82e1B02d614", true).send({from: currentAccount})
+      that.rewardContract.methods.setApprovalForAll(data.address, true).send({from: currentAccount})
       .then((result: any) => {
         return resolve(result);
       })
