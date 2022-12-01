@@ -41,15 +41,28 @@ exports.create = async (req, res) => {
             return;
         }
         else {
-            blockchain.grantStudentRole(user.address)
-            .then(async (result) => {
-                await User.create(user);
-                res.status(201).send({ message: 'Signup successfully' })
-                return;
-            })
-            .catch(err => {
+            if (user.role == "STUDENT") {
+                blockchain.grantStudentRole(user.address)
+                .then(async (result) => {
+                    await User.create(user);
+                    res.status(201).send({ message: 'Signup successfully' })
+                    return;
+                })
+                .catch(err => {
 
-            })
+                })
+            }
+            else {
+                blockchain.grantParentRole(user.address)
+                .then(async (result) => {
+                    await User.create(user);
+                    res.status(201).send({ message: 'Signup successfully' })
+                    return;
+                })
+                .catch(err => {
+
+                })
+            }
         }
         await User.create(user);
         res.status(201).send({ message: 'Signup successfully' })
